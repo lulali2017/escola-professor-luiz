@@ -1,0 +1,13 @@
+ESCOLA PROFESSOR LUIZ — VERSÃO PARA INTERNET
+
+Arquivo inicial: index.html
+Não apague nem renomeie a pasta assets.
+Esta versão foi preparada a partir da cópia offline original.
+
+{
+  "sourceMB": 33.75,
+  "indexMB": 6.29,
+  "embeddedOccurrences": 24,
+  "uniqueEmbeddedFiles": 20,
+  "webFolderMB": 59.05
+}
