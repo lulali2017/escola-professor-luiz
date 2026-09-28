@@ -2468,4 +2468,24 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
 <script id="s28-original-handbook-script">
 (()=>{function add(){const host=document.querySelector('#school28-classico .school28-content');if(!host||host.querySelector('.s28-original-handbook'))return false;const box=document.createElement('section');box.className='s28-original-handbook';box.innerHTML='<small>NOVA APOSTILA AUTORAL</small><h2>Método Original de Violão Clássico - Escola Professor Luiz</h2><p>33 páginas, 24 aulas, exercícios próprios, diagramas inéditos, diário de prática, glossário e bibliografia.</p><a href="materiais_curso/Apostila_Original_Violao_Classico_Escola_Professor_Luiz.pdf">📘 Abrir a apostila em PDF</a>';host.insertBefore(box,host.firstChild);return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(add()||++n>40)clearInterval(t)},300)});else setTimeout(add,300)})();
 </script>
+<style id="s28-development-access-style">
+/* Acesso livre temporario durante a construcao do curso. */
+#s28AccessGate,#s28PasswordModal,#s28AdminResetModal{display:none!important}
+.s28-logout,.s28-auth-tool{display:none!important}
+</style>
+<script id="s28-development-access-script">
+(()=>{
+ const liberar=()=>{
+  document.getElementById('s28AccessGate')?.style.setProperty('display','none','important');
+  document.getElementById('s28PasswordModal')?.style.setProperty('display','none','important');
+  document.getElementById('s28AdminResetModal')?.style.setProperty('display','none','important');
+  document.querySelectorAll('.s28-logout,.s28-auth-tool').forEach(el=>el.remove());
+ };
+ const entrar=window.s28LoveEnter;
+ window.s28LoveEnter=()=>{entrar?.();liberar();window.school28Show?.('school28-hall')};
+ window.s28Logout=liberar;
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(liberar,0));else liberar();
+ new MutationObserver(liberar).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body></html>
