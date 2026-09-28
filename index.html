@@ -2462,4 +2462,10 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
 <script id="school28-three-paths-route-fix">
 (()=>{function fix(){const b=document.querySelector('[data-study="school28-leitura"],[data-study="school28-trilhas"]');if(!b)return false;b.dataset.study='school28-trilhas';b.textContent='3 · Escolher trilha';b.onclick=()=>school28Show('school28-trilhas');return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>40)clearInterval(t)},300)});else setTimeout(fix,300)})();
 </script>
+<style id="s28-original-handbook-style">
+.s28-original-handbook{margin:0 0 16px;padding:18px;border:2px solid #d8a43c;border-radius:18px;background:linear-gradient(135deg,#fff5d7,#fff);box-shadow:0 12px 28px #173d3825}.s28-original-handbook small{font-weight:900;color:#9a6511;letter-spacing:.08em}.s28-original-handbook h2{margin:5px 0;color:#145947}.s28-original-handbook p{margin:5px 0 12px}.s28-original-handbook a{display:inline-block;padding:11px 15px;border-radius:10px;background:#17624f;color:#fff!important;text-decoration:none;font-weight:900}
+</style>
+<script id="s28-original-handbook-script">
+(()=>{function add(){const host=document.querySelector('#school28-classico .school28-content');if(!host||host.querySelector('.s28-original-handbook'))return false;const box=document.createElement('section');box.className='s28-original-handbook';box.innerHTML='<small>NOVA APOSTILA AUTORAL</small><h2>Método Original de Violão Clássico - Escola Professor Luiz</h2><p>33 páginas, 24 aulas, exercícios próprios, diagramas inéditos, diário de prática, glossário e bibliografia.</p><a href="materiais_curso/Apostila_Original_Violao_Classico_Escola_Professor_Luiz.pdf">📘 Abrir a apostila em PDF</a>';host.insertBefore(box,host.firstChild);return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(add()||++n>40)clearInterval(t)},300)});else setTimeout(add,300)})();
+</script>
 </body></html>
