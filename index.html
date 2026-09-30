@@ -2525,6 +2525,6 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
 })();
 </script>
 <script id="s28-complement-count-fix">
-(()=>{function fix(){const box=document.getElementById('s28AfternoonLessons');if(!box)return false;const badge=box.querySelector('.s28-afternoon-head span'),text=box.querySelector('.s28-afternoon-head p');if(badge)badge.textContent='AULAS 1 A 18';if(text)text.textContent='Sequência completa incorporada à trilha Partitura / Clássico. Abra, veja, ouça, pratique e imprima.';return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)});else{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)}})();
+(()=>{function fix(){const box=document.getElementById('s28AfternoonLessons');if(!box)return false;const badge=box.querySelector('.s28-afternoon-head span'),text=box.querySelector('.s28-afternoon-head p');if(badge)badge.textContent='AULAS 1 A 18';if(text)text.textContent='Sequência completa incorporada à trilha Partitura / Clássico. Abra, veja, ouça, pratique e imprima.';const antigo=document.querySelector('#school28-classico .s28-path-module')?.closest('.school28-section');if(antigo)antigo.remove();return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)});else{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)}})();
 </script>
 </body></html>
