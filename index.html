@@ -2516,7 +2516,8 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
   ['15','Melodia e acompanhamento','Equilíbrio entre linha principal e baixos.','complementos_10_18.html#aula15'],
   ['16','Arpejos na partitura','Acordes distribuídos no tempo com P-I-M-A.','complementos_10_18.html#aula16'],
   ['17','Ligados e articulação','Legato, staccato e controle da duração.','complementos_10_18.html#aula17'],
-  ['18','Repertório e autonomia','Organização do estudo e avaliação própria.','complementos_10_18.html#aula18']
+  ['18','Repertório e autonomia','Organização do estudo e avaliação própria.','complementos_10_18.html#aula18'],
+  ['19','Vamos revisar','Filme de encerramento com professor, assistente, aluno e mensagem final.','complementos_10_18.html#aula19']
  ];
  window.s28OpenLesson=(file,title)=>{const box=document.getElementById('s28LessonViewer'),frame=document.getElementById('s28LessonFrame');document.getElementById('s28LessonViewerTitle').textContent=title;frame.src='aulas_interativas/'+file;box.classList.add('open');document.body.style.overflow='hidden'};
  window.s28CloseLesson=()=>{const box=document.getElementById('s28LessonViewer'),frame=document.getElementById('s28LessonFrame');box.classList.remove('open');frame.src='about:blank';document.body.style.overflow=''};
@@ -2525,6 +2526,6 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
 })();
 </script>
 <script id="s28-complement-count-fix">
-(()=>{function fix(){const box=document.getElementById('s28AfternoonLessons');if(!box)return false;const badge=box.querySelector('.s28-afternoon-head span'),text=box.querySelector('.s28-afternoon-head p');if(badge)badge.textContent='AULAS 1 A 18';if(text)text.textContent='Sequência completa incorporada à trilha Partitura / Clássico. Abra, veja, ouça, pratique e imprima.';const antigo=document.querySelector('#school28-classico .s28-path-module')?.closest('.school28-section');if(antigo)antigo.remove();return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)});else{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)}})();
+(()=>{function fix(){const box=document.getElementById('s28AfternoonLessons');if(!box)return false;const badge=box.querySelector('.s28-afternoon-head span'),text=box.querySelector('.s28-afternoon-head p');if(badge)badge.textContent='AULAS 1 A 19';if(text)text.textContent='Sequência completa incorporada à trilha Partitura / Clássico. Abra, veja, ouça, pratique e imprima.';const antigo=document.querySelector('#school28-classico .s28-path-module')?.closest('.school28-section');if(antigo)antigo.remove();return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)});else{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)}})();
 </script>
 </body></html>
