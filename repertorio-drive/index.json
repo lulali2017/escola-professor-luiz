@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updated": "2026-10-11",
+  "items": [
+    {
+      "id": "sistema-escala-do",
+      "title": "Exercício - Escala de Dó",
+      "author": "Professor Luiz",
+      "format": "musicxml",
+      "driveId": "1-7RpwTaDoE2UcgTg6Z-_hZccq0Fq92aA",
+      "url": "../repertorio-drive/Exercicio_Escala_de_Do.musicxml"
+    },
+    {
+      "id": "sistema-primeira-melodia",
+      "title": "Primeira Melodia do Professor Luiz",
+      "author": "Professor Luiz",
+      "format": "musicxml",
+      "driveId": "1gus6COCgE1QCyd7bxwUG7CgrZukSt1gd",
+      "url": "../repertorio-drive/Primeira_Melodia_Professor_Luiz.musicxml"
+    }
+  ]
+}
