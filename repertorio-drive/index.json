@@ -17,6 +17,62 @@
       "format": "musicxml",
       "driveId": "1gus6COCgE1QCyd7bxwUG7CgrZukSt1gd",
       "url": "../repertorio-drive/Primeira_Melodia_Professor_Luiz.musicxml"
+    },
+    {
+      "id": "drive-abertura-violao-todos",
+      "title": "Abertura Violão para Todos",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "1Wo0hW_seibheJZ51mziDrtW9xBFXtdfo",
+      "url": "https://drive.google.com/file/d/1Wo0hW_seibheJZ51mziDrtW9xBFXtdfo/view"
+    },
+    {
+      "id": "drive-baiao-base-a",
+      "title": "Baião base em A",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "1d61Oo9rYCWvTPyQav0Ll7Zc6n7tOJoOg",
+      "url": "https://drive.google.com/file/d/1d61Oo9rYCWvTPyQav0Ll7Zc6n7tOJoOg/view"
+    },
+    {
+      "id": "drive-dedilhado-solo-apoio",
+      "title": "Dedilhado e Solo com Apoio",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "1CKhsEOCyV2ZpVwQtOSAPW0YiwvMHKGSb",
+      "url": "https://drive.google.com/file/d/1CKhsEOCyV2ZpVwQtOSAPW0YiwvMHKGSb/view"
+    },
+    {
+      "id": "drive-escala-dueto-c",
+      "title": "Escala em Dueto em C",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "171vrANaVyUmssC1a8insDfe9NDLPfL_o",
+      "url": "https://drive.google.com/file/d/171vrANaVyUmssC1a8insDfe9NDLPfL_o/view"
+    },
+    {
+      "id": "drive-luar-sertao-simples",
+      "title": "Luar do Sertão - versão simples",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "1LzgdVg1xnwIEykTSyn73F_7tATmM9VQs",
+      "url": "https://drive.google.com/file/d/1LzgdVg1xnwIEykTSyn73F_7tATmM9VQs/view"
+    },
+    {
+      "id": "drive-noite-feliz-cifrada",
+      "title": "Noite Feliz - partitura cifrada",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "1rpdbttJaQ7gSAHqIpKetFpRtiB2MNm2a",
+      "url": "https://drive.google.com/file/d/1rpdbttJaQ7gSAHqIpKetFpRtiB2MNm2a/view"
+    },
+    {
+      "id": "drive-natal-existe-partitura-cifra",
+      "title": "O Natal Existe - Partitura e cifra",
+      "author": "Autor desconhecido",
+      "format": "pdf",
+      "driveId": "1ZCplUHDoGh8z7QZQpIu__boNKFXofr9i",
+      "url": "https://drive.google.com/file/d/1ZCplUHDoGh8z7QZQpIu__boNKFXofr9i/view"
     }
   ]
 }
