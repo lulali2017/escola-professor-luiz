@@ -2504,20 +2504,21 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
   ['03','Mão direita P-I-M-A','Toque livre, apoiado e movimentos econômicos.','complementos_10_18.html#aula12'],
   ['04','Mão esquerda e primeira posição','Curvatura, pressão mínima e precisão.','complementos_10_18.html#aula13'],
   ['05','Notas e baixos nas seis cordas','Mapa completo da primeira posição.','complementos_10_18.html#aula14'],
-  ['06','Melodia e acompanhamento','Equilíbrio entre linha principal e baixos.','complementos_10_18.html#aula15'],
-  ['07','Arpejos na partitura','Acordes distribuídos no tempo com P-I-M-A.','complementos_10_18.html#aula16'],
-  ['08','Ligados e articulação','Legato, staccato e controle da duração.','complementos_10_18.html#aula17'],
-  ['09','Pauta e clave de sol','Linhas, espaços, notas, áudio e aplicação no violão.','aula_01_pauta_clave_sol.html'],
-  ['10','Figuras musicais e ritmo','Pulso, duração, pausas, partitura animada e exercícios.','aula_02_figuras_ritmicas.html'],
-  ['11','Compassos','Organização dos pulsos e prática visual em diferentes compassos.','aula_03_compassos.html'],
-  ['12','Da partitura para o violão','Dicionário de notas, cordas, casas e outras posições possíveis.','aula_04_partitura_violao.html'],
-  ['13','Intervalos musicais','Semitons, tons, classificação e treino auditivo visual.','aula_05_intervalos.html'],
-  ['14','Construindo escalas','Fórmulas, graus e montagem de escalas passo a passo.','aula_06_escalas.html'],
-  ['15','Como nascem os acordes','Tríades, maior, menor, diminuto, aumentado e diagramas.','aula_07_formacao_acordes.html'],
-  ['16','Inversões e progressões','C, C/E e C/G, linhas de baixo e criação de sequências.','aula_08_inversoes_progressao_acordes.html'],
-  ['17','O segredo da pestana','Treino progressivo de duas até seis cordas, F e Fm.','aula_09_pestana_progressiva.html'],
-  ['18','Repertório e autonomia','Organização do estudo e avaliação própria.','complementos_10_18.html#aula18'],
-  ['19','Vamos revisar','Filme de encerramento com professor, assistente, aluno e mensagem final.','complementos_10_18.html#aula19']
+  ['06','Noções preliminares de melodia, harmonia e sua junção','Vibração, frequência, linha melódica, acordes e aplicação conjunta.','aula_06_melodia_harmonia_juncao.html'],
+  ['07','Melodia e acompanhamento','Equilíbrio entre linha principal e baixos.','complementos_10_18.html#aula15'],
+  ['08','Arpejos na partitura','Acordes distribuídos no tempo com P-I-M-A.','complementos_10_18.html#aula16'],
+  ['09','Ligados e articulação','Legato, staccato e controle da duração.','complementos_10_18.html#aula17'],
+  ['10','Pauta e clave de sol','Linhas, espaços, notas, áudio e aplicação no violão.','aula_01_pauta_clave_sol.html'],
+  ['11','Figuras musicais e ritmo','Pulso, duração, pausas, partitura animada e exercícios.','aula_02_figuras_ritmicas.html'],
+  ['12','Compassos','Organização dos pulsos e prática visual em diferentes compassos.','aula_03_compassos.html'],
+  ['13','Da partitura para o violão','Dicionário de notas, cordas, casas e outras posições possíveis.','aula_04_partitura_violao.html'],
+  ['14','Intervalos musicais','Semitons, tons, classificação e treino auditivo visual.','aula_05_intervalos.html'],
+  ['15','Construindo escalas','Fórmulas, graus e montagem de escalas passo a passo.','aula_06_escalas.html'],
+  ['16','Como nascem os acordes','Tríades, maior, menor, diminuto, aumentado e diagramas.','aula_07_formacao_acordes.html'],
+  ['17','Inversões e progressões','C, C/E e C/G, linhas de baixo e criação de sequências.','aula_08_inversoes_progressao_acordes.html'],
+  ['18','O segredo da pestana','Treino progressivo de duas até seis cordas, F e Fm.','aula_09_pestana_progressiva.html'],
+  ['19','Repertório e autonomia','Organização do estudo e avaliação própria.','complementos_10_18.html#aula18'],
+  ['20','Vamos revisar','Filme de encerramento com professor, assistente, aluno e mensagem final.','complementos_10_18.html#aula19']
  ];
  window.s28OpenLesson=(file,title)=>{const box=document.getElementById('s28LessonViewer'),frame=document.getElementById('s28LessonFrame');document.getElementById('s28LessonViewerTitle').textContent=title;frame.src='aulas_interativas/'+file;box.classList.add('open');document.body.style.overflow='hidden'};
  window.s28CloseLesson=()=>{const box=document.getElementById('s28LessonViewer'),frame=document.getElementById('s28LessonFrame');box.classList.remove('open');frame.src='about:blank';document.body.style.overflow=''};
@@ -2526,7 +2527,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{const box=docum
 })();
 </script>
 <script id="s28-complement-count-fix">
-(()=>{function fix(){const box=document.getElementById('s28AfternoonLessons');if(!box)return false;const badge=box.querySelector('.s28-afternoon-head span'),text=box.querySelector('.s28-afternoon-head p');if(badge)badge.textContent='AULAS 1 A 19';if(text)text.textContent='Sequência completa incorporada à trilha Partitura / Clássico. Abra, veja, ouça, pratique e imprima.';const antigo=document.querySelector('#school28-classico .s28-path-module')?.closest('.school28-section');if(antigo)antigo.remove();return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)});else{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)}})();
+(()=>{function fix(){const box=document.getElementById('s28AfternoonLessons');if(!box)return false;const badge=box.querySelector('.s28-afternoon-head span'),text=box.querySelector('.s28-afternoon-head p');if(badge)badge.textContent='AULAS 1 A 20';if(text)text.textContent='Sequência completa incorporada à trilha Partitura / Clássico. Abra, veja, ouça, pratique e imprima.';const antigo=document.querySelector('#school28-classico .s28-path-module')?.closest('.school28-section');if(antigo)antigo.remove();return true}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)});else{let n=0,t=setInterval(()=>{if(fix()||++n>50)clearInterval(t)},250)}})();
 </script>
 <style id="s28-assistente-todas-aulas-style">
 #s28AssistenteTodasAulas{position:absolute;left:2%;bottom:16px;z-index:5;display:flex;align-items:center;gap:8px;pointer-events:none;filter:drop-shadow(0 6px 8px #0007);animation:s28PasseioInferior 18s linear infinite alternate}#s28AssistenteTodasAulas img{width:68px;height:68px;border-radius:50%;object-fit:cover;border:4px solid #efbd58;background:#fff;animation:s28Passinhos .55s ease-in-out infinite alternate}#s28AssistenteTodasAulas span{max-width:230px;padding:8px 11px;border-radius:13px;background:#fff;color:#173d38;border:2px solid #17624f;font:800 12px/1.3 Arial}@keyframes s28PasseioInferior{from{left:2%}to{left:calc(100% - 315px)}}@keyframes s28Passinhos{from{transform:translateY(-3px) rotate(-2deg)}to{transform:translateY(3px) rotate(2deg)}}@media(max-width:700px){#s28AssistenteTodasAulas img{width:52px;height:52px}#s28AssistenteTodasAulas span{display:none}@keyframes s28PasseioInferior{from{left:2%}to{left:calc(100% - 62px)}}}@media print{#s28AssistenteTodasAulas{display:none}}
@@ -2660,4 +2661,6 @@ let cat='';window.s28AccessoryFilter=()=>{const q=(document.getElementById('s28A
 <script id="s28-primeira-nota-integration-script">
 (()=>{function pagina(){const campus=document.getElementById('campusV273');if(!campus||document.getElementById('school28-primeira-nota'))return;const p=document.createElement('section');p.id='school28-primeira-nota';p.className='school28-page';p.innerHTML='<div class="school28-top s28-primeira-top"><div class="school28-brand">🎼 PRIMEIRA NOTA<small>INTEGRADO À ESCOLA PROFESSOR LUIZ</small></div><button class="school28-btn" onclick="school28Show(\'school28-classico\')">← Curso de Partitura</button><button class="school28-btn" onclick="school28Hall()">🚪 Corredor</button></div><div class="s28-primeira-shell"><iframe id="s28PrimeiraNotaFrame" src="primeira-nota/index.html" title="Primeira Nota - Partitura sem medo" allow="autoplay" loading="lazy"></iframe></div>';campus.appendChild(p)}function instalar(){pagina();const h=document.querySelector('#school28-classico .school28-content');if(!h)return false;if(!document.getElementById('s28PrimeiraNotaCard'))h.insertAdjacentHTML('afterbegin','<section id="s28PrimeiraNotaCard" class="s28-primeira-card"><span class="icon">♫</span><div><h2>Primeira Nota — Partitura sem medo</h2><p>Aplicativo interativo integrado: ouça, acompanhe a bolinha, use metrônomo, escolha repertório e toque uma nota de cada vez.</p></div><button onclick="school28Show(\'school28-primeira-nota\')">▶ Entrar no Primeira Nota</button></section>');return true}function iniciar(){let n=0,t=setInterval(()=>{if(instalar()||++n>100)clearInterval(t)},250);instalar()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',iniciar);else iniciar()})();
 </script>
+<style id="s28-direct-corridor-style">#v273home,#school28-home,#s28LoveOpen,#s28InstantOpening{display:none!important}</style>
+<script id="s28-direct-corridor-final">(()=>{function direto(){document.getElementById('s28LoveOpen')?.classList.remove('open');document.getElementById('s28InstantOpening')?.remove();if(typeof window.school28Show==='function')window.school28Show('school28-hall');else if(typeof window.v273GoHall==='function')window.v273GoHall();if(location.hash!=='#corredor')history.replaceState({school28:'school28-hall'},'',location.pathname+location.search+'#corredor')}function iniciar(){direto();let n=0,t=setInterval(()=>{direto();if(++n>24)clearInterval(t)},250)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',iniciar);else iniciar()})();</script>
 </body></html>
