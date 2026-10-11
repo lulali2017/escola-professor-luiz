@@ -1,0 +1,11 @@
+<!doctype html><html><head><base target="_top"></head><body><script>
+const allowed = new Set(['https://lulali2017.github.io','http://127.0.0.1:8765','http://localhost:8765']);
+window.addEventListener('message', event => {
+  if (!allowed.has(event.origin)) return;
+  const request = event.data || {};
+  const actions = ['login','changePassword','adminResetPassword','validateSession','logout','listRepertoire','getRepertoireFile'];
+  if (!actions.includes(request.action)) return;
+  google.script.run.withSuccessHandler(result => top.postMessage({source:'escola-luiz-auth',id:request.id,result},event.origin)).withFailureHandler(error => top.postMessage({source:'escola-luiz-auth',id:request.id,result:{ok:false,message:error.message||'Erro no serviço da escola.'}},event.origin))[request.action](request.payload||{});
+});
+setInterval(() => top.postMessage({source:'escola-luiz-auth',ready:true},'*'),1000);
+</script></body></html>
