@@ -1,0 +1,113 @@
+from pathlib import Path
+from hashlib import sha256
+import re, os
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, PageBreak, Image,
+    Table, TableStyle, KeepTogether, HRFlowable, LongTable)
+from reportlab.pdfgen import canvas
+from PIL import Image as PILImage
+
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'output'/'pdf'; OUT.mkdir(parents=True,exist_ok=True)
+AS=ROOT/'assets'; MAT=ROOT/'materiais_curso'; TMP=ROOT/'tmp'/'import_00483'
+FONT='Helvetica'; BOLD='Helvetica-Bold'
+for p,n in [(Path('C:/Windows/Fonts/arial.ttf'),'Arial'),(Path('C:/Windows/Fonts/arialbd.ttf'),'Arial-Bold')]:
+    if p.exists(): pdfmetrics.registerFont(TTFont(n,str(p)))
+if 'Arial' in pdfmetrics.getRegisteredFontNames(): FONT='Arial'; BOLD='Arial-Bold'
+GREEN=colors.HexColor('#124e43'); GOLD=colors.HexColor('#edb63e'); CREAM=colors.HexColor('#fff7df'); RED=colors.HexColor('#9e3341'); GRAY=colors.HexColor('#53665f')
+styles=getSampleStyleSheet()
+styles.add(ParagraphStyle('Cover',fontName=BOLD,fontSize=28,leading=32,textColor=GREEN,alignment=TA_CENTER,spaceAfter=14))
+styles.add(ParagraphStyle('Sub',fontName=FONT,fontSize=13,leading=18,textColor=GRAY,alignment=TA_CENTER,spaceAfter=12))
+styles.add(ParagraphStyle('H1x',fontName=BOLD,fontSize=22,leading=26,textColor=GREEN,spaceBefore=8,spaceAfter=10))
+styles.add(ParagraphStyle('H2x',fontName=BOLD,fontSize=15,leading=19,textColor=GREEN,spaceBefore=7,spaceAfter=6))
+styles.add(ParagraphStyle('Bodyx',fontName=FONT,fontSize=10.2,leading=15,textColor=colors.HexColor('#263a35'),spaceAfter=7))
+styles.add(ParagraphStyle('Smallx',fontName=FONT,fontSize=8.4,leading=11,textColor=GRAY,spaceAfter=4))
+styles.add(ParagraphStyle('Callx',fontName=BOLD,fontSize=11,leading=16,textColor=GREEN,backColor=colors.HexColor('#fff0bd'),borderColor=GOLD,borderWidth=1,borderPadding=8,spaceBefore=6,spaceAfter=9))
+
+def footer(c,doc,title):
+    c.saveState(); c.setFillColor(GREEN); c.rect(0,0,A4[0],1.15*cm,fill=1,stroke=0)
+    c.setFont(FONT,8); c.setFillColor(colors.white); c.drawString(1.5*cm,.45*cm,title); c.drawRightString(A4[0]-1.5*cm,.45*cm,f'{doc.page}')
+    c.restoreState()
+
+def img(path,maxw=17*cm,maxh=9*cm):
+    path=Path(path)
+    if not path.exists(): return Paragraph(f'[Imagem não encontrada: {path.name}]',styles['Smallx'])
+    with PILImage.open(path) as im: w,h=im.size
+    s=min(maxw/w,maxh/h); return Image(str(path),w*s,h*s)
+
+def call(text): return Paragraph(text,styles['Callx'])
+def title(text): return Paragraph(text,styles['H1x'])
+def h2(text): return Paragraph(text,styles['H2x'])
+def body(text): return Paragraph(text,styles['Bodyx'])
+def table(data,widths=None,head=True):
+    t=Table(data,colWidths=widths,repeatRows=1 if head else 0,hAlign='LEFT')
+    st=[('FONT',(0,0),(-1,-1),FONT,8.5),('VALIGN',(0,0),(-1,-1),'TOP'),('GRID',(0,0),(-1,-1),.4,colors.HexColor('#b9cbc5')),('LEFTPADDING',(0,0),(-1,-1),6),('RIGHTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5)]
+    if head: st += [('BACKGROUND',(0,0),(-1,0),GREEN),('TEXTCOLOR',(0,0),(-1,0),colors.white),('FONT',(0,0),(-1,0),BOLD,8.5)]
+    for r in range(1 if head else 0,len(data)):
+        if r%2==0: st.append(('BACKGROUND',(0,r),(-1,r),colors.HexColor('#f2f7f5')))
+    t.setStyle(TableStyle(st)); return t
+
+def risk(name):
+    n=name.lower()
+    song=['casa é sua','acalmo','acalma','atos 2','chora israel','espelhos','espirito santo','hallelujah','jó ','lindo és','linkin','lugar secreto','ninguém explica','oceans','ousado amor','perfect','quando ele','quando eu','quero conhecer','raridade','yeshua','josué']
+    if any(x in n for x in song): return 'ALTO','Música/arranjo identificável de terceiro; retirar da publicação até obter licença.'
+    if 'rafael' in n or 'licensed to' in n: return 'ALTO','Marca, licença nominal ou autoria de terceiro.'
+    if any(x in n for x in ['apostila','sistema caged','formacao','acordes','escala','pentatônica','inversoes','campo harm','tetrades','exercicio','percussao','caixa','bonus']): return 'MÉDIO','Material didático/técnico: verificar autor, imagens, licença e reescrever apenas conceitos.'
+    return 'MÉDIO','Origem e licença não comprovadas.'
+
+def audit_pdf():
+    pdfs=sorted(MAT.glob('*.pdf'),key=lambda p:p.name.casefold())
+    hashes={}
+    rows=[]
+    for p in pdfs:
+        hv=sha256(p.read_bytes()).hexdigest(); hashes.setdefault(hv,[]).append(p.name)
+        r,why=risk(p.name); rows.append((p,r,why,hv))
+    dup=[v for v in hashes.values() if len(v)>1]
+    high=sum(1 for _,r,_,_ in rows if r=='ALTO'); med=len(rows)-high
+    path=OUT/'Levantamento_Materiais_de_Terceiros_Escola_Professor_Luiz.pdf'
+    doc=SimpleDocTemplate(str(path),pagesize=A4,rightMargin=1.5*cm,leftMargin=1.5*cm,topMargin=1.5*cm,bottomMargin=1.7*cm,title='Levantamento de materiais de terceiros')
+    S=[Spacer(1,2*cm),Paragraph('Levantamento de materiais<br/>de terceiros',styles['Cover']),Paragraph('Escola Professor Luiz - auditoria editorial preliminar',styles['Sub']),call('Objetivo: localizar arquivos que não devem permanecer numa versão pública ou comercial sem licença comprovada. Este relatório é editorial e não substitui parecer jurídico.'),Spacer(1,.4*cm),table([['Total de PDFs','Risco alto evidente','Revisão de autoria','Local principal'],[str(len(rows)),str(high),str(med),'materiais_curso/']],[3*cm,3.4*cm,3.4*cm,6.5*cm]),PageBreak()]
+    S += [title('1. Conclusão imediata'),body(f'O site contém <b>{len(rows)} PDFs</b>. A triagem encontrou <b>{high} arquivos de risco alto evidente</b>, principalmente tablaturas, arranjos e músicas conhecidas, e <b>{med} arquivos didáticos que ainda exigem conferência</b>.'),call('Recomendação: não publicar a pasta materiais_curso enquanto a revisão não terminar. Mantenha cópia privada para estudo e substitua cada material por conteúdo próprio, licenciado ou em domínio público comprovado.'),h2('Locais encontrados'),body('<b>1.</b> Arquivos físicos: materiais_curso/.<br/><b>2.</b> Referências e prateleiras: index.html.<br/><b>3.</b> Repertório interativo: repertorio-interativo/ e repertorio-drive/.<br/><b>4.</b> Recursos incorporados: assets/embedded/ e imagens derivadas de apostilas.'),h2('Sobre o site Fingerstyle Fácil'),body('O aplicativo autorizado apresenta uma estrutura própria de estudo em quatro níveis, ferramentas, criação, editor, songbook e arquivos. Ele pode ajudar como referência de organização e como módulo integrado, mas não comprova licença dos materiais externos que eventualmente forem importados.'),PageBreak(),title('2. Inventário completo')]
+    data=[['Risco','Arquivo','Ação recomendada']]
+    for p,r,why,hv in rows: data.append([r,Paragraph(p.name,styles['Smallx']),Paragraph(why,styles['Smallx'])])
+    S += [LongTable(data,colWidths=[1.5*cm,7.2*cm,8.4*cm],repeatRows=1,style=TableStyle([('BACKGROUND',(0,0),(-1,0),GREEN),('TEXTCOLOR',(0,0),(-1,0),colors.white),('FONT',(0,0),(-1,0),BOLD,8),('FONT',(0,1),(-1,-1),FONT,7.5),('GRID',(0,0),(-1,-1),.35,colors.HexColor('#b9cbc5')),('VALIGN',(0,0),(-1,-1),'TOP'),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,colors.HexColor('#f3f7f5')]),('LEFTPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),4),('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),4)]))]
+    S += [PageBreak(),title('3. Duplicações e procedimento seguro'),body(f'Foram encontrados {len(dup)} grupos de arquivos idênticos por conteúdo. Além disso, vários nomes “versão 1”, “versão 2” e “versão 3” indicam cópias ou edições próximas.'),h2('Fluxo recomendado'),body('<b>1.</b> Quarentena: retirar PDFs de terceiros do site público, sem apagar a cópia privada.<br/><b>2.</b> Direitos: registrar autor, fonte, licença, data e comprovante.<br/><b>3.</b> Substituição: criar textos, diagramas, exercícios e gravações próprios.<br/><b>4.</b> Repertório: usar composições próprias, domínio público confirmado ou licença escrita.<br/><b>5.</b> Publicação: liberar somente depois de revisão final.'),h2('Arquivo novo recebido'),body('O pacote 00483_PRVNTID-PENE é um projeto de reconhecimento musical derivado de um PDF e contém quatro imagens de partitura “Allegretto”. Não há autor ou licença identificados no pacote. A nova apostila o inclui somente como <b>fonte histórica pendente de identificação</b>; antes da distribuição, confirme autor, edição e domínio público.'),call('Não basta retirar o nome do autor ou redesenhar imagens: se a expressão musical, o arranjo ou a redação continuam reconhecíveis, os direitos podem permanecer.')]
+    doc.build(S,onFirstPage=lambda c,d:footer(c,d,'Auditoria editorial'),onLaterPages=lambda c,d:footer(c,d,'Auditoria editorial'))
+    return path
+
+def lesson_page(S,num,name,goal,image_path,explain,practice,tip):
+    S += [title(f'{num}. {name}'),call(f'Objetivo: {goal}'),img(image_path,16.8*cm,8.2*cm),Spacer(1,.2*cm),body(explain),h2('Faça agora'),body(practice),Paragraph(f'<b>Dica da escola:</b> {tip}',styles['Callx']),PageBreak()]
+
+def booklet_pdf():
+    path=OUT/'Apostila_Visual_Violao_e_Fingerstyle_Escola_Professor_Luiz.pdf'
+    doc=SimpleDocTemplate(str(path),pagesize=A4,rightMargin=1.45*cm,leftMargin=1.45*cm,topMargin=1.35*cm,bottomMargin=1.65*cm,title='Apostila Visual de Violão e Fingerstyle')
+    S=[Spacer(1,.8*cm),img(AS/'aulas_classicas'/'assistente_tocando.png',12*cm,8*cm),Spacer(1,.3*cm),Paragraph('Método Visual de Violão<br/>e Fingerstyle',styles['Cover']),Paragraph('Escola Professor Luiz - do primeiro som à autonomia',styles['Sub']),call('Edição de trabalho. Conteúdo direto, visual e progressivo. As partituras históricas do apêndice ainda precisam de identificação de autor e licença antes da distribuição pública.'),PageBreak(),title('Como usar esta apostila'),body('Estude uma página por vez. Primeiro observe, depois imite, toque devagar e somente então aumente a velocidade. Cada aula tem um objetivo, uma ação imediata e uma dica curta.'),table([['Etapa','Tempo','Ação'],['Preparar','2 min','Postura, afinação e respiração.'],['Compreender','5 min','Leia e observe a imagem.'],['Praticar','10 min','Repita um trecho pequeno.'],['Conferir','3 min','Toque lentamente e anote a dificuldade.']],[3*cm,3*cm,10.5*cm]),h2('Sequência'),body('1 Postura • 2 Instrumento • 3 Som e afinação • 4 Mão direita • 5 Mão esquerda • 6 Pulso • 7 Partitura e TAB • 8 Melodia e harmonia • 9 Acordes • 10 Escalas e CAGED • 11 Fingerstyle • 12 Técnicas • 13 Plano de estudo • Apêndice de partitura.'),PageBreak()]
+    lesson_page(S,1,'Postura sem tensão','apoiar o violão sem prender braços e ombros',AS/'referencia-postura-recomendada.png','Sente-se na parte da frente da cadeira. Mantenha a coluna alongada, os ombros soltos e o violão estável. Na postura clássica, o instrumento repousa sobre a perna esquerda elevada; na popular, pode apoiar na direita. A melhor postura é a que mantém as duas mãos livres e o corpo sem dor.','Compare sua postura com a imagem. Toque seis cordas soltas. Se o violão se mover, ajuste o apoio antes de apertá-lo com os braços.','Conforto não significa ficar curvado. Pare e reorganize o corpo sempre que surgir tensão.')
+    lesson_page(S,2,'Conhecendo o violão','reconhecer as partes e cuidar do instrumento',AS/'aulas_classicas'/'partitura_no_violao.png','Cabeça, tarraxas, pestana, braço, trastes, corpo, boca, ponte e rastilho trabalham juntos. As tarraxas alteram a tensão; os trastes definem alturas; o corpo amplifica a vibração. Cordas altas demais cansam e cordas baixas demais podem trastejar. Um luthier corrige regulagem e ação.','Aponte cada parte no seu violão. Toque cada corda solta e observe de onde a vibração começa e como chega ao corpo.','Ao trocar cordas, prefira uma por vez, mantendo o instrumento apoiado e sem movimentos bruscos.')
+    lesson_page(S,3,'Som, frequência e afinação','entender que nota é vibração organizada',AS/'aulas_classicas'/'aluno_guia_apontando.webp','Toda nota é uma vibração. Quanto mais rápida a vibração, mais agudo o som. Na afinação padrão, da 6ª para a 1ª corda: Mi 82,41 Hz; Lá 110 Hz; Ré 146,83 Hz; Sol 196 Hz; Si 246,94 Hz; Mi 329,63 Hz. O padrão de referência costuma usar Lá = 440 Hz. O violão usa temperamento igual: cada casa divide a oitava em doze passos iguais.','Afine E-A-D-G-B-E. Toque a corda e espere o afinador estabilizar. Depois confira novamente todas, porque a tensão de uma influencia as outras.','A nota “dançando” no afinador não é defeito: o som contém ataque, sustentação e pequenas variações naturais.')
+    lesson_page(S,4,'Mão direita: P-I-M-A','produzir som uniforme com movimentos pequenos',AS/'aulas_classicas'/'mao_direita_pima.png','P é polegar, I indicador, M médio e A anelar. Como ponto de partida, P toca os bordões; I a 3ª corda; M a 2ª; A a 1ª. O dedo atravessa a corda e volta ao repouso sem puxar a mão para longe. Toque livre e apoiado são recursos diferentes.','Em cordas soltas, repita P-I-M-A-M-I a 50 BPM. Faça quatro ciclos e descanse. Procure o mesmo volume em todas as notas.','Regularidade vale mais do que velocidade. Se um dedo atrasar, diminua o BPM.')
+    lesson_page(S,5,'Mão esquerda: precisão sem força','pressionar perto do traste com dedos curvos',AS/'aulas_classicas'/'mao_esquerda_completa.png','O polegar fica atrás do braço, sem abraçar com força. A ponta do dedo pressiona logo antes do traste. Dedos curvos deixam as cordas vizinhas livres. Som abafado geralmente pede correção de ângulo ou posição, não mais força.','Na 1ª corda, toque casas 1-2-3-4 com dedos 1-2-3-4. Pare entre repetições e sacuda a mão.','Dor não faz parte do treinamento. Cansaço leve pede pausa; dor pede interrupção e correção.')
+    lesson_page(S,6,'Pulso, compasso e metrônomo','manter tempo constante antes de acelerar',AS/'aulas_classicas'/'recorte_exercicio_pima.png','Pulso é a batida regular. BPM indica quantos pulsos há por minuto. Em 4/4 contamos 1-2-3-4; em colcheias, 1-e-2-e-3-e-4-e. O metrônomo não toca por você: ele revela onde você corre ou atrasa.','Bata palmas a 60 BPM. Depois toque cordas abafadas: descida nos números, subida nos “e”. Só coloque acordes quando o braço estiver regular.','Aumente no máximo 5 BPM quando conseguir três repetições limpas.')
+    lesson_page(S,7,'Partitura, tablatura e números','ler ritmo e localização sem depender de vídeo',AS/'aulas_classicas'/'recorte_postura_frontal.png','A partitura mostra altura e duração. A tablatura mostra corda e casa, mas precisa de ritmo para ficar completa. Na TAB, a linha superior é a 1ª corda; 0 significa corda solta. No código numérico desta escola, 13 pode significar 1ª corda, casa 3. Use os sistemas juntos no começo e retire as ajudas aos poucos.','Leia: 1ª corda 0-1-3-1; depois escreva em TAB e em números. Conte em voz alta antes de tocar.','Primeiro compreenda o ritmo; depois procure a nota no braço.')
+    lesson_page(S,8,'Melodia e harmonia','distinguir linha principal, acordes e baixo',AS/'aulas_classicas'/'repertorio_autonomia.png','Melodia é a sequência que podemos cantar. Harmonia é o conjunto de notas que sustenta e colore a melodia. No fingerstyle, o violão faz três papéis: melodia nas agudas, baixos com o polegar e notas internas completando acordes. Estude as camadas separadas e depois una.','Cante uma frase curta. Encontre-a numa corda. Depois acrescente apenas a nota grave do acorde nos tempos fortes.','Se a melodia desaparecer, diminua o volume do acompanhamento.')
+    lesson_page(S,9,'Acordes, tríades e inversões','entender fórmulas em vez de decorar apenas desenhos',AS/'aulas_classicas'/'assistente_dica.png','Tríade maior: 1-3-5. Tríade menor: 1-b3-5. Em Dó: C-E-G; em Dó menor: C-Eb-G. Inversão muda a nota do baixo, não o conjunto de notas: C, C/E e C/G. Essa lógica cria ligações suaves e facilita arranjos.','Toque C, Am, F e G. Em seguida, toque apenas a nota mais grave de cada acorde e procure uma linha de baixo simples.','Antes de mudar de acorde, observe quais dedos podem permanecer no lugar.')
+    lesson_page(S,10,'Escalas e CAGED','ligar acordes, regiões do braço e melodias',AS/'aulas_classicas'/'aluno_guia_braco.webp','A escala maior segue T-T-ST-T-T-T-ST. O CAGED usa cinco modelos de acordes - C, A, G, E e D - para localizar tônicas, tríades, escalas e arpejos pelo braço. Não pratique desenhos sem som: escolha uma nota de repouso e crie frases curtas.','Toque a escala de Dó lentamente. Pare em C, E ou G sobre um acorde de C. Depois mova a mesma ideia para outra região.','Uma escala é um mapa de possibilidades, não uma corrida de dedos.')
+    lesson_page(S,11,'Fingerstyle: baixo, harmonia e melodia','organizar três camadas com equilíbrio',AS/'aulas_classicas'/'assistente_tocando.png','Comece pelo polegar regular. Acrescente a melodia, depois as notas internas. O baixo deve sustentar, não esconder. Use P-I-M-A e variações, mantendo notas soando enquanto forem úteis. Um arranjo simples e claro é melhor que muitos efeitos sem controle.','Em C, alterne o baixo C-G. Nas agudas, toque E-G. Una apenas quando cada parte estiver segura. Grave e ouça o equilíbrio.','Estude em blocos de dois compassos; não tente tocar a música inteira de uma vez.')
+    lesson_page(S,12,'Articulação, harmônicos e percussão','usar efeitos como parte da música',AS/'aulas_classicas'/'assistente_positivo.png','Ligados, slides, vibrato, harmônicos e percussão mudam expressão. Harmônicos naturais aparecem com clareza nas casas 12, 7 e 5 ao encostar levemente sobre o traste. Percussão deve ser controlada: cordas abafadas simulam caixa; baixos simulam bumbo. Nunca golpeie o tampo com força.','Faça 0h2, 2p0 e 2/4 lentamente. Depois produza harmônico na 12ª casa. Finalize com bumbo no 1 e 3, caixa leve no 2 e 4.','O efeito entra depois que ritmo e melodia já estão claros.')
+    lesson_page(S,13,'Plano curto de estudo','criar constância sem perder tempo',AS/'aulas_classicas'/'assistente_aula.png','Uma sessão de vinte minutos bem organizada é suficiente para evoluir: 2 minutos de postura e afinação; 4 de técnica; 5 de leitura; 6 de repertório; 3 de revisão e anotação. Alterne dias de precisão, ritmo e musicalidade.','Escolha um exercício e um trecho de música. Defina BPM inicial. Ao terminar, anote: o que melhorou, onde travou e qual será o próximo passo.','Estudar devagar economiza tempo porque evita consolidar erros.')
+    S += [title('Estudos originais da escola'),body('Use estes pequenos roteiros como material próprio de prática. Eles não reproduzem músicas conhecidas.'),h2('Estudo A - Polegar constante'),body('<font name="Courier">Contagem: 1 & 2 & 3 & 4 &<br/>P:         6   4   5   4<br/>I-M-A:      3 2 1   3 2 1</font>'),h2('Estudo B - Melodia e baixo'),body('<font name="Courier">Melodia: E  F  G  E | D  E  C -<br/>Baixo:   C     G    | F     C -</font>'),h2('Estudo C - Ritmo e abafamento'),body('<font name="Courier">1 e 2 e 3 e 4 e<br/>B   - C - B - C -<br/>B = baixo; C = caixa leve nas cordas abafadas</font>'),call('Pratique primeiro a 50 BPM. Depois retire a tablatura ou a marcação visual e tente tocar apenas pela memória sonora.'),PageBreak(),title('Apêndice - Partitura histórica recebida'),body('As quatro páginas seguintes foram extraídas do arquivo 00483_PRVNTID-PENE. O pacote informa apenas o título “Allegretto” e não identifica autor, edição ou licença. Elas integram esta <b>edição de trabalho</b>; antes de publicar, confirme domínio público e procedência.'),PageBreak()]
+    for i in range(1,5):
+        p=TMP/f'sheet#{i}'/'BINARY.png'; S += [Paragraph(f'ALLEGRETTO - página histórica {i}/4',styles['H2x']),img(p,17.2*cm,24.5*cm),PageBreak()]
+    S += [title('Fechamento'),img(AS/'aulas_classicas'/'assistente_positivo.png',9*cm,8*cm),body('Agora você tem um caminho: postura, som, leitura, harmonia, técnica e autonomia. Baixe apenas partituras autorizadas, ouça com atenção e toque em pequenos trechos.'),call('Que Deus continue nos abençoando. Bons estudos!'),h2('Créditos e fontes'),body('Texto didático, organização e estudos: Escola Professor Luiz. Ilustrações: acervo visual do projeto Escola Professor Luiz. Partitura Allegretto: fonte histórica recebida em 00483_PRVNTID-PENE, autoria e licença pendentes de confirmação. Conceitos musicais apresentados em formulação própria e sintética.')]
+    doc.build(S,onFirstPage=lambda c,d:footer(c,d,'Método Visual de Violão e Fingerstyle'),onLaterPages=lambda c,d:footer(c,d,'Método Visual de Violão e Fingerstyle'))
+    return path
+
+if __name__=='__main__':
+    print(audit_pdf())
+    print(booklet_pdf())
