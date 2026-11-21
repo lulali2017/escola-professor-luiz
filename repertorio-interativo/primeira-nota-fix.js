@@ -22,6 +22,20 @@
     return audio;
   }
 
+  async function ensureAudioReady() {
+    const context = audioContext();
+    if (context?.state === 'suspended') {
+      try { await context.resume(); } catch (error) {}
+    }
+    return context;
+  }
+
+  function hideSchoolHeader() {
+    try {
+      if (parent !== window) parent.postMessage({type:'school28-repertoire-playback', action:'hide-header'}, location.origin);
+    } catch (error) {}
+  }
+
   function levelToGain(value) {
     const level = Math.max(0, Math.min(200, Number(value) || 0));
     return .001 + Math.pow(level / 200, 1.6) * .31;
@@ -79,10 +93,10 @@
     oscillator.type = kind === 'classic' ? 'square' : kind === 'soft' ? 'sine' : 'triangle';
     oscillator.frequency.value = accent ? 950 : 650;
     gain.gain.setValueAtTime(volume, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + .05);
+    gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + .11);
     oscillator.connect(gain).connect(context.destination);
     oscillator.start();
-    oscillator.stop(context.currentTime + .06);
+    oscillator.stop(context.currentTime + .13);
   }
 
   function stopMetronome() {
@@ -192,14 +206,15 @@
     animation = requestAnimationFrame(frame);
   }
 
-  function demo() {
+  async function demo() {
     if (running) {
       stop();
       status('Demonstração parada.');
       return;
     }
     stop();
-    audioContext();
+    await ensureAudioReady();
+    hideSchoolHeader();
     running = true;
     mode = 'demo';
     current = -1;
@@ -209,9 +224,10 @@
     animation = requestAnimationFrame(frame);
   }
 
-  function manual(delta) {
+  async function manual(delta) {
     stop(false);
-    audioContext();
+    await ensureAudioReady();
+    hideSchoolHeader();
     const list = scoreNotes();
     if (!list.length) {
       status('<b>Escolha uma partitura no índice antes de tocar.</b>');
@@ -276,7 +292,20 @@
     output.style.textAlign = 'center';
     output.style.fontSize = '12px';
     slider.addEventListener('input', () => { output.textContent = `${slider.value}%`; });
-    label.append(slider, output);
+    const test = document.createElement('button');
+    test.type = 'button';
+    test.id = 'testMetronome';
+    test.textContent = '🔊 Testar metrônomo';
+    test.style.marginTop = '5px';
+    test.style.padding = '7px 9px';
+    test.addEventListener('click', async () => {
+      await ensureAudioReady();
+      const widget = $('#floatingMetronome');
+      if (widget) widget.hidden = false;
+      metronome(true);
+      status('Batida de teste do metrônomo. Ajuste o volume se necessário.');
+    });
+    label.append(slider, output, test);
     anchor.insertAdjacentElement('afterend', label);
   }
 
@@ -317,7 +346,7 @@
     controls.classList.add('controls-floating');
     const synchronizeHeight = () => {
       if (!controls.offsetHeight) return;
-      spacer.style.height = `${controls.offsetHeight + 18}px`;
+      spacer.style.height = `${controls.offsetHeight + 10}px`;
     };
     const synchronizePosition = () => {
       let top = 8;
@@ -374,7 +403,7 @@
   function ensureScoreViewControl(anchor) {
     if ($('#scoreView')) return;
     const style = document.createElement('style');
-    style.textContent = '.controls.controls-floating{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:9997;width:min(1120px,calc(100% - 24px));max-height:48vh;overflow:auto;margin:0;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #07182745;backdrop-filter:blur(8px)}#controlsSpacer{display:block}.staff{position:relative;background:none!important}.staff.view-continuous{width:max-content;min-width:100%}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1;min-height:176px}.note small{display:block;min-height:18px;margin-top:2px}.note .tab-pos{position:static!important;display:block;margin-top:6px}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls.controls-floating{top:6px;width:calc(100% - 12px);max-height:46vh}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,#controlsSpacer,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
+    style.textContent = '.controls.controls-floating{position:fixed;top:8px;left:8px;right:8px;transform:none;z-index:9997;width:auto;max-width:none;max-height:48vh;overflow-y:auto;overflow-x:hidden;margin:0;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #07182745;backdrop-filter:blur(8px)}#controlsSpacer{display:block}.music-open .wrap{width:100%;max-width:none;margin:0}.music-open .hero,.music-open .book-panel,.music-open .lib,.music-open header{display:none!important}.music-open #reader{margin:0;padding:10px 8px 18px;border:0;border-radius:0;box-shadow:none}.music-open #reader>.index-back,.music-open #reader>.tip,.music-open #reader>.status,.music-open #reader>.music-head{display:none!important}.music-open .score{margin-top:0}.staff{position:relative;background:none!important}.staff.view-continuous{width:max-content;min-width:100%}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1;min-height:176px}.note small{display:block;min-height:18px;margin-top:2px}.note .tab-pos{position:static!important;display:block;margin-top:6px}.note.measure-start::before{content:"";position:absolute;z-index:3;left:-7px;top:54px;width:2px;height:62px;background:#385a52}.note.measure-end::after{content:"";position:absolute;z-index:3;right:-7px;top:54px;width:4px;height:62px;border-left:2px solid #385a52;border-right:4px solid #385a52}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls.controls-floating{top:4px;left:4px;right:4px;max-height:46vh;padding:6px;gap:5px}.controls.controls-floating>*{flex:1 1 116px;min-width:0}.controls.controls-floating button{padding:7px 5px;font-size:12px;line-height:1.15}.controls.controls-floating label{font-size:10px;line-height:1.1}.controls.controls-floating select,.controls.controls-floating input{margin-top:2px;padding:5px;font-size:12px}.controls.controls-floating .reader-check{padding:6px!important;font-size:11px!important}.music-open #reader{padding:4px}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,#controlsSpacer,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
     document.head.appendChild(style);
     const label = document.createElement('label');
     label.className = 'score-view-control';
@@ -413,6 +442,19 @@
         const bpmOutput = $('#bpmOut');
         if (bpmOutput) bpmOutput.textContent = `${Math.round(informedTempo)} BPM`;
       }
+      const measureStarts = [];
+      let renderedNoteCount = 0;
+      const part = documentXml.querySelector('part');
+      part?.querySelectorAll(':scope > measure').forEach(measure => {
+        const measureNotes = [...measure.querySelectorAll(':scope > note')].filter(note => !note.querySelector('chord'));
+        if (measureNotes.length) measureStarts.push(renderedNoteCount);
+        renderedNoteCount += measureNotes.length;
+      });
+      const renderedNotes = [...document.querySelectorAll('#staff .note')];
+      renderedNotes.forEach((note, index) => {
+        note.classList.toggle('measure-start', measureStarts.includes(index));
+        note.classList.toggle('measure-end', index === renderedNoteCount - 1);
+      });
     } catch (error) {
       beatsPerMeasure = 4;
       beatType = 4;
@@ -505,6 +547,12 @@
       }
       const result = await originalChange.call(files, event);
       await readMusicalSettings(files.files?.[0]);
+      document.body.classList.add('music-open');
+      hideSchoolHeader();
+      requestAnimationFrame(() => {
+        scrollTo({top:0, left:0, behavior:'auto'});
+        $('#reader')?.scrollIntoView({block:'start', behavior:'auto'});
+      });
       return result;
     };
   }
@@ -521,6 +569,10 @@
     ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     ensureFloatingControls();
+    $('#backToIndex')?.addEventListener('click', () => {
+      document.body.classList.remove('music-open');
+      scrollTo({top:0, left:0, behavior:'auto'});
+    });
     let previous = $('#previousNote');
     let next = $('#nextNote');
     if (!previous) {
