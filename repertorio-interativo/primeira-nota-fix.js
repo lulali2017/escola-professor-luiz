@@ -45,15 +45,17 @@ function run(mode){
     current++;
     if(current>=list.length){stop(true);return}
     list.forEach((item,i)=>item.el.classList.toggle('active',i===current));
-    const item=list[current],bpm=Math.max(40,Number($('#bpm')?.value)||80),milliseconds=60000/bpm*item.beats;
-    click(current%4===0);
-    if(mode==='demo'||current>0)sound(item.name,Math.max(.12,milliseconds/1000*.72));
+    const item=list[current],bpm=Math.max(40,Number($('#bpm')?.value)||80);
+    const originalMilliseconds=60000/bpm*item.beats;
+    const milliseconds=Math.max(280,Math.min(originalMilliseconds,1800));
+    const wait=mode==='practice'&&current===0?Math.min(milliseconds,1200):milliseconds;
+    timer=window.setTimeout(next,wait);
+    try{click(current%4===0)}catch(error){console.warn('Metrônomo indisponível:',error)}
+    try{if(mode==='demo'||current>0)sound(item.name,Math.max(.12,milliseconds/1000*.72))}catch(error){console.warn('Áudio indisponível:',error)}
     label(mode==='practice'&&current===0
       ?`<b>Sua vez:</b> toque a primeira nota. O computador continuará em ${Math.round(milliseconds/100)/10} segundo(s).`
       :`Tocando <b>nota ${current+1} de ${list.length}</b>.`);
     item.el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-    const wait=mode==='practice'&&current===0?Math.min(milliseconds,1200):milliseconds;
-    timer=setTimeout(next,wait);
   };
   next();
 }
