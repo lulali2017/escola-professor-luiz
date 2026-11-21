@@ -29,7 +29,15 @@
   font-weight: 850;
   cursor: pointer;
 }
+.book-panel { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.book-panel h2 { margin: 0 0 5px; }
+.book-panel p { margin: 0; }
+.book-icon { float: left; margin-right: 14px; font-size: 38px; }
+.book-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.book-actions a { text-decoration: none; border-radius: 11px; background: #f5bd45; color: #173a34; padding: 11px 15px; font-weight: 850; }
 @media (max-width: 600px) {
+  .book-panel { display: block; }
+  .book-actions { margin-top: 15px; }
   .lib-title-button { grid-template-columns: auto 1fr; }
   .lib-title-button i { grid-column: 2; }
   .lib-music-icon { font-size: 25px; }

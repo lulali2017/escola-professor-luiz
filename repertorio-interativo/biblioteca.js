@@ -6,8 +6,8 @@ const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const filename=x=>`${x.title.trim()} - ${(x.author||'Autor desconhecido').trim()}.musicxml`.replace(/[\\/:*?"<>|]/g,'-');
 
 function filtered(){
-  const q=norm($('#libSearch').value),field=$('#libSort').value;
-  return system.filter(x=>!q||norm(x.title).includes(q)||norm(x.author).includes(q)).sort((a,b)=>(field==='author'?a.author:a.title).localeCompare(field==='author'?b.author:b.title,'pt-BR'));
+  const q=norm($('#libSearch').value),field=$('#libSort').value,category=$('#libCategory').value;
+  return system.filter(x=>(!category||x.category===category)&&(!q||norm(x.title).includes(q)||norm(x.author).includes(q))).sort((a,b)=>(field==='author'?a.author:a.title).localeCompare(field==='author'?b.author:b.title,'pt-BR'));
 }
 
 function render(){
@@ -19,12 +19,14 @@ function render(){
     const format=(x.format||'musicxml').toUpperCase();
     return `<article class="lib-item system">
       <button class="lib-title-button" data-open="${escapeHtml(x.id)}">
-        <span class="lib-music-icon">🎼</span><span><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.author||'Autor desconhecido')} · ${format}</small></span><i>ABRIR →</i>
+        <span class="lib-music-icon">🎼</span><span><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.author||'Autor desconhecido')} · ${escapeHtml(categoryName(x.category))} · ${format}</small></span><i>ABRIR →</i>
       </button>
     </article>`;
   }).join(''):'<div class="lib-empty">O índice está vazio neste filtro.</div>';
   host.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openItem(system.find(x=>x.id===b.dataset.open)));
 }
+
+function categoryName(value){return ({classica:'Clássica',popular:'Popular',estudo:'Estudo',exercicio:'Exercício'})[value]||'Sem categoria'}
 
 async function textOf(x){const r=await fetch(x.url);if(!r.ok)throw Error('Não foi possível abrir esta partitura.');return r.text()}
 async function openItem(x){
@@ -47,6 +49,7 @@ async function init(){
   $('#libSearchButton').onclick=show;
   $('#libListAll').onclick=()=>{$('#libSearch').value='';show()};
   $('#libSort').onchange=render;
+  $('#libCategory').onchange=render;
   $('#backToIndex').onclick=()=>document.querySelector('.lib').scrollIntoView({behavior:'smooth',block:'start'});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();

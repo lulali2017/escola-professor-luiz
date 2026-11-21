@@ -1077,6 +1077,35 @@ function renderChallenges(){
 renderTheoryBank();renderFingerBank();renderSuggested();renderChallenges();
 
 </script>
+<style id="s42-single-score-library-style">
+#s32RepertorioInterativo{order:-20!important;border-width:3px!important;box-shadow:0 12px 28px #07182738!important}
+#s32RepertorioInterativo h2{font-size:clamp(24px,3vw,34px)!important}
+</style>
+<script id="s42-single-score-library-script">
+(()=>{
+function consolidate(){
+  document.querySelectorAll('#s28RepClassico,#s28RepPopular,#s28RepTab,#s28ShelfClassico,#s28ShelfPopular,#s28ShelfTab,#school28Apostila,#s28PrimeiraNotaCard,#school28-primeira-nota,#school28-biblioteca-musical').forEach(el=>el.remove());
+  document.querySelectorAll('button[onclick],a[onclick]').forEach(el=>{
+    const action=el.getAttribute('onclick')||'';
+    if(action.includes("school28-biblioteca-musical")||action.includes("school28-primeira-nota"))el.remove();
+  });
+  const card=document.getElementById('s32RepertorioInterativo');
+  if(card){
+    const title=card.querySelector('h2'),text=card.querySelector('p'),button=card.querySelector('button');
+    if(title&&title.textContent!=='Biblioteca única de Partituras')title.textContent='Biblioteca única de Partituras';
+    if(text&&text.textContent!=='Apostila oficial para consulta ou impressão, índice por título, autor e categoria, demonstração, Primeira Nota e metrônomo — tudo em um só lugar.')text.textContent='Apostila oficial para consulta ou impressão, índice por título, autor e categoria, demonstração, Primeira Nota e metrônomo — tudo em um só lugar.';
+    if(button&&button.textContent!=='Abrir biblioteca de partituras')button.textContent='Abrir biblioteca de partituras';
+  }
+}
+function start(){
+  consolidate();
+  let tries=0;const timer=setInterval(()=>{consolidate();if(++tries>45)clearInterval(timer)},300);
+  const root=document.getElementById('campusV273');
+  if(root)new MutationObserver(()=>consolidate()).observe(root,{childList:true,subtree:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
 <div id="profFloat" class="prof-float">
  <div class="prof-top"><img src="assets/embedded/imagem-49ef90b8f1d1c8ec.jpg" alt="Professor Luiz"><div><b>Professor Luiz</b><br><small>Seu guia de estudo</small></div></div>
  <div class="prof-body">
