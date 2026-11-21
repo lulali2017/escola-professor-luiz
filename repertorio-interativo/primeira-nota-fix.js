@@ -1,0 +1,67 @@
+(()=>{
+const $=s=>document.querySelector(s);
+let timer=0,audio=null,current=-1,running=false;
+const semitones={'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
+
+function context(){
+  const Audio=window.AudioContext||window.webkitAudioContext;
+  if(!Audio)return null;
+  audio??=new Audio();
+  if(audio.state==='suspended')audio.resume();
+  return audio;
+}
+function sound(note,duration=.35){
+  const ctx=context(); if(!ctx||note==='Pausa')return;
+  const midi=60+(semitones[note]??0),osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.type='triangle';osc.frequency.value=440*Math.pow(2,(midi-69)/12);
+  gain.gain.setValueAtTime(.14,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);
+  osc.connect(gain).connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+duration);
+}
+function click(accent){
+  if($('#metro')?.value!=='on')return;
+  const ctx=context();if(!ctx)return;
+  const osc=ctx.createOscillator(),gain=ctx.createGain(),kind=$('#click')?.value||'wood';
+  osc.type=kind==='classic'?'square':kind==='soft'?'sine':'triangle';
+  osc.frequency.value=accent?950:650;gain.gain.setValueAtTime(.07,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.05);
+  osc.connect(gain).connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.06);
+}
+function notes(){return [...document.querySelectorAll('#staff .note')].map(el=>({el,name:el.querySelector('b')?.textContent.trim()||'',beats:parseFloat(el.querySelector('small')?.textContent)||1}))}
+function label(text){const status=$('#status');if(status)status.innerHTML=text}
+function stop(done=false){
+  clearTimeout(timer);timer=0;running=false;current=-1;
+  document.querySelectorAll('#staff .note').forEach(el=>el.classList.remove('active'));
+  const demo=$('#demo'),practice=$('#practice');if(demo)demo.textContent='▶ Ouvir demonstração';if(practice)practice.textContent='🎸 Tocar a primeira nota';
+  if(done)label('<b>Exercício concluído.</b> Você pode repetir, diminuir a velocidade ou escolher outra partitura.');
+}
+function run(mode){
+  stop();const list=notes();if(!list.length)return;
+  context();running=true;const demo=$('#demo'),practice=$('#practice');
+  if(mode==='demo'&&demo)demo.textContent='■ Parar demonstração';
+  if(mode==='practice'&&practice)practice.textContent='■ Parar exercício';
+  const next=()=>{
+    if(!running)return;
+    current++;
+    if(current>=list.length){stop(true);return}
+    list.forEach((item,i)=>item.el.classList.toggle('active',i===current));
+    const item=list[current],bpm=Math.max(40,Number($('#bpm')?.value)||80),milliseconds=60000/bpm*item.beats;
+    click(current%4===0);
+    if(mode==='demo'||current>0)sound(item.name,Math.max(.12,milliseconds/1000*.72));
+    label(mode==='practice'&&current===0
+      ?`<b>Sua vez:</b> toque a primeira nota. O computador continuará em ${Math.round(milliseconds/100)/10} segundo(s).`
+      :`Tocando <b>nota ${current+1} de ${list.length}</b>.`);
+    item.el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    timer=setTimeout(next,milliseconds);
+  };
+  next();
+}
+function install(){
+  const demo=$('#demo'),practice=$('#practice'),stopButton=$('#stop');if(!demo||!practice||!stopButton)return;
+  demo.onclick=()=>running?stop():run('demo');
+  practice.onclick=()=>running?stop():run('practice');
+  stopButton.onclick=()=>stop();
+  practice.textContent='🎸 Tocar a primeira nota';
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+})();
