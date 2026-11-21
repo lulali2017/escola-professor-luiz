@@ -256,6 +256,23 @@
     anchor.insertAdjacentElement('afterend', label);
   }
 
+  function ensureFloatingControls() {
+    const controls = $('.controls');
+    if (!controls || $('#controlsSpacer')) return;
+    const spacer = document.createElement('div');
+    spacer.id = 'controlsSpacer';
+    spacer.setAttribute('aria-hidden', 'true');
+    controls.insertAdjacentElement('beforebegin', spacer);
+    controls.classList.add('controls-floating');
+    const synchronizeHeight = () => {
+      if (!controls.offsetHeight) return;
+      spacer.style.height = `${controls.offsetHeight + 18}px`;
+    };
+    new ResizeObserver(synchronizeHeight).observe(controls);
+    addEventListener('resize', synchronizeHeight);
+    requestAnimationFrame(synchronizeHeight);
+  }
+
   function applyScoreView() {
     if (arrangingScore) return;
     const staff = $('#staff');
@@ -288,7 +305,7 @@
   function ensureScoreViewControl(anchor) {
     if ($('#scoreView')) return;
     const style = document.createElement('style');
-    style.textContent = '.controls{position:sticky;top:0;z-index:9000;margin-left:-12px;margin-right:-12px;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #0718272b;backdrop-filter:blur(8px)}.staff{position:relative;background:none!important}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls{top:0;max-height:44vh;overflow:auto}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
+    style.textContent = '.controls.controls-floating{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:9997;width:min(1120px,calc(100% - 24px));max-height:48vh;overflow:auto;margin:0;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #07182745;backdrop-filter:blur(8px)}#controlsSpacer{display:block}.staff{position:relative;background:none!important}.staff.view-continuous{width:max-content;min-width:100%}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls.controls-floating{top:6px;width:calc(100% - 12px);max-height:46vh}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,#controlsSpacer,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
     document.head.appendChild(style);
     const label = document.createElement('label');
     label.className = 'score-view-control';
@@ -433,6 +450,7 @@
     ensureInstrumentControl(stopButton);
     ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
+    ensureFloatingControls();
     let previous = $('#previousNote');
     let next = $('#nextNote');
     if (!previous) {
