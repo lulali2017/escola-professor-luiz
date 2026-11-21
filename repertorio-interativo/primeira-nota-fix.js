@@ -58,6 +58,27 @@ function run(mode){
 }
 function install(){
   const demo=$('#demo'),practice=$('#practice'),stopButton=$('#stop');if(!demo||!practice||!stopButton)return;
+  const files=$('#files'),originalChange=files?.onchange;
+  if(files&&originalChange)files.onchange=async event=>{
+    const file=files.files?.[0];
+    if(file&&/\.mxl$/i.test(file.name)&&window.fflate){
+      try{
+        const zipped=window.fflate.unzipSync(new Uint8Array(await file.arrayBuffer()));
+        const names=Object.keys(zipped),containerName=names.find(name=>/META-INF\/container\.xml$/i.test(name));
+        let scoreName='';
+        if(containerName){
+          const xml=new TextDecoder().decode(zipped[containerName]);
+          scoreName=new DOMParser().parseFromString(xml,'application/xml').querySelector('rootfile')?.getAttribute('full-path')||'';
+        }
+        if(!scoreName)scoreName=names.find(name=>/\.(musicxml|xml)$/i.test(name)&&!/container\.xml$/i.test(name))||'';
+        if(!scoreName||!zipped[scoreName])throw Error('Partitura interna não encontrada.');
+        const dt=new DataTransfer();
+        dt.items.add(new File([zipped[scoreName]],file.name.replace(/\.mxl$/i,'.musicxml'),{type:'application/vnd.recordare.musicxml+xml'}));
+        files.files=dt.files;
+      }catch(error){alert('Não foi possível descompactar esta partitura MXL.');return}
+    }
+    return originalChange.call(files,event);
+  };
   demo.onclick=()=>running?stop():run('demo');
   practice.onclick=()=>running?stop():run('practice');
   stopButton.onclick=()=>stop();

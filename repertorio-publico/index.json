@@ -1,0 +1,2121 @@
+﻿{
+    "generated":  "2026-11-21",
+    "count":  235,
+    "items":  [
+                  {
+                      "id":  "pd0001",
+                      "title":  "SPAGNOLETTA",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0001.pdf",
+                      "playUrl":  "../repertorio-publico/pd0001.mxl"
+                  },
+                  {
+                      "id":  "pd0002",
+                      "title":  "WILSON’S WILDE",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0002.pdf",
+                      "playUrl":  "../repertorio-publico/pd0002.mxl"
+                  },
+                  {
+                      "id":  "pd0003",
+                      "title":  "FANTASIA",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0003.pdf",
+                      "playUrl":  "../repertorio-publico/pd0003.mxl"
+                  },
+                  {
+                      "id":  "pd0004",
+                      "title":  "THE COBBLER",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0004.pdf",
+                      "playUrl":  "../repertorio-publico/pd0004.mxl"
+                  },
+                  {
+                      "id":  "pd0005",
+                      "title":  "MENUETT",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0005.pdf",
+                      "playUrl":  "../repertorio-publico/pd0005.mxl"
+                  },
+                  {
+                      "id":  "pd0006",
+                      "title":  "2 FANTASIEN",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0006.pdf",
+                      "playUrl":  "../repertorio-publico/pd0006.mxl"
+                  },
+                  {
+                      "id":  "pd0007",
+                      "title":  "PAVANE DES BOUFFONS",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0007.pdf",
+                      "playUrl":  "../repertorio-publico/pd0007.mxl"
+                  },
+                  {
+                      "id":  "pd0008",
+                      "title":  "ANONYM",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0008.pdf",
+                      "playUrl":  "../repertorio-publico/pd0008.mxl"
+                  },
+                  {
+                      "id":  "pd0009",
+                      "title":  "2 GAVOTTEN UND RONDEAU",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0009.pdf",
+                      "playUrl":  "../repertorio-publico/pd0009.mxl"
+                  },
+                  {
+                      "id":  "pd0010",
+                      "title":  "SUITE",
+                      "author":  "ANÔNIMO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0010.pdf",
+                      "playUrl":  "../repertorio-publico/pd0010.mxl"
+                  },
+                  {
+                      "id":  "pd0011",
+                      "title":  "BOURRÉE",
+                      "author":  "JOHANN SEBAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0011.pdf",
+                      "playUrl":  "../repertorio-publico/pd0011.mxl"
+                  },
+                  {
+                      "id":  "pd0012",
+                      "title":  "STUDY NOTES FOR ALLEMAND",
+                      "author":  "J. BACH",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0012.pdf",
+                      "playUrl":  "../repertorio-publico/pd0012.mxl"
+                  },
+                  {
+                      "id":  "pd0013",
+                      "title":  "ENTRÉE DE LUTH",
+                      "author":  "ROBERT BALLARD",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0013.pdf",
+                      "playUrl":  "../repertorio-publico/pd0013.mxl"
+                  },
+                  {
+                      "id":  "pd0014",
+                      "title":  "SONATE",
+                      "author":  "GIUSEPPE ANTONIO BRESCIANELLO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0014.pdf",
+                      "playUrl":  "../repertorio-publico/pd0014.mxl"
+                  },
+                  {
+                      "id":  "pd0015",
+                      "title":  "PARTITA",
+                      "author":  "GIUSEPPE ANTONIO BRESCIANELLO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0015.pdf",
+                      "playUrl":  "../repertorio-publico/pd0015.mxl"
+                  },
+                  {
+                      "id":  "pd0016",
+                      "title":  "PARTITA",
+                      "author":  "GIUSEPPE ANTONIO BRESCIANELLO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0016.pdf",
+                      "playUrl":  "../repertorio-publico/pd0016.mxl"
+                  },
+                  {
+                      "id":  "pd0017",
+                      "title":  "SUITE",
+                      "author":  "FRANGOIS CAMPION",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0017.pdf",
+                      "playUrl":  "../repertorio-publico/pd0017.mxl"
+                  },
+                  {
+                      "id":  "pd0018",
+                      "title":  "PRV-LES GUITARISTES FRANCAIS DU XVII¢ SIECLE",
+                      "author":  "F. CAMPION",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0018.pdf",
+                      "playUrl":  "../repertorio-publico/pd0018.mxl"
+                  },
+                  {
+                      "id":  "pd0019",
+                      "title":  "PRV-GIGUE",
+                      "author":  "F. CAMPION",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0019.pdf",
+                      "playUrl":  "../repertorio-publico/pd0019.mxl"
+                  },
+                  {
+                      "id":  "pd0020",
+                      "title":  "DOWLAND\u0027S FIRST GALLIARD",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0020.pdf",
+                      "playUrl":  "../repertorio-publico/pd0020.mxl"
+                  },
+                  {
+                      "id":  "pd0021",
+                      "title":  "THE MOST SACRED QUEENE ELIZABETH",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0021.pdf",
+                      "playUrl":  "../repertorio-publico/pd0021.mxl"
+                  },
+                  {
+                      "id":  "pd0022",
+                      "title":  "THE RIGHT HONOURABLE ROBERT, EARL OF ESSEX",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0022.pdf",
+                      "playUrl":  "../repertorio-publico/pd0022.mxl"
+                  },
+                  {
+                      "id":  "pd0023",
+                      "title":  "MASTER PIPER\u0027S GALLIARD",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0023.pdf",
+                      "playUrl":  "../repertorio-publico/pd0023.mxl"
+                  },
+                  {
+                      "id":  "pd0024",
+                      "title":  "MELANCHOLY GALLIARD",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0024.pdf",
+                      "playUrl":  "../repertorio-publico/pd0024.mxl"
+                  },
+                  {
+                      "id":  "pd0025",
+                      "title":  "MR. LANGTON\u0027S GALLIARD",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0025.pdf",
+                      "playUrl":  "../repertorio-publico/pd0025.mxl"
+                  },
+                  {
+                      "id":  "pd0026",
+                      "title":  "TARLETON\u0027S RISERRECTIONE",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0026.pdf",
+                      "playUrl":  "../repertorio-publico/pd0026.mxl"
+                  },
+                  {
+                      "id":  "pd0027",
+                      "title":  "PIPER\u0027S PAVAN",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0027.pdf",
+                      "playUrl":  "../repertorio-publico/pd0027.mxl"
+                  },
+                  {
+                      "id":  "pd0028",
+                      "title":  "SOLUS CUM SOLA",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0028.pdf",
+                      "playUrl":  "../repertorio-publico/pd0028.mxl"
+                  },
+                  {
+                      "id":  "pd0029",
+                      "title":  "LACHRIMAE PAVAN",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0029.pdf",
+                      "playUrl":  "../repertorio-publico/pd0029.mxl"
+                  },
+                  {
+                      "id":  "pd0030",
+                      "title":  "ALOE",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0030.pdf",
+                      "playUrl":  "../repertorio-publico/pd0030.mxl"
+                  },
+                  {
+                      "id":  "pd0031",
+                      "title":  "AUFFIIHRUNGSRECHT VORBEHALTEN",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0031.pdf",
+                      "playUrl":  "../repertorio-publico/pd0031.mxl"
+                  },
+                  {
+                      "id":  "pd0032",
+                      "title":  "DOWLAND’S ADIEU FOR MASTER OLIVER CROMWELL",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0032.pdf",
+                      "playUrl":  "../repertorio-publico/pd0032.mxl"
+                  },
+                  {
+                      "id":  "pd0033",
+                      "title":  "SEMPER DOWLAND SEMPER DOLENS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0033.pdf",
+                      "playUrl":  "../repertorio-publico/pd0033.mxl"
+                  },
+                  {
+                      "id":  "pd0034",
+                      "title":  "2 GALLIARDS",
+                      "author":  "JOHN DOWLARD",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0034.pdf",
+                      "playUrl":  "../repertorio-publico/pd0034.mxl"
+                  },
+                  {
+                      "id":  "pd0035",
+                      "title":  "QUEEN ELIZABETH’S GALLIARD",
+                      "author":  "DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0035.pdf",
+                      "playUrl":  "../repertorio-publico/pd0035.mxl"
+                  },
+                  {
+                      "id":  "pd0036",
+                      "title":  "LADY HAMMOND’S ALMAN",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0036.pdf",
+                      "playUrl":  "../repertorio-publico/pd0036.mxl"
+                  },
+                  {
+                      "id":  "pd0037",
+                      "title":  "LADY HUNSDON’S ALMAN",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0037.pdf",
+                      "playUrl":  "../repertorio-publico/pd0037.mxl"
+                  },
+                  {
+                      "id":  "pd0038",
+                      "title":  "PRV-MY LADY HUNSDON’S PUFFE",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0038.pdf",
+                      "playUrl":  "../repertorio-publico/pd0038.mxl"
+                  },
+                  {
+                      "id":  "pd0039",
+                      "title":  "PRV-GAILLARDE",
+                      "author":  "JOHN DOWLAND",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0039.pdf",
+                      "playUrl":  "../repertorio-publico/pd0039.mxl"
+                  },
+                  {
+                      "id":  "pd0040",
+                      "title":  "AIR",
+                      "author":  "FRANCIS CUTTING",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0040.pdf",
+                      "playUrl":  "../repertorio-publico/pd0040.mxl"
+                  },
+                  {
+                      "id":  "pd0041",
+                      "title":  "PRV-FANTASIA I",
+                      "author":  "MIGUEL FUENLLANA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0041.pdf",
+                      "playUrl":  "../repertorio-publico/pd0041.mxl"
+                  },
+                  {
+                      "id":  "pd0042",
+                      "title":  "ALLEMANDE UND GIGUE",
+                      "author":  "GIOVANNI BATTISTA GRANATA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0042.pdf",
+                      "playUrl":  "../repertorio-publico/pd0042.mxl"
+                  },
+                  {
+                      "id":  "pd0043",
+                      "title":  "THE NIGHT WATCH",
+                      "author":  "ANTHONY HOLBORNE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0043.pdf",
+                      "playUrl":  "../repertorio-publico/pd0043.mxl"
+                  },
+                  {
+                      "id":  "pd0044",
+                      "title":  "ALMAN",
+                      "author":  "ROBERT JOHNSON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0044.pdf",
+                      "playUrl":  "../repertorio-publico/pd0044.mxl"
+                  },
+                  {
+                      "id":  "pd0045",
+                      "title":  "PRV-GIGA",
+                      "author":  "DAVID KELLNER",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0045.pdf",
+                      "playUrl":  "../repertorio-publico/pd0045.mxl"
+                  },
+                  {
+                      "id":  "pd0046",
+                      "title":  "BALLET",
+                      "author":  "ELIAS MERTEL",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0046.pdf",
+                      "playUrl":  "../repertorio-publico/pd0046.mxl"
+                  },
+                  {
+                      "id":  "pd0047",
+                      "title":  "PRV-PAVANA I",
+                      "author":  "LUIS MILAN",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0047.pdf",
+                      "playUrl":  "../repertorio-publico/pd0047.mxl"
+                  },
+                  {
+                      "id":  "pd0048",
+                      "title":  "PRV-FANTASIA X",
+                      "author":  "ALONSO MUDARRA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0048.pdf",
+                      "playUrl":  "../repertorio-publico/pd0048.mxl"
+                  },
+                  {
+                      "id":  "pd0049",
+                      "title":  "PRV-FANTASIA XI",
+                      "author":  "ALONSO MUDARRA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0049.pdf",
+                      "playUrl":  "../repertorio-publico/pd0049.mxl"
+                  },
+                  {
+                      "id":  "pd0050",
+                      "title":  "PRV-GALLARDA",
+                      "author":  "ALONSO MUDARRA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0050.pdf",
+                      "playUrl":  "../repertorio-publico/pd0050.mxl"
+                  },
+                  {
+                      "id":  "pd0051",
+                      "title":  "PRV-PAVANA DE ALEXANDRE",
+                      "author":  "ALONSO MUDARRA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0051.pdf",
+                      "playUrl":  "../repertorio-publico/pd0051.mxl"
+                  },
+                  {
+                      "id":  "pd0052",
+                      "title":  "PRV-ROMANESCA II",
+                      "author":  "ALONSO MUDARRA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0052.pdf",
+                      "playUrl":  "../repertorio-publico/pd0052.mxl"
+                  },
+                  {
+                      "id":  "pd0053",
+                      "title":  "PRELUDE",
+                      "author":  "SANTIAGO MURCIA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0053.pdf",
+                      "playUrl":  "../repertorio-publico/pd0053.mxl"
+                  },
+                  {
+                      "id":  "pd0054",
+                      "title":  "PRV-DIFERENCIAS SOBRE ” GUARDAME LAS VACAS”",
+                      "author":  "LUIS NARVAEZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0054.pdf",
+                      "playUrl":  "../repertorio-publico/pd0054.mxl"
+                  },
+                  {
+                      "id":  "pd0055",
+                      "title":  "PRV-CANARIOS",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0055.pdf",
+                      "playUrl":  "../repertorio-publico/pd0055.mxl"
+                  },
+                  {
+                      "id":  "pd0056",
+                      "title":  "PRV-PASACALLE",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0056.pdf",
+                      "playUrl":  "../repertorio-publico/pd0056.mxl"
+                  },
+                  {
+                      "id":  "pd0057",
+                      "title":  "TOURNOI ET BATAILLE",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0057.pdf",
+                      "playUrl":  "../repertorio-publico/pd0057.mxl"
+                  },
+                  {
+                      "id":  "pd0058",
+                      "title":  "PRV-GALLARDA",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0058.pdf",
+                      "playUrl":  "../repertorio-publico/pd0058.mxl"
+                  },
+                  {
+                      "id":  "pd0059",
+                      "title":  "PRV-ESPANOLETA",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0059.pdf",
+                      "playUrl":  "../repertorio-publico/pd0059.mxl"
+                  },
+                  {
+                      "id":  "pd0060",
+                      "title":  "PRV-TORNEO",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0060.pdf",
+                      "playUrl":  "../repertorio-publico/pd0060.mxl"
+                  },
+                  {
+                      "id":  "pd0061",
+                      "title":  "PRV-RUJERO",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0061.pdf",
+                      "playUrl":  "../repertorio-publico/pd0061.mxl"
+                  },
+                  {
+                      "id":  "pd0062",
+                      "title":  "PRV-MATACHIN",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0062.pdf",
+                      "playUrl":  "../repertorio-publico/pd0062.mxl"
+                  },
+                  {
+                      "id":  "pd0063",
+                      "title":  "PRV-CLARINES Y TROMPETAS",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0063.pdf",
+                      "playUrl":  "../repertorio-publico/pd0063.mxl"
+                  },
+                  {
+                      "id":  "pd0064",
+                      "title":  "PRV-FUGA AL AYRE ESPANOL",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0064.pdf",
+                      "playUrl":  "../repertorio-publico/pd0064.mxl"
+                  },
+                  {
+                      "id":  "pd0065",
+                      "title":  "PRV-LA CAVALERIA DE NAPOLES",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0065.pdf",
+                      "playUrl":  "../repertorio-publico/pd0065.mxl"
+                  },
+                  {
+                      "id":  "pd0066",
+                      "title":  "PRV-PAVANA",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0066.pdf",
+                      "playUrl":  "../repertorio-publico/pd0066.mxl"
+                  },
+                  {
+                      "id":  "pd0067",
+                      "title":  "PRV-PRELUDIO",
+                      "author":  "GASPAR SANZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0067.pdf",
+                      "playUrl":  "../repertorio-publico/pd0067.mxl"
+                  },
+                  {
+                      "id":  "pd0068",
+                      "title":  "SONETO VII",
+                      "author":  "ENRIQUEZ VALDERRANO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0068.pdf",
+                      "playUrl":  "../repertorio-publico/pd0068.mxl"
+                  },
+                  {
+                      "id":  "pd0069",
+                      "title":  "SUITE D-MOLL",
+                      "author":  "ROBERT VISÉE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0069.pdf",
+                      "playUrl":  "../repertorio-publico/pd0069.mxl"
+                  },
+                  {
+                      "id":  "pd0070",
+                      "title":  "SUITE",
+                      "author":  "ROBERT VISÉE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0070.pdf",
+                      "playUrl":  "../repertorio-publico/pd0070.mxl"
+                  },
+                  {
+                      "id":  "pd0071",
+                      "title":  "PRV-PASSACAILLE °",
+                      "author":  "SYLVIUS LEOPOLD WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0071.pdf",
+                      "playUrl":  "../repertorio-publico/pd0071.mxl"
+                  },
+                  {
+                      "id":  "pd0072",
+                      "title":  "3. TOMBEAU SUR LA MORT DE MUR. COMTE D’LOGY",
+                      "author":  "COMPOSÉE SILVIO LEOPOLD WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0072.pdf",
+                      "playUrl":  "../repertorio-publico/pd0072.mxl"
+                  },
+                  {
+                      "id":  "pd0073",
+                      "title":  "SILVUS LEOPOLD WEISS",
+                      "author":  "JOSÉ AZPIAZU",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0073.pdf",
+                      "playUrl":  "../repertorio-publico/pd0073.mxl"
+                  },
+                  {
+                      "id":  "pd0074",
+                      "title":  "[MALA SUITA]",
+                      "author":  "SILVIUS WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0074.pdf",
+                      "playUrl":  "../repertorio-publico/pd0074.mxl"
+                  },
+                  {
+                      "id":  "pd0075",
+                      "title":  "PRELUDIO",
+                      "author":  "LEOPOLD SILVIUS WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0075.pdf",
+                      "playUrl":  "../repertorio-publico/pd0075.mxl"
+                  },
+                  {
+                      "id":  "pd0076",
+                      "title":  "AISANA",
+                      "author":  "ERO SILVIUS WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0076.pdf",
+                      "playUrl":  "../repertorio-publico/pd0076.mxl"
+                  },
+                  {
+                      "id":  "pd0077",
+                      "title":  "SILVIUS L",
+                      "author":  "EOPOLD WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0077.pdf",
+                      "playUrl":  "../repertorio-publico/pd0077.mxl"
+                  },
+                  {
+                      "id":  "pd0078",
+                      "title":  "PRV-ITARRA DI",
+                      "author":  "SYLVIUS LEOPOLD WEISS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0078.pdf",
+                      "playUrl":  "../repertorio-publico/pd0078.mxl"
+                  },
+                  {
+                      "id":  "pd0079",
+                      "title":  "ESTUDIO NR.1",
+                      "author":  "DIONYSO AGUADO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0079.pdf",
+                      "playUrl":  "../repertorio-publico/pd0079.mxl"
+                  },
+                  {
+                      "id":  "pd0080",
+                      "title":  "ESTUDIO NR.2",
+                      "author":  "DIONYSO AGUADO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0080.pdf",
+                      "playUrl":  "../repertorio-publico/pd0080.mxl"
+                  },
+                  {
+                      "id":  "pd0081",
+                      "title":  "ESTUDIO NR.3",
+                      "author":  "DIONYSO AGUADO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0081.pdf",
+                      "playUrl":  "../repertorio-publico/pd0081.mxl"
+                  },
+                  {
+                      "id":  "pd0082",
+                      "title":  "MENUETT",
+                      "author":  "FERNANDO CARULLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0082.pdf",
+                      "playUrl":  "../repertorio-publico/pd0082.mxl"
+                  },
+                  {
+                      "id":  "pd0083",
+                      "title":  "VARIÉ",
+                      "author":  "FERNANDO CARULLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0083.pdf",
+                      "playUrl":  "../repertorio-publico/pd0083.mxl"
+                  },
+                  {
+                      "id":  "pd0084",
+                      "title":  "NEGY ROVID ELOADASI DARAB",
+                      "author":  "FERDINANDO CARULLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0084.pdf",
+                      "playUrl":  "../repertorio-publico/pd0084.mxl"
+                  },
+                  {
+                      "id":  "pd0085",
+                      "title":  "VARIATIONEN TIBER EIN FRANZDSISCHES LIED",
+                      "author":  "MATTEO CARCASSI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0085.pdf",
+                      "playUrl":  "../repertorio-publico/pd0085.mxl"
+                  },
+                  {
+                      "id":  "pd0086",
+                      "title":  "SONATE",
+                      "author":  "FERNANDO CARULLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0086.pdf",
+                      "playUrl":  "../repertorio-publico/pd0086.mxl"
+                  },
+                  {
+                      "id":  "pd0087",
+                      "title":  "SONATINA",
+                      "author":  "M. CARCASSI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0087.pdf",
+                      "playUrl":  "../repertorio-publico/pd0087.mxl"
+                  },
+                  {
+                      "id":  "pd0088",
+                      "title":  "SONATE",
+                      "author":  "ANTON DIABELLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0088.pdf",
+                      "playUrl":  "../repertorio-publico/pd0088.mxl"
+                  },
+                  {
+                      "id":  "pd0089",
+                      "title":  "SONATE",
+                      "author":  "ANTON DIABELLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0089.pdf",
+                      "playUrl":  "../repertorio-publico/pd0089.mxl"
+                  },
+                  {
+                      "id":  "pd0090",
+                      "title":  "SONATE",
+                      "author":  "ANTON DIABELLI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0090.pdf",
+                      "playUrl":  "../repertorio-publico/pd0090.mxl"
+                  },
+                  {
+                      "id":  "pd0091",
+                      "title":  "SONATE",
+                      "author":  "MAURO GIULIANI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0091.pdf",
+                      "playUrl":  "../repertorio-publico/pd0091.mxl"
+                  },
+                  {
+                      "id":  "pd0092",
+                      "title":  "MAURO GIULIANI",
+                      "author":  "ISAFAS SAVIO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0092.pdf",
+                      "playUrl":  "../repertorio-publico/pd0092.mxl"
+                  },
+                  {
+                      "id":  "pd0093",
+                      "title":  "ZWOLF WALZER",
+                      "author":  "MAURO GIULIANI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0093.pdf",
+                      "playUrl":  "../repertorio-publico/pd0093.mxl"
+                  },
+                  {
+                      "id":  "pd0094",
+                      "title":  "PRV-VARIAZIONI",
+                      "author":  "MAURO GIULIANI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0094.pdf",
+                      "playUrl":  "../repertorio-publico/pd0094.mxl"
+                  },
+                  {
+                      "id":  "pd0095",
+                      "title":  "SONATINE",
+                      "author":  "FILIPPO GRAGNANI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0095.pdf",
+                      "playUrl":  "../repertorio-publico/pd0095.mxl"
+                  },
+                  {
+                      "id":  "pd0096",
+                      "title":  "ANDANTINO",
+                      "author":  "JOSEPH KIFFNER",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0096.pdf",
+                      "playUrl":  "../repertorio-publico/pd0096.mxl"
+                  },
+                  {
+                      "id":  "pd0097",
+                      "title":  "SECHS CAPRICEN",
+                      "author":  "LUIGI LEGNANI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0097.pdf",
+                      "playUrl":  "../repertorio-publico/pd0097.mxl"
+                  },
+                  {
+                      "id":  "pd0098",
+                      "title":  "FINF WALZER",
+                      "author":  "LUIGI LEGNANI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0098.pdf",
+                      "playUrl":  "../repertorio-publico/pd0098.mxl"
+                  },
+                  {
+                      "id":  "pd0099",
+                      "title":  "SONATE",
+                      "author":  "FRANCESCO MOLINO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0099.pdf",
+                      "playUrl":  "../repertorio-publico/pd0099.mxl"
+                  },
+                  {
+                      "id":  "pd0100",
+                      "title":  "AIAMICE GIERGLE PAGENE",
+                      "author":  "N. PAGANINI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0100.pdf",
+                      "playUrl":  "../repertorio-publico/pd0100.mxl"
+                  },
+                  {
+                      "id":  "pd0101",
+                      "title":  "[WORKS WITHOUT OPUS NUMBER LA CANDEUR]",
+                      "author":  "F. SOR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0101.pdf",
+                      "playUrl":  "../repertorio-publico/pd0101.mxl"
+                  },
+                  {
+                      "id":  "pd0102",
+                      "title":  "ALLE RECHTE",
+                      "author":  "HEINRICH ALBERT",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0102.pdf",
+                      "playUrl":  "../repertorio-publico/pd0102.mxl"
+                  },
+                  {
+                      "id":  "pd0103",
+                      "title":  "ALLE RECHTE VORBEHALTEN.",
+                      "author":  "HEINRICH ALBERT",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0103.pdf",
+                      "playUrl":  "../repertorio-publico/pd0103.mxl"
+                  },
+                  {
+                      "id":  "pd0104",
+                      "title":  "PRV-PRELUDIO",
+                      "author":  "JULIAN ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0104.pdf",
+                      "playUrl":  "../repertorio-publico/pd0104.mxl"
+                  },
+                  {
+                      "id":  "pd0105",
+                      "title":  "PRV-UNOS",
+                      "author":  "JULIAN ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0105.pdf",
+                      "playUrl":  "../repertorio-publico/pd0105.mxl"
+                  },
+                  {
+                      "id":  "pd0106",
+                      "title":  "PRV-LA SALTARIN",
+                      "author":  "JULIAN ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0106.pdf",
+                      "playUrl":  "../repertorio-publico/pd0106.mxl"
+                  },
+                  {
+                      "id":  "pd0107",
+                      "title":  "GAETANA",
+                      "author":  "AULIAN ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0107.pdf",
+                      "playUrl":  "../repertorio-publico/pd0107.mxl"
+                  },
+                  {
+                      "id":  "pd0108",
+                      "title":  "A D. MANUEL D. GIMENEZ.",
+                      "author":  "PER JULIAN ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0108.pdf",
+                      "playUrl":  "../repertorio-publico/pd0108.mxl"
+                  },
+                  {
+                      "id":  "pd0109",
+                      "title":  "IL BACIO",
+                      "author":  "DULIAN ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0109.pdf",
+                      "playUrl":  "../repertorio-publico/pd0109.mxl"
+                  },
+                  {
+                      "id":  "pd0110",
+                      "title":  "SEN",
+                      "author":  "J. ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0110.pdf",
+                      "playUrl":  "../repertorio-publico/pd0110.mxl"
+                  },
+                  {
+                      "id":  "pd0111",
+                      "title":  "RONDENA",
+                      "author":  "J ARCAS",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0111.pdf",
+                      "playUrl":  "../repertorio-publico/pd0111.mxl"
+                  },
+                  {
+                      "id":  "pd0112",
+                      "title":  "PRV-ACONQUIJA",
+                      "author":  "AGUSTIN BARRIOS MANGQR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0112.pdf",
+                      "playUrl":  "../repertorio-publico/pd0112.mxl"
+                  },
+                  {
+                      "id":  "pd0113",
+                      "title":  "AIRE DE ZAMBA",
+                      "author":  "OG BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0113.pdf",
+                      "playUrl":  "../repertorio-publico/pd0113.mxl"
+                  },
+                  {
+                      "id":  "pd0114",
+                      "title":  "PRV-ALEGRO SINFÉNICO",
+                      "author":  "AGUSTIN BARRIOS MANC",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0114.pdf",
+                      "playUrl":  "../repertorio-publico/pd0114.mxl"
+                  },
+                  {
+                      "id":  "pd0115",
+                      "title":  "PRV-ARABESCOS",
+                      "author":  "AGUSTIN BARRIOS MANGOR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0115.pdf",
+                      "playUrl":  "../repertorio-publico/pd0115.mxl"
+                  },
+                  {
+                      "id":  "pd0116",
+                      "title":  "CONFESION",
+                      "author":  "AGUSTIN BARRIOS MANGORI",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0116.pdf",
+                      "playUrl":  "../repertorio-publico/pd0116.mxl"
+                  },
+                  {
+                      "id":  "pd0117",
+                      "title":  "PRV-COÉRDOBA",
+                      "author":  "AGUSTIN BARRIOS MANGOR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0117.pdf",
+                      "playUrl":  "../repertorio-publico/pd0117.mxl"
+                  },
+                  {
+                      "id":  "pd0118",
+                      "title":  "PRV-DANZA GUARANI",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0118.pdf",
+                      "playUrl":  "../repertorio-publico/pd0118.mxl"
+                  },
+                  {
+                      "id":  "pd0119",
+                      "title":  "PRV-“A LA CHINA BORDA SOSA, CON TODO CARIFIO”",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0119.pdf",
+                      "playUrl":  "../repertorio-publico/pd0119.mxl"
+                  },
+                  {
+                      "id":  "pd0120",
+                      "title":  "PRV-ESTUDIO DE CONCIERTO",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0120.pdf",
+                      "playUrl":  "../repertorio-publico/pd0120.mxl"
+                  },
+                  {
+                      "id":  "pd0121",
+                      "title":  "PRV-OCTOBER, 1940, SAN SALVADOR",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0121.pdf",
+                      "playUrl":  "../repertorio-publico/pd0121.mxl"
+                  },
+                  {
+                      "id":  "pd0122",
+                      "title":  "PRV-ESTUDIO DEL LIGADO",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0122.pdf",
+                      "playUrl":  "../repertorio-publico/pd0122.mxl"
+                  },
+                  {
+                      "id":  "pd0123",
+                      "title":  "PRV-JULY 10, 1941",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0123.pdf",
+                      "playUrl":  "../repertorio-publico/pd0123.mxl"
+                  },
+                  {
+                      "id":  "pd0124",
+                      "title":  "PRV-ESTUDIO INCONCLUSO",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0124.pdf",
+                      "playUrl":  "../repertorio-publico/pd0124.mxl"
+                  },
+                  {
+                      "id":  "pd0125",
+                      "title":  "PRV-’ ESTUDIO PARA AMBAS MANOS",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0125.pdf",
+                      "playUrl":  "../repertorio-publico/pd0125.mxl"
+                  },
+                  {
+                      "id":  "pd0126",
+                      "title":  "PRV-SAN SALVADOR, E] SALVADOR",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0126.pdf",
+                      "playUrl":  "../repertorio-publico/pd0126.mxl"
+                  },
+                  {
+                      "id":  "pd0127",
+                      "title":  "PRV-HUMORESQUE",
+                      "author":  "AGUSTIN BARRIOS MANGOR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0127.pdf",
+                      "playUrl":  "../repertorio-publico/pd0127.mxl"
+                  },
+                  {
+                      "id":  "pd0128",
+                      "title":  "PRV-JULIA FLORIDA",
+                      "author":  "AGUSTIN BARRIOS MANGO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0128.pdf",
+                      "playUrl":  "../repertorio-publico/pd0128.mxl"
+                  },
+                  {
+                      "id":  "pd0129",
+                      "title":  "PRV-LA SAMARITANA",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0129.pdf",
+                      "playUrl":  "../repertorio-publico/pd0129.mxl"
+                  },
+                  {
+                      "id":  "pd0130",
+                      "title":  "PRV-LAS ABEJAS",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0130.pdf",
+                      "playUrl":  "../repertorio-publico/pd0130.mxl"
+                  },
+                  {
+                      "id":  "pd0131",
+                      "title":  "PRV-LUZ MALA",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0131.pdf",
+                      "playUrl":  "../repertorio-publico/pd0131.mxl"
+                  },
+                  {
+                      "id":  "pd0132",
+                      "title":  "PRV-MABELITA",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0132.pdf",
+                      "playUrl":  "../repertorio-publico/pd0132.mxl"
+                  },
+                  {
+                      "id":  "pd0133",
+                      "title":  "PRV-MADRECITA",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0133.pdf",
+                      "playUrl":  "../repertorio-publico/pd0133.mxl"
+                  },
+                  {
+                      "id":  "pd0134",
+                      "title":  "PRV-A MANERA DE LOS ANTIGUOS VIHUELISTAS",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0134.pdf",
+                      "playUrl":  "../repertorio-publico/pd0134.mxl"
+                  },
+                  {
+                      "id":  "pd0135",
+                      "title":  "PRV-V ORACION POR TODOS",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0135.pdf",
+                      "playUrl":  "../repertorio-publico/pd0135.mxl"
+                  },
+                  {
+                      "id":  "pd0136",
+                      "title":  "PRV-PAIS DE ABANICO",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0136.pdf",
+                      "playUrl":  "../repertorio-publico/pd0136.mxl"
+                  },
+                  {
+                      "id":  "pd0137",
+                      "title":  "PRV-FOR WALTER BOLANDI",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0137.pdf",
+                      "playUrl":  "../repertorio-publico/pd0137.mxl"
+                  },
+                  {
+                      "id":  "pd0138",
+                      "title":  "PRV-GUATEMALA",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0138.pdf",
+                      "playUrl":  "../repertorio-publico/pd0138.mxl"
+                  },
+                  {
+                      "id":  "pd0139",
+                      "title":  "PRV-PRIMAVERA-VALS",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0139.pdf",
+                      "playUrl":  "../repertorio-publico/pd0139.mxl"
+                  },
+                  {
+                      "id":  "pd0140",
+                      "title":  "PRV-VALS OP. 8, NO. 4",
+                      "author":  "AGUSTIN BARRIOS MANGORE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0140.pdf",
+                      "playUrl":  "../repertorio-publico/pd0140.mxl"
+                  },
+                  {
+                      "id":  "pd0141",
+                      "title":  "MARSZ",
+                      "author":  "JAN NIEPOMUCEN BOBROWICZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0141.pdf",
+                      "playUrl":  "../repertorio-publico/pd0141.mxl"
+                  },
+                  {
+                      "id":  "pd0142",
+                      "title":  "WIOLONCZELA",
+                      "author":  "J. BOSCH",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0142.pdf",
+                      "playUrl":  "../repertorio-publico/pd0142.mxl"
+                  },
+                  {
+                      "id":  "pd0143",
+                      "title":  "MENUET",
+                      "author":  "J BROCA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0143.pdf",
+                      "playUrl":  "../repertorio-publico/pd0143.mxl"
+                  },
+                  {
+                      "id":  "pd0144",
+                      "title":  "WSPOMNIENIE HISZPANII",
+                      "author":  "J. BROCA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0144.pdf",
+                      "playUrl":  "../repertorio-publico/pd0144.mxl"
+                  },
+                  {
+                      "id":  "pd0145",
+                      "title":  "ANDANTE GRAVE”",
+                      "author":  "ANTONIO CANO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0145.pdf",
+                      "playUrl":  "../repertorio-publico/pd0145.mxl"
+                  },
+                  {
+                      "id":  "pd0146",
+                      "title":  "EL] ECO (DAS ECHO)",
+                      "author":  "ANTONIO CANO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0146.pdf",
+                      "playUrl":  "../repertorio-publico/pd0146.mxl"
+                  },
+                  {
+                      "id":  "pd0147",
+                      "title":  "DIVERTISSKEWENT.",
+                      "author":  "N. COSTE. P",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0147.pdf",
+                      "playUrl":  "../repertorio-publico/pd0147.mxl"
+                  },
+                  {
+                      "id":  "pd0148",
+                      "title":  "ON, COSTE, OP; 17",
+                      "author":  "UA VALLEE D\u0027OR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0148.pdf",
+                      "playUrl":  "../repertorio-publico/pd0148.mxl"
+                  },
+                  {
+                      "id":  "pd0149",
+                      "title":  "LES BORDS DU RHIN.",
+                      "author":  "N. COSTE OP X",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0149.pdf",
+                      "playUrl":  "../repertorio-publico/pd0149.mxl"
+                  },
+                  {
+                      "id":  "pd0150",
+                      "title":  "DELFZIL",
+                      "author":  "N. COSTE OP",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0150.pdf",
+                      "playUrl":  "../repertorio-publico/pd0150.mxl"
+                  },
+                  {
+                      "id":  "pd0151",
+                      "title":  "PRV-LE PASSAGE DES ALPES",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0151.pdf",
+                      "playUrl":  "../repertorio-publico/pd0151.mxl"
+                  },
+                  {
+                      "id":  "pd0152",
+                      "title":  "GRANDE SERENADE",
+                      "author":  "NAP. COSTE OP",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0152.pdf",
+                      "playUrl":  "../repertorio-publico/pd0152.mxl"
+                  },
+                  {
+                      "id":  "pd0153",
+                      "title":  "PRV-FEVILLES D’ AUTOMNE",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0153.pdf",
+                      "playUrl":  "../repertorio-publico/pd0153.mxl"
+                  },
+                  {
+                      "id":  "pd0154",
+                      "title":  "VALSE FAVORITE",
+                      "author":  "NAPOLEON COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0154.pdf",
+                      "playUrl":  "../repertorio-publico/pd0154.mxl"
+                  },
+                  {
+                      "id":  "pd0155",
+                      "title":  "PRV-QUATRE MARCHES",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0155.pdf",
+                      "playUrl":  "../repertorio-publico/pd0155.mxl"
+                  },
+                  {
+                      "id":  "pd0156",
+                      "title":  "PRV-ADAGIO",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0156.pdf",
+                      "playUrl":  "../repertorio-publico/pd0156.mxl"
+                  },
+                  {
+                      "id":  "pd0157",
+                      "title":  "PRV-RECREATION DU GUITARISTE",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0157.pdf",
+                      "playUrl":  "../repertorio-publico/pd0157.mxl"
+                  },
+                  {
+                      "id":  "pd0158",
+                      "title":  "PRV-SIX PIECES ORIGINALES",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0158.pdf",
+                      "playUrl":  "../repertorio-publico/pd0158.mxl"
+                  },
+                  {
+                      "id":  "pd0159",
+                      "title":  "ANDANTE ET ALLEGRO",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0159.pdf",
+                      "playUrl":  "../repertorio-publico/pd0159.mxl"
+                  },
+                  {
+                      "id":  "pd0160",
+                      "title":  "DEUX QUADRILLES",
+                      "author":  "N. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0160.pdf",
+                      "playUrl":  "../repertorio-publico/pd0160.mxl"
+                  },
+                  {
+                      "id":  "pd0161",
+                      "title":  "BERCEUSE",
+                      "author":  "NAP. COSTE",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0161.pdf",
+                      "playUrl":  "../repertorio-publico/pd0161.mxl"
+                  },
+                  {
+                      "id":  "pd0162",
+                      "title":  "CHANSON DU FEU FOLLET",
+                      "author":  "MANUEL FALLA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0162.pdf",
+                      "playUrl":  "../repertorio-publico/pd0162.mxl"
+                  },
+                  {
+                      "id":  "pd0163",
+                      "title":  "NOCTURNO NR.1",
+                      "author":  "JOSÉ FERRER Y ESTEVE NEL",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0163.pdf",
+                      "playUrl":  "../repertorio-publico/pd0163.mxl"
+                  },
+                  {
+                      "id":  "pd0164",
+                      "title":  "CAPRICHO",
+                      "author":  "J. FERRER Y ESTEVE OP",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0164.pdf",
+                      "playUrl":  "../repertorio-publico/pd0164.mxl"
+                  },
+                  {
+                      "id":  "pd0165",
+                      "title":  "PRV-ROMANZA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0165.pdf",
+                      "playUrl":  "../repertorio-publico/pd0165.mxl"
+                  },
+                  {
+                      "id":  "pd0166",
+                      "title":  "PRV-EL TESTAMENT D’ AMELIA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0166.pdf",
+                      "playUrl":  "../repertorio-publico/pd0166.mxl"
+                  },
+                  {
+                      "id":  "pd0167",
+                      "title":  "PRV-DEL LLADRE",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0167.pdf",
+                      "playUrl":  "../repertorio-publico/pd0167.mxl"
+                  },
+                  {
+                      "id":  "pd0168",
+                      "title":  "PRV-LA FILADORA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0168.pdf",
+                      "playUrl":  "../repertorio-publico/pd0168.mxl"
+                  },
+                  {
+                      "id":  "pd0169",
+                      "title":  "PRV-LO. FILL DEL REI",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0169.pdf",
+                      "playUrl":  "../repertorio-publico/pd0169.mxl"
+                  },
+                  {
+                      "id":  "pd0170",
+                      "title":  "PRV-LO ROSSINYOL",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0170.pdf",
+                      "playUrl":  "../repertorio-publico/pd0170.mxl"
+                  },
+                  {
+                      "id":  "pd0171",
+                      "title":  "PRV-MELODIA POPULAR CATALANA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0171.pdf",
+                      "playUrl":  "../repertorio-publico/pd0171.mxl"
+                  },
+                  {
+                      "id":  "pd0172",
+                      "title":  "PRV-RIERA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0172.pdf",
+                      "playUrl":  "../repertorio-publico/pd0172.mxl"
+                  },
+                  {
+                      "id":  "pd0173",
+                      "title":  "PRV-LA FILLA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0173.pdf",
+                      "playUrl":  "../repertorio-publico/pd0173.mxl"
+                  },
+                  {
+                      "id":  "pd0174",
+                      "title":  "PRV-LA NIT DE NADAL",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0174.pdf",
+                      "playUrl":  "../repertorio-publico/pd0174.mxl"
+                  },
+                  {
+                      "id":  "pd0175",
+                      "title":  "PRV-ESTUDIO",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0175.pdf",
+                      "playUrl":  "../repertorio-publico/pd0175.mxl"
+                  },
+                  {
+                      "id":  "pd0176",
+                      "title":  "PRV-ESTUDIO CAPRICHO",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0176.pdf",
+                      "playUrl":  "../repertorio-publico/pd0176.mxl"
+                  },
+                  {
+                      "id":  "pd0177",
+                      "title":  "PRV-MAZURKA",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0177.pdf",
+                      "playUrl":  "../repertorio-publico/pd0177.mxl"
+                  },
+                  {
+                      "id":  "pd0178",
+                      "title":  "PRV-VARIACIONES SOBRE UN TEMA DE SOR, OP. 15",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0178.pdf",
+                      "playUrl":  "../repertorio-publico/pd0178.mxl"
+                  },
+                  {
+                      "id":  "pd0179",
+                      "title":  "PRV-SCHERZO-VALS",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0179.pdf",
+                      "playUrl":  "../repertorio-publico/pd0179.mxl"
+                  },
+                  {
+                      "id":  "pd0180",
+                      "title":  "PRV-PRELUDE-ORIGINAL",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0180.pdf",
+                      "playUrl":  "../repertorio-publico/pd0180.mxl"
+                  },
+                  {
+                      "id":  "pd0181",
+                      "title":  "PRV-PEQUEITO RECUERDO \u0026 LA PRECOZ GUITARRISTA MARIA LUISA ANIDO",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0181.pdf",
+                      "playUrl":  "../repertorio-publico/pd0181.mxl"
+                  },
+                  {
+                      "id":  "pd0182",
+                      "title":  "PRV-A MARIA LUISA ANIDO",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0182.pdf",
+                      "playUrl":  "../repertorio-publico/pd0182.mxl"
+                  },
+                  {
+                      "id":  "pd0183",
+                      "title":  "PRV-PRELUDIO",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0183.pdf",
+                      "playUrl":  "../repertorio-publico/pd0183.mxl"
+                  },
+                  {
+                      "id":  "pd0184",
+                      "title":  "PRV-PRELUDIO",
+                      "author":  "MIGUEL LLOBET",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0184.pdf",
+                      "playUrl":  "../repertorio-publico/pd0184.mxl"
+                  },
+                  {
+                      "id":  "pd0185",
+                      "title":  "PRV-MAZURKA",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0185.pdf",
+                      "playUrl":  "../repertorio-publico/pd0185.mxl"
+                  },
+                  {
+                      "id":  "pd0186",
+                      "title":  "PRV-UNA FLOR",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0186.pdf",
+                      "playUrl":  "../repertorio-publico/pd0186.mxl"
+                  },
+                  {
+                      "id":  "pd0187",
+                      "title":  "PRV-[MATILDE",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0187.pdf",
+                      "playUrl":  "../repertorio-publico/pd0187.mxl"
+                  },
+                  {
+                      "id":  "pd0188",
+                      "title":  "PRV-OY X0",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0188.pdf",
+                      "playUrl":  "../repertorio-publico/pd0188.mxl"
+                  },
+                  {
+                      "id":  "pd0189",
+                      "title":  "PRV-OLA",
+                      "author":  "ANTONIO J MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0189.pdf",
+                      "playUrl":  "../repertorio-publico/pd0189.mxl"
+                  },
+                  {
+                      "id":  "pd0190",
+                      "title":  "PRV-PAR ADAG",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0190.pdf",
+                      "playUrl":  "../repertorio-publico/pd0190.mxl"
+                  },
+                  {
+                      "id":  "pd0191",
+                      "title":  "PRV-VORREI MORIRE",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0191.pdf",
+                      "playUrl":  "../repertorio-publico/pd0191.mxl"
+                  },
+                  {
+                      "id":  "pd0192",
+                      "title":  "PRV-ERENATA",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0192.pdf",
+                      "playUrl":  "../repertorio-publico/pd0192.mxl"
+                  },
+                  {
+                      "id":  "pd0193",
+                      "title":  "RECUERDOS DE MI PATRIA",
+                      "author":  "ARTONIO J. MANJOR",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0193.pdf",
+                      "playUrl":  "../repertorio-publico/pd0193.mxl"
+                  },
+                  {
+                      "id":  "pd0194",
+                      "title":  "PRV-AIRE VASCO",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0194.pdf",
+                      "playUrl":  "../repertorio-publico/pd0194.mxl"
+                  },
+                  {
+                      "id":  "pd0195",
+                      "title":  "GPOR QUE",
+                      "author":  "ANTONIO J. MANJON OP",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0195.pdf",
+                      "playUrl":  "../repertorio-publico/pd0195.mxl"
+                  },
+                  {
+                      "id":  "pd0196",
+                      "title":  "PRV-GAPRICHO GRIOLLO",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0196.pdf",
+                      "playUrl":  "../repertorio-publico/pd0196.mxl"
+                  },
+                  {
+                      "id":  "pd0197",
+                      "title":  "ANTONIO JIMENENEZ MANJON GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0197.pdf",
+                      "playUrl":  "../repertorio-publico/pd0197.mxl"
+                  },
+                  {
+                      "id":  "pd0198",
+                      "title":  "ANTONIO JIMENEZ MANJON GUITAR WORKS",
+                      "author":  "S CY SIT",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0198.pdf",
+                      "playUrl":  "../repertorio-publico/pd0198.mxl"
+                  },
+                  {
+                      "id":  "pd0199",
+                      "title":  "ANTONIO JIMENENEZ MANJON + GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0199.pdf",
+                      "playUrl":  "../repertorio-publico/pd0199.mxl"
+                  },
+                  {
+                      "id":  "pd0200",
+                      "title":  "ANTONIO JIMENEZ MANJON GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0200.pdf",
+                      "playUrl":  "../repertorio-publico/pd0200.mxl"
+                  },
+                  {
+                      "id":  "pd0201",
+                      "title":  "ANTONIO JIMENEZ MANJON GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0201.pdf",
+                      "playUrl":  "../repertorio-publico/pd0201.mxl"
+                  },
+                  {
+                      "id":  "pd0202",
+                      "title":  "ANTONIO JIMENENEZ MANJON",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0202.pdf",
+                      "playUrl":  "../repertorio-publico/pd0202.mxl"
+                  },
+                  {
+                      "id":  "pd0203",
+                      "title":  "ANTONIO JIMENEZ MANJON GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0203.pdf",
+                      "playUrl":  "../repertorio-publico/pd0203.mxl"
+                  },
+                  {
+                      "id":  "pd0204",
+                      "title":  "ANTONIO JIMENENEZ MANJON",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0204.pdf",
+                      "playUrl":  "../repertorio-publico/pd0204.mxl"
+                  },
+                  {
+                      "id":  "pd0205",
+                      "title":  "ANTONIO JIMENEZ MANJON",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0205.pdf",
+                      "playUrl":  "../repertorio-publico/pd0205.mxl"
+                  },
+                  {
+                      "id":  "pd0206",
+                      "title":  "ANTONIO JIMENEZ MANJON",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0206.pdf",
+                      "playUrl":  "../repertorio-publico/pd0206.mxl"
+                  },
+                  {
+                      "id":  "pd0207",
+                      "title":  "ANTONIO JIMENENEZ MANJON « GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0207.pdf",
+                      "playUrl":  "../repertorio-publico/pd0207.mxl"
+                  },
+                  {
+                      "id":  "pd0208",
+                      "title":  "ANTONIO JIMENEZ MANJON « GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0208.pdf",
+                      "playUrl":  "../repertorio-publico/pd0208.mxl"
+                  },
+                  {
+                      "id":  "pd0209",
+                      "title":  "ANTONIO JIMENEZ MANJON + GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0209.pdf",
+                      "playUrl":  "../repertorio-publico/pd0209.mxl"
+                  },
+                  {
+                      "id":  "pd0210",
+                      "title":  "ANTONIO JIMENENEZ MANJON « GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0210.pdf",
+                      "playUrl":  "../repertorio-publico/pd0210.mxl"
+                  },
+                  {
+                      "id":  "pd0211",
+                      "title":  "ANTONIO JIMENEZ MANJON",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0211.pdf",
+                      "playUrl":  "../repertorio-publico/pd0211.mxl"
+                  },
+                  {
+                      "id":  "pd0212",
+                      "title":  "PRV-ANTONIO JIMENEZ MANJON",
+                      "author":  "SS ES",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0212.pdf",
+                      "playUrl":  "../repertorio-publico/pd0212.mxl"
+                  },
+                  {
+                      "id":  "pd0213",
+                      "title":  "LA AURORA",
+                      "author":  "A.DIMENEZ MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0213.pdf",
+                      "playUrl":  "../repertorio-publico/pd0213.mxl"
+                  },
+                  {
+                      "id":  "pd0214",
+                      "title":  "ANTONIO JIMENENEZ MANJON « GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0214.pdf",
+                      "playUrl":  "../repertorio-publico/pd0214.mxl"
+                  },
+                  {
+                      "id":  "pd0215",
+                      "title":  "ANTONIO JIMENEZ MANJON + GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0215.pdf",
+                      "playUrl":  "../repertorio-publico/pd0215.mxl"
+                  },
+                  {
+                      "id":  "pd0216",
+                      "title":  "ANTONIO JIMENEZ MANJON « GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0216.pdf",
+                      "playUrl":  "../repertorio-publico/pd0216.mxl"
+                  },
+                  {
+                      "id":  "pd0217",
+                      "title":  "PRIMAVERA ANDALUZA",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0217.pdf",
+                      "playUrl":  "../repertorio-publico/pd0217.mxl"
+                  },
+                  {
+                      "id":  "pd0218",
+                      "title":  "ANTONIO JIMENEZ MANJON",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0218.pdf",
+                      "playUrl":  "../repertorio-publico/pd0218.mxl"
+                  },
+                  {
+                      "id":  "pd0219",
+                      "title":  "ANTONIO JIMENENEZ MANJON » GUITAR WORKS",
+                      "author":  "Autor desconhecido",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0219.pdf",
+                      "playUrl":  "../repertorio-publico/pd0219.mxl"
+                  },
+                  {
+                      "id":  "pd0220",
+                      "title":  "ANTONIO JIMENEZ MANJON",
+                      "author":  "ROMANZA NO",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0220.pdf",
+                      "playUrl":  "../repertorio-publico/pd0220.mxl"
+                  },
+                  {
+                      "id":  "pd0221",
+                      "title":  "PRELUDIO 15",
+                      "author":  "CHOPIN",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0221.pdf",
+                      "playUrl":  "../repertorio-publico/pd0221.mxl"
+                  },
+                  {
+                      "id":  "pd0222",
+                      "title":  "PRV-LA PRIMAVERA",
+                      "author":  "ANTONIO J. MANJON",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0222.pdf",
+                      "playUrl":  "../repertorio-publico/pd0222.mxl"
+                  },
+                  {
+                      "id":  "pd0223",
+                      "title":  "NOCTURNO",
+                      "author":  "JOHANN KASPAR MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0223.pdf",
+                      "playUrl":  "../repertorio-publico/pd0223.mxl"
+                  },
+                  {
+                      "id":  "pd0224",
+                      "title":  "TARANTELLA",
+                      "author":  "JOHANN KASPAR MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0224.pdf",
+                      "playUrl":  "../repertorio-publico/pd0224.mxl"
+                  },
+                  {
+                      "id":  "pd0225",
+                      "title":  "CAPRICCIO",
+                      "author":  "JOHANN KASPAR MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0225.pdf",
+                      "playUrl":  "../repertorio-publico/pd0225.mxl"
+                  },
+                  {
+                      "id":  "pd0226",
+                      "title":  "PRV-HARMONIE DU SOIR",
+                      "author":  "J.K. MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0226.pdf",
+                      "playUrl":  "../repertorio-publico/pd0226.mxl"
+                  },
+                  {
+                      "id":  "pd0227",
+                      "title":  "PRV-LA RIMEMBRANZA",
+                      "author":  "J.K. MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0227.pdf",
+                      "playUrl":  "../repertorio-publico/pd0227.mxl"
+                  },
+                  {
+                      "id":  "pd0228",
+                      "title":  "PRV-PENSEE FUGITIVE",
+                      "author":  "J.K. MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0228.pdf",
+                      "playUrl":  "../repertorio-publico/pd0228.mxl"
+                  },
+                  {
+                      "id":  "pd0229",
+                      "title":  "PIANTO DELL AMANTE",
+                      "author":  "J. K. MERTZ",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0229.pdf",
+                      "playUrl":  "../repertorio-publico/pd0229.mxl"
+                  },
+                  {
+                      "id":  "pd0230",
+                      "title":  "PRV-‘A MI AVENTAJADO DISCIPULO EL JOVEN JORGE HODGSON",
+                      "author":  "J. PARGA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0230.pdf",
+                      "playUrl":  "../repertorio-publico/pd0230.mxl"
+                  },
+                  {
+                      "id":  "pd0231",
+                      "title":  "ASHI QUERIDO AMIGO Y DISCIPULO D. JOSÉ TIMONET.",
+                      "author":  "J. PARGA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0231.pdf",
+                      "playUrl":  "../repertorio-publico/pd0231.mxl"
+                  },
+                  {
+                      "id":  "pd0232",
+                      "title":  "PRV-GUAGIRA DE MEDIANA DIFICULTAD",
+                      "author":  "J. PARGA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0232.pdf",
+                      "playUrl":  "../repertorio-publico/pd0232.mxl"
+                  },
+                  {
+                      "id":  "pd0233",
+                      "title":  "DEDICADO \u0026 MI QUERIDO ¢ INTIMO AMIGO EL DISTINGUIDO AFICIONADO",
+                      "author":  "J. PARGA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0233.pdf",
+                      "playUrl":  "../repertorio-publico/pd0233.mxl"
+                  },
+                  {
+                      "id":  "pd0234",
+                      "title":  "PRV-A MIS AMIGOS Y AVENTAJADBS DISCIPULOS, LOS HERMANOS D. EDUARDO. Y D. JOAQUIN MISTROT.",
+                      "author":  "J. PARGA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0234.pdf",
+                      "playUrl":  "../repertorio-publico/pd0234.mxl"
+                  },
+                  {
+                      "id":  "pd0235",
+                      "title":  "PRV-A LA MEMORIA DE MI QUERIDO MAESTRO EL MALOGRADO É INOLVIDABLE",
+                      "author":  "J. PARGA",
+                      "category":  "classica",
+                      "format":  "mxl",
+                      "pdfUrl":  "../repertorio-publico/pd0235.pdf",
+                      "playUrl":  "../repertorio-publico/pd0235.mxl"
+                  }
+              ]
+}
