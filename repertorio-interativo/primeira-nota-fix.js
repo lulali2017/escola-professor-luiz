@@ -22,6 +22,11 @@
     return audio;
   }
 
+  function levelToGain(value) {
+    const level = Math.max(0, Math.min(200, Number(value) || 0));
+    return .001 + Math.pow(level / 200, 1.6) * .31;
+  }
+
   function sound(note, duration = .35) {
     const context = audioContext();
     if (!context || note === 'Pausa') return;
@@ -37,13 +42,15 @@
     };
     const preset = presets[instrument] || presets.guitar;
     const length = Math.max(.22, duration * preset.release);
+    const noteGain = levelToGain($('#noteVolume')?.value ?? 100);
+    const presetTotal = preset.volumes.reduce((sum, value) => sum + value, 0) || 1;
     preset.types.forEach((type, index) => {
       const oscillator = context.createOscillator();
       const gain = context.createGain();
       oscillator.type = type;
       oscillator.frequency.value = frequency * preset.ratios[index];
       gain.gain.setValueAtTime(.001, context.currentTime);
-      gain.gain.exponentialRampToValueAtTime(preset.volumes[index], context.currentTime + preset.attack);
+      gain.gain.exponentialRampToValueAtTime(noteGain * (preset.volumes[index] / presetTotal), context.currentTime + preset.attack);
       gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + length);
       oscillator.connect(gain).connect(context.destination);
       oscillator.start();
@@ -68,11 +75,10 @@
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     const kind = $('#click')?.value || 'wood';
-    const volumeLevel = Math.max(0, Math.min(200, Number($('#metroVolume')?.value) || 0));
-    const volume = .001 + Math.pow(volumeLevel / 200, 1.6) * .31;
+    const volume = levelToGain($('#metroVolume')?.value ?? 100);
     oscillator.type = kind === 'classic' ? 'square' : kind === 'soft' ? 'sine' : 'triangle';
     oscillator.frequency.value = accent ? 950 : 650;
-    gain.gain.setValueAtTime(accent ? Math.min(.36, volume * 1.18) : volume, context.currentTime);
+    gain.gain.setValueAtTime(volume, context.currentTime);
     gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + .05);
     oscillator.connect(gain).connect(context.destination);
     oscillator.start();
@@ -245,6 +251,33 @@
     label.appendChild(select);
     anchor.insertAdjacentElement('afterend', label);
     return select;
+  }
+
+  function ensureNoteVolumeControl() {
+    if ($('#noteVolume')) return;
+    const instrument = $('#instrument');
+    const anchor = instrument?.closest('label');
+    if (!anchor) return;
+    const label = document.createElement('label');
+    label.className = 'note-volume-control';
+    label.append('Volume das notas');
+    const slider = document.createElement('input');
+    slider.id = 'noteVolume';
+    slider.type = 'range';
+    slider.min = '0';
+    slider.max = '200';
+    slider.step = '5';
+    slider.value = '100';
+    slider.title = 'Use a mesma porcentagem do metrônomo para obter o mesmo volume';
+    const output = document.createElement('span');
+    output.id = 'noteVolumeOut';
+    output.textContent = '100%';
+    output.style.display = 'block';
+    output.style.textAlign = 'center';
+    output.style.fontSize = '12px';
+    slider.addEventListener('input', () => { output.textContent = `${slider.value}%`; });
+    label.append(slider, output);
+    anchor.insertAdjacentElement('afterend', label);
   }
 
   function ensureMetronomeVolumeControl() {
@@ -484,6 +517,7 @@
     const stopButton = cleanButton('stop');
     if (!demoButton || !practiceButton || !stopButton) return;
     ensureInstrumentControl(stopButton);
+    ensureNoteVolumeControl();
     ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     ensureFloatingControls();
