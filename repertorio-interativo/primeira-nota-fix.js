@@ -6,6 +6,10 @@
   let current = -1;
   let animation = 0;
   let nextAt = 0;
+  let clock = 0;
+  let beatCounter = 0;
+  let beatsPerMeasure = 4;
+  let beatType = 4;
   const semitones = {'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
 
   function audioContext() {
@@ -45,7 +49,17 @@
     });
   }
 
+  function pulseMetronome(accent) {
+    const widget = $('#floatingMetronome');
+    if (!widget) return;
+    widget.classList.toggle('accent', accent);
+    widget.classList.remove('beat');
+    void widget.offsetWidth;
+    widget.classList.add('beat');
+  }
+
   function metronome(accent) {
+    pulseMetronome(accent);
     if ($('#metro')?.value !== 'on') return;
     const context = audioContext();
     if (!context) return;
@@ -59,6 +73,34 @@
     oscillator.connect(gain).connect(context.destination);
     oscillator.start();
     oscillator.stop(context.currentTime + .06);
+  }
+
+  function stopMetronome() {
+    clearInterval(clock);
+    clock = 0;
+    beatCounter = 0;
+    $('#floatingMetronome')?.classList.remove('playing', 'beat', 'accent');
+  }
+
+  function startMetronome() {
+    stopMetronome();
+    const selector = $('#metro');
+    const widget = $('#floatingMetronome');
+    if (!selector || selector.value === 'off') {
+      if (widget) widget.hidden = true;
+      return;
+    }
+    if (widget) {
+      widget.hidden = false;
+      widget.classList.add('playing');
+      widget.style.setProperty('--beat-duration', `${(60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType)}ms`);
+    }
+    const beat = () => {
+      metronome(beatCounter % beatsPerMeasure === 0);
+      beatCounter += 1;
+    };
+    beat();
+    clock = setInterval(beat, (60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType));
   }
 
   function scoreNotes() {
@@ -96,6 +138,7 @@
     nextAt = 0;
     cancelAnimationFrame(animation);
     animation = 0;
+    stopMetronome();
     if (reset) {
       current = -1;
       document.querySelectorAll('#staff .note').forEach(element => element.classList.remove('active'));
@@ -112,10 +155,9 @@
     current = Math.max(0, Math.min(index, list.length - 1));
     const item = list[current];
     const bpm = Math.max(40, Number($('#bpm')?.value) || 80);
-    const milliseconds = Math.max(280, Math.min(60000 / bpm * item.beats, 1800));
+    const milliseconds = Math.max(100, 60000 / bpm * item.beats);
     highlight(list, current);
     try {
-      if (withClick) metronome(current % 4 === 0);
       sound(item.name, Math.max(.18, milliseconds / 1000 * .72));
     } catch (error) {
       status('<b>A nota avançou, mas o navegador bloqueou o som.</b> Toque novamente para liberar o áudio.');
@@ -153,6 +195,7 @@
     current = -1;
     nextAt = 0;
     updateButtons();
+    startMetronome();
     animation = requestAnimationFrame(frame);
   }
 
@@ -195,6 +238,41 @@
     return select;
   }
 
+  async function readMusicalSettings(file) {
+    if (!file || !/\.(musicxml|xml)$/i.test(file.name)) return;
+    try {
+      const documentXml = new DOMParser().parseFromString(await file.text(), 'application/xml');
+      const beats = Number(documentXml.querySelector('time beats')?.textContent);
+      const denominator = Number(documentXml.querySelector('time beat-type')?.textContent);
+      beatsPerMeasure = Number.isFinite(beats) && beats > 0 ? beats : 4;
+      beatType = Number.isFinite(denominator) && denominator > 0 ? denominator : 4;
+      const meterLabel = $('#meterLabel');
+      if (meterLabel) meterLabel.textContent = `${beatsPerMeasure}/${beatType}`;
+      const informedTempo = Number(documentXml.querySelector('sound[tempo]')?.getAttribute('tempo') || documentXml.querySelector('per-minute')?.textContent);
+      if (Number.isFinite(informedTempo) && informedTempo >= 40 && informedTempo <= 180) {
+        const bpm = $('#bpm');
+        if (bpm) bpm.value = String(Math.round(informedTempo));
+        const bpmOutput = $('#bpmOut');
+        if (bpmOutput) bpmOutput.textContent = `${Math.round(informedTempo)} BPM`;
+      }
+    } catch (error) {
+      beatsPerMeasure = 4;
+      beatType = 4;
+    }
+  }
+
+  function ensureFloatingMetronome() {
+    if ($('#floatingMetronome')) return;
+    const style = document.createElement('style');
+    style.textContent = '#floatingMetronome{position:fixed;right:22px;bottom:90px;z-index:9998;width:112px;padding:10px 8px 8px;border:3px solid #f5bd45;border-radius:18px;background:#fffdf6;color:#183932;text-align:center;box-shadow:0 12px 30px #07182755;font-weight:900}#floatingMetronome .case{position:relative;width:52px;height:70px;margin:auto;background:linear-gradient(145deg,#173d36,#0e5145);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);border-radius:8px}#floatingMetronome .arm{position:absolute;left:25px;bottom:10px;width:3px;height:48px;background:#f5bd45;transform-origin:50% 100%;transform:rotate(-24deg)}#floatingMetronome .weight{position:absolute;left:-6px;top:10px;width:15px;height:15px;border-radius:50%;background:#fff}#floatingMetronome.playing .arm{animation:metronomeSwing var(--beat-duration,750ms) ease-in-out infinite alternate}#floatingMetronome.beat{box-shadow:0 0 0 6px #f5bd4540,0 12px 30px #07182755}#floatingMetronome.accent .case{background:linear-gradient(145deg,#8f283f,#bd3e39)}#floatingMetronome small{display:block;margin-top:5px}@keyframes metronomeSwing{from{transform:rotate(-27deg)}to{transform:rotate(27deg)}}@media(max-width:650px){#floatingMetronome{right:10px;bottom:76px;width:88px;transform:scale(.88);transform-origin:bottom right}}';
+    document.head.appendChild(style);
+    const widget = document.createElement('div');
+    widget.id = 'floatingMetronome';
+    widget.hidden = true;
+    widget.innerHTML = '<div class="case"><span class="arm"><span class="weight"></span></span></div><small>Metrônomo <span id="meterLabel">4/4</span></small>';
+    document.body.appendChild(widget);
+  }
+
   function enableMxl(files) {
     const originalChange = files?.onchange;
     if (!files || !originalChange || files.dataset.mxlReady) return;
@@ -221,12 +299,15 @@
           console.error('Não foi possível abrir o arquivo MXL.', error);
         }
       }
-      return originalChange.call(files, event);
+      const result = await originalChange.call(files, event);
+      await readMusicalSettings(files.files?.[0]);
+      return result;
     };
   }
 
   function install() {
     enableMxl($('#files'));
+    ensureFloatingMetronome();
     const demoButton = cleanButton('demo');
     const practiceButton = cleanButton('practice');
     const stopButton = cleanButton('stop');
@@ -258,6 +339,17 @@
     });
     previous.addEventListener('click', () => manual(-1));
     next.addEventListener('click', () => manual(1));
+    $('#bpm')?.addEventListener('input', () => { if (running && mode === 'demo') startMetronome(); });
+    $('#metro')?.addEventListener('change', () => {
+      if (running && mode === 'demo') startMetronome();
+      else {
+        stopMetronome();
+        const widget = $('#floatingMetronome');
+        if (widget) widget.hidden = $('#metro').value === 'off';
+      }
+    });
+    const widget = $('#floatingMetronome');
+    if (widget) widget.hidden = $('#metro')?.value === 'off';
     updateButtons();
   }
 
