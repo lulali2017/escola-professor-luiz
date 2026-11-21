@@ -52,7 +52,8 @@ function run(mode){
       ?`<b>Sua vez:</b> toque a primeira nota. O computador continuará em ${Math.round(milliseconds/100)/10} segundo(s).`
       :`Tocando <b>nota ${current+1} de ${list.length}</b>.`);
     item.el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-    timer=setTimeout(next,milliseconds);
+    const wait=mode==='practice'&&current===0?Math.min(milliseconds,1200):milliseconds;
+    timer=setTimeout(next,wait);
   };
   next();
 }
