@@ -1,6 +1,6 @@
 (()=>{
 const $=s=>document.querySelector(s);
-let timer=0,audio=null,current=-1,running=false;
+let timer=0,audio=null,current=-1,running=false,nextAt=0;
 const semitones={'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
 
 function context(){
@@ -30,7 +30,7 @@ function click(accent){
 function notes(){return [...document.querySelectorAll('#staff .note')].map(el=>({el,name:el.querySelector('b')?.textContent.trim()||'',beats:parseFloat(el.querySelector('small')?.textContent)||1}))}
 function label(text){const status=$('#status');if(status)status.innerHTML=text}
 function stop(done=false){
-  clearTimeout(timer);timer=0;running=false;current=-1;
+  clearInterval(timer);timer=0;running=false;current=-1;nextAt=0;
   document.querySelectorAll('#staff .note').forEach(el=>el.classList.remove('active'));
   const demo=$('#demo'),practice=$('#practice');if(demo)demo.textContent='▶ Ouvir demonstração';if(practice)practice.textContent='🎸 Tocar a primeira nota';
   if(done)label('<b>Exercício concluído.</b> Você pode repetir, diminuir a velocidade ou escolher outra partitura.');
@@ -49,7 +49,7 @@ function run(mode){
     const originalMilliseconds=60000/bpm*item.beats;
     const milliseconds=Math.max(280,Math.min(originalMilliseconds,1800));
     const wait=mode==='practice'&&current===0?Math.min(milliseconds,1200):milliseconds;
-    timer=window.setTimeout(next,wait);
+    nextAt=Date.now()+wait;
     try{click(current%4===0)}catch(error){console.warn('Metrônomo indisponível:',error)}
     try{if(mode==='demo'||current>0)sound(item.name,Math.max(.12,milliseconds/1000*.72))}catch(error){console.warn('Áudio indisponível:',error)}
     label(mode==='practice'&&current===0
@@ -58,9 +58,12 @@ function run(mode){
     item.el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   };
   next();
+  timer=window.setInterval(()=>{if(running&&Date.now()>=nextAt)next()},100);
 }
 function install(){
   const demo=$('#demo'),practice=$('#practice'),stopButton=$('#stop');if(!demo||!practice||!stopButton)return;
+  if(!$('#previousNote')){const previous=document.createElement('button');previous.id='previousNote';previous.type='button';previous.className='step-note';previous.textContent='← Nota anterior';previous.title='Voltar uma nota';stopButton.insertAdjacentElement('afterend',previous);previous.onclick=()=>{if(!running)return;current=Math.max(-1,current-2);nextAt=0}}
+  if(!$('#nextNote')){const nextButton=document.createElement('button');nextButton.id='nextNote';nextButton.type='button';nextButton.className='step-note';nextButton.textContent='Próxima nota →';nextButton.title='Avançar imediatamente';$('#previousNote').insertAdjacentElement('afterend',nextButton);nextButton.onclick=()=>{if(running)nextAt=0;else run('practice')}}
   const files=$('#files'),originalChange=files?.onchange;
   if(files&&originalChange)files.onchange=async event=>{
     const file=files.files?.[0];
