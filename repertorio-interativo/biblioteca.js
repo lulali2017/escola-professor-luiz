@@ -11,10 +11,12 @@ function filtered(){
 function categoryName(value){return ({classica:'Clássica',popular:'Popular',estudo:'Estudo',exercicio:'Exercício'})[value]||'Sem categoria'}
 function render(){
   const items=filtered(),query=$('#libSearch').value.trim(),host=$('#libList');
-  $('#libResult').textContent=items.length?`${items.length} partitura(s) ${query?'encontrada(s) para “'+query+'”':'disponível(is) no índice'}. Escolha Ver PDF ou Tocar.`:`Nenhuma partitura encontrada${query?' para “'+query+'”':''}.`;
+  $('#libResult').textContent=items.length?`${items.length} partitura(s) ${query?'encontrada(s) para “'+query+'”':'disponível(is) no índice'}. Escolha Ver PDF, Tocar ou Pesquisar áudio/vídeo.`:`Nenhuma partitura encontrada${query?' para “'+query+'”':''}.`;
   host.innerHTML=items.length?items.map(x=>{
     const format=(x.format||'mxl').toUpperCase();
-    return `<article class="lib-item system"><div class="lib-title-button"><span class="lib-music-icon">🎼</span><span><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.author||'Autor desconhecido')} · ${escapeHtml(categoryName(x.category))} · PDF + ${format}</small></span><span class="lib-actions"><a href="${escapeHtml(x.pdfUrl)}" target="_blank" rel="noopener">Ver PDF</a><button data-open="${escapeHtml(x.id)}">▶ Tocar</button></span></div></article>`;
+    const searchTerms=`${x.title} ${x.author&&x.author!=='Autor desconhecido'?x.author:''} áudio vídeo música`.trim();
+    const searchUrl=`https://www.google.com/search?q=${encodeURIComponent(searchTerms)}`;
+    return `<article class="lib-item system"><div class="lib-title-button"><span class="lib-music-icon">🎼</span><span><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.author||'Autor desconhecido')} · ${escapeHtml(categoryName(x.category))} · PDF + ${format}</small></span><span class="lib-actions"><a href="${escapeHtml(x.pdfUrl)}" target="_blank" rel="noopener">Ver PDF</a><button data-open="${escapeHtml(x.id)}">▶ Tocar</button><a class="web-search" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer" title="Pesquisar áudio ou vídeo desta música na internet">🔎 Áudio/vídeo</a></span></div></article>`;
   }).join(''):'<div class="lib-empty">O índice está vazio neste filtro.</div>';
   host.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openItem(system.find(x=>x.id===b.dataset.open)));
 }

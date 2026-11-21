@@ -38,6 +38,7 @@
 .lib-actions { display:flex; gap:8px; align-items:center; margin-left:auto; }
 .lib-actions a,.lib-actions button { border:0; border-radius:10px; padding:10px 13px; text-decoration:none; font-weight:900; cursor:pointer; white-space:nowrap; }
 .lib-actions a { background:#edf4f1; color:#164f43; }
+.lib-actions a.web-search { background:#164f43; color:#fff; }
 .lib-actions button { background:#f5bd45; color:#173a34; }
 .lib-title-button:hover,.lib-title-button:focus { transform:none; outline:none; }
 @media (max-width: 600px) {
