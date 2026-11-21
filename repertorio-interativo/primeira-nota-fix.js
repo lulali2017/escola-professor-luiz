@@ -20,15 +20,29 @@
     const context = audioContext();
     if (!context || note === 'Pausa') return;
     const midi = 60 + (semitones[note] ?? 0);
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.type = 'triangle';
-    oscillator.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
-    gain.gain.setValueAtTime(.16, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + duration);
-    oscillator.connect(gain).connect(context.destination);
-    oscillator.start();
-    oscillator.stop(context.currentTime + duration);
+    const frequency = 440 * Math.pow(2, (midi - 69) / 12);
+    const instrument = $('#instrument')?.value || 'guitar';
+    const presets = {
+      guitar: {types:['triangle','sine'], ratios:[1,2], volumes:[.14,.035], attack:.008, release:.58},
+      piano: {types:['triangle','sine','sine'], ratios:[1,2,3], volumes:[.13,.045,.018], attack:.004, release:.9},
+      flute: {types:['sine','sine'], ratios:[1,2], volumes:[.12,.018], attack:.07, release:.95},
+      electric: {types:['sawtooth','square'], ratios:[1,1.002], volumes:[.075,.035], attack:.012, release:.7},
+      synth: {types:['square','sine'], ratios:[1,2], volumes:[.08,.035], attack:.025, release:.8}
+    };
+    const preset = presets[instrument] || presets.guitar;
+    const length = Math.max(.22, duration * preset.release);
+    preset.types.forEach((type, index) => {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = type;
+      oscillator.frequency.value = frequency * preset.ratios[index];
+      gain.gain.setValueAtTime(.001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(preset.volumes[index], context.currentTime + preset.attack);
+      gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + length);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + length + .03);
+    });
   }
 
   function metronome(accent) {
@@ -167,6 +181,20 @@
     return newButton;
   }
 
+  function ensureInstrumentControl(anchor) {
+    let select = $('#instrument');
+    if (select) return select;
+    const label = document.createElement('label');
+    label.className = 'instrument-control';
+    label.append('Som do instrumento');
+    select = document.createElement('select');
+    select.id = 'instrument';
+    select.innerHTML = '<option value="guitar">Violão</option><option value="piano">Piano</option><option value="flute">Flauta</option><option value="electric">Guitarra</option><option value="synth">Teclado eletrônico</option>';
+    label.appendChild(select);
+    anchor.insertAdjacentElement('afterend', label);
+    return select;
+  }
+
   function enableMxl(files) {
     const originalChange = files?.onchange;
     if (!files || !originalChange || files.dataset.mxlReady) return;
@@ -203,6 +231,7 @@
     const practiceButton = cleanButton('practice');
     const stopButton = cleanButton('stop');
     if (!demoButton || !practiceButton || !stopButton) return;
+    ensureInstrumentControl(stopButton);
     let previous = $('#previousNote');
     let next = $('#nextNote');
     if (!previous) {
