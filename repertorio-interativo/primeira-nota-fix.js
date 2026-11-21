@@ -68,9 +68,10 @@
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     const kind = $('#click')?.value || 'wood';
+    const volume = {low:.035, equal:.11, high:.2}[$('#metroVolume')?.value || 'equal'];
     oscillator.type = kind === 'classic' ? 'square' : kind === 'soft' ? 'sine' : 'triangle';
     oscillator.frequency.value = accent ? 950 : 650;
-    gain.gain.setValueAtTime(.07, context.currentTime);
+    gain.gain.setValueAtTime(accent ? Math.min(.24, volume * 1.18) : volume, context.currentTime);
     gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + .05);
     oscillator.connect(gain).connect(context.destination);
     oscillator.start();
@@ -240,6 +241,21 @@
     return select;
   }
 
+  function ensureMetronomeVolumeControl() {
+    if ($('#metroVolume')) return;
+    const click = $('#click');
+    const anchor = click?.closest('label');
+    if (!anchor) return;
+    const label = document.createElement('label');
+    label.className = 'metronome-volume-control';
+    label.append('Volume do metrônomo');
+    const select = document.createElement('select');
+    select.id = 'metroVolume';
+    select.innerHTML = '<option value="low">Mais baixo que as notas</option><option value="equal" selected>Mesma altura das notas</option><option value="high">Mais alto que as notas</option>';
+    label.appendChild(select);
+    anchor.insertAdjacentElement('afterend', label);
+  }
+
   function applyScoreView() {
     if (arrangingScore) return;
     const staff = $('#staff');
@@ -272,7 +288,7 @@
   function ensureScoreViewControl(anchor) {
     if ($('#scoreView')) return;
     const style = document.createElement('style');
-    style.textContent = '.staff{position:relative;background:none!important}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
+    style.textContent = '.controls{position:sticky;top:0;z-index:9000;margin-left:-12px;margin-right:-12px;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #0718272b;backdrop-filter:blur(8px)}.staff{position:relative;background:none!important}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls{top:0;max-height:44vh;overflow:auto}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
     document.head.appendChild(style);
     const label = document.createElement('label');
     label.className = 'score-view-control';
@@ -369,6 +385,7 @@
     const stopButton = cleanButton('stop');
     if (!demoButton || !practiceButton || !stopButton) return;
     ensureInstrumentControl(stopButton);
+    ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     let previous = $('#previousNote');
     let next = $('#nextNote');
