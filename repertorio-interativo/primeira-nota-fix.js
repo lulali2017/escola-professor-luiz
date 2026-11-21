@@ -10,6 +10,8 @@
   let beatCounter = 0;
   let beatsPerMeasure = 4;
   let beatType = 4;
+  let arrangingScore = false;
+  let arrangeTimer = 0;
   const semitones = {'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
 
   function audioContext() {
@@ -238,6 +240,60 @@
     return select;
   }
 
+  function applyScoreView() {
+    if (arrangingScore) return;
+    const staff = $('#staff');
+    const selector = $('#scoreView');
+    if (!staff || !selector) return;
+    arrangingScore = true;
+    const notes = [...staff.querySelectorAll('.note')];
+    const rows = [...staff.querySelectorAll('.system-row')];
+    if (selector.value === 'continuous') {
+      rows.forEach(row => [...row.children].forEach(note => staff.insertBefore(note, row)));
+      rows.forEach(row => row.remove());
+      staff.classList.remove('view-pages');
+      staff.classList.add('view-continuous');
+    } else if (notes.length) {
+      rows.forEach(row => [...row.children].forEach(note => staff.appendChild(note)));
+      rows.forEach(row => row.remove());
+      const allNotes = [...staff.querySelectorAll(':scope > .note')];
+      for (let index = 0; index < allNotes.length; index += 12) {
+        const row = document.createElement('div');
+        row.className = 'system-row';
+        allNotes.slice(index, index + 12).forEach(note => row.appendChild(note));
+        staff.appendChild(row);
+      }
+      staff.classList.remove('view-continuous');
+      staff.classList.add('view-pages');
+    }
+    setTimeout(() => { arrangingScore = false; }, 0);
+  }
+
+  function ensureScoreViewControl(anchor) {
+    if ($('#scoreView')) return;
+    const style = document.createElement('style');
+    style.textContent = '.staff{position:relative;background:none!important}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.note{z-index:1}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
+    document.head.appendChild(style);
+    const label = document.createElement('label');
+    label.className = 'score-view-control';
+    label.append('Visualização');
+    const select = document.createElement('select');
+    select.id = 'scoreView';
+    select.innerHTML = '<option value="continuous">Contínua</option><option value="pages">Por trechos / impressão</option>';
+    label.appendChild(select);
+    anchor.insertAdjacentElement('afterend', label);
+    select.addEventListener('change', applyScoreView);
+    const staff = $('#staff');
+    if (staff) {
+      new MutationObserver(() => {
+        if (arrangingScore) return;
+        clearTimeout(arrangeTimer);
+        arrangeTimer = setTimeout(applyScoreView, 0);
+      }).observe(staff, {childList:true, subtree:false});
+    }
+    applyScoreView();
+  }
+
   async function readMusicalSettings(file) {
     if (!file || !/\.(musicxml|xml)$/i.test(file.name)) return;
     try {
@@ -313,6 +369,7 @@
     const stopButton = cleanButton('stop');
     if (!demoButton || !practiceButton || !stopButton) return;
     ensureInstrumentControl(stopButton);
+    ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     let previous = $('#previousNote');
     let next = $('#nextNote');
     if (!previous) {
