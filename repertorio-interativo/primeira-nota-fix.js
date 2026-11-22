@@ -193,6 +193,7 @@
     metronomeBarPlayer.src = metronomeBarAudioUrl();
     metronomeBarPlayer.currentTime = 0;
     metronomeBarPlayer.loop = loop;
+    metronomeBarPlayer.onended = null;
     metronomeBarPlayer.preload = 'auto';
     const volume = Math.max(0, Math.min(1, Number($('#metroVolume')?.value ?? 100) / 200));
     if (metronomeBarGain && context) {
@@ -538,16 +539,23 @@
         }
         playMetronomeBar(false);
         let count = 0;
+        let finished = false;
+        const finishTest = () => {
+          if (finished) return;
+          finished = true;
+          clearInterval(testClock);
+          testClock = 0;
+          test.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
+          widget?.classList.remove('playing', 'beat', 'accent');
+        };
+        if (metronomeBarPlayer) metronomeBarPlayer.onended = finishTest;
         const beat = () => {
           pulseMetronome(count === 0);
           count += 1;
           if (count >= beatsPerMeasure) {
             clearInterval(testClock);
             testClock = 0;
-            setTimeout(() => {
-              test.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
-              widget?.classList.remove('playing', 'beat', 'accent');
-            }, Math.min(500, beatMilliseconds * .65));
+            setTimeout(finishTest, beatMilliseconds);
           }
         };
         test.textContent = `Tocando ${beatsPerMeasure} batidas`;
