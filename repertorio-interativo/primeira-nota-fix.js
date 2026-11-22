@@ -601,6 +601,22 @@
     requestAnimationFrame(() => { synchronizeHeight(); synchronizePosition(); });
   }
 
+  function updateTimeSignatures() {
+    const staff = $('#staff');
+    if (!staff) return;
+    const targets = [staff, ...staff.querySelectorAll(':scope > .system-row')];
+    targets.forEach(target => {
+      let signature = target.querySelector(':scope > .time-signature');
+      if (!signature) {
+        signature = document.createElement('span');
+        signature.className = 'time-signature';
+        target.appendChild(signature);
+      }
+      signature.innerHTML = `<b>${beatsPerMeasure}</b><b>${beatType}</b>`;
+      signature.setAttribute('aria-label', `Compasso ${beatsPerMeasure} por ${beatType}`);
+    });
+  }
+
   function applyScoreView() {
     if (arrangingScore) return;
     const staff = $('#staff');
@@ -610,7 +626,7 @@
     const notes = [...staff.querySelectorAll('.note')];
     const rows = [...staff.querySelectorAll('.system-row')];
     if (selector.value === 'continuous') {
-      rows.forEach(row => [...row.children].forEach(note => staff.insertBefore(note, row)));
+      rows.forEach(row => [...row.querySelectorAll(':scope > .note')].forEach(note => staff.insertBefore(note, row)));
       rows.forEach(row => row.remove());
       staff.classList.remove('view-pages');
       staff.classList.add('view-continuous');
@@ -627,13 +643,14 @@
       staff.classList.remove('view-continuous');
       staff.classList.add('view-pages');
     }
+    updateTimeSignatures();
     setTimeout(() => { arrangingScore = false; }, 0);
   }
 
   function ensureScoreViewControl(anchor) {
     if ($('#scoreView')) return;
     const style = document.createElement('style');
-    style.textContent = '.controls.controls-floating{position:fixed;top:8px;left:8px;right:8px;transform:none;z-index:9997;width:auto;max-width:none;max-height:48vh;overflow-y:auto;overflow-x:hidden;margin:0;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #07182745;backdrop-filter:blur(8px)}#controlsSpacer{display:block}.music-open .wrap{width:100%;max-width:none;margin:0}.music-open .hero,.music-open .book-panel,.music-open .lib,.music-open header{display:none!important}.music-open #reader{margin:0;padding:10px 8px 18px;border:0;border-radius:0;box-shadow:none}.music-open #reader>.index-back,.music-open #reader>.tip,.music-open #reader>.status,.music-open #reader>.music-head{display:none!important}.music-open .score{margin-top:0}.staff{position:relative;background:none!important}.staff.view-continuous{width:max-content;min-width:100%;padding-left:96px}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.staff.view-continuous::after,.system-row::after{content:"𝄞";position:absolute;z-index:2;left:24px;top:27px;font-family:"Noto Music","Segoe UI Symbol",serif;font-size:72px;line-height:1;color:#183932;pointer-events:none}.note{z-index:1;min-height:176px}.note small{display:block;min-height:18px;margin-top:2px}.note .tab-pos{position:static!important;display:block;margin-top:6px}.note.measure-end::after{content:"";position:absolute;z-index:4;right:-7px;top:54px;width:3px;height:62px;background:#264b43}.note.measure-end.score-end::after{width:7px;background:transparent;border-left:2px solid #264b43;border-right:4px solid #264b43}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px 96px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls.controls-floating{top:4px;left:4px;right:4px;max-height:46vh;padding:6px;gap:5px}.controls.controls-floating>*{flex:1 1 116px;min-width:0}.controls.controls-floating button{padding:7px 5px;font-size:12px;line-height:1.15}.controls.controls-floating label{font-size:10px;line-height:1.1}.controls.controls-floating select,.controls.controls-floating input{margin-top:2px;padding:5px;font-size:12px}.controls.controls-floating .reader-check{padding:6px!important;font-size:11px!important}.music-open #reader{padding:4px}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,#controlsSpacer,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
+    style.textContent = '.controls.controls-floating{position:fixed;top:8px;left:8px;right:8px;transform:none;z-index:9997;width:auto;max-width:none;max-height:48vh;overflow-y:auto;overflow-x:hidden;margin:0;padding:12px;border:1px solid #c8d9d2;border-radius:14px;background:#fffdf6f5;box-shadow:0 8px 22px #07182745;backdrop-filter:blur(8px)}#controlsSpacer{display:block}.music-open .wrap{width:100%;max-width:none;margin:0}.music-open .hero,.music-open .book-panel,.music-open .lib,.music-open header{display:none!important}.music-open #reader{margin:0;padding:10px 8px 18px;border:0;border-radius:0;box-shadow:none}.music-open #reader>.index-back,.music-open #reader>.tip,.music-open #reader>.status,.music-open #reader>.music-head{display:none!important}.music-open .score{margin-top:0}.staff{position:relative;background:none!important}.staff.view-continuous{width:max-content;min-width:100%;padding-left:118px}.staff.view-continuous::before,.system-row::before{content:"";position:absolute;z-index:0;left:16px;right:16px;top:54px;height:62px;background:repeating-linear-gradient(to bottom,#678078 0 2px,transparent 2px 15px);pointer-events:none}.staff.view-continuous::after,.system-row::after{content:"𝄞";position:absolute;z-index:2;left:24px;top:27px;font-family:"Noto Music","Segoe UI Symbol",serif;font-size:72px;line-height:1;color:#183932;pointer-events:none}.time-signature{position:absolute;z-index:3;left:78px;top:53px;width:26px;color:#183932;text-align:center;font-family:Georgia,serif;font-size:25px;font-weight:900;line-height:.78;pointer-events:none}.time-signature b{display:block}.note{z-index:1;min-height:176px}.note small{display:block;min-height:18px;margin-top:2px}.note .tab-pos{position:static!important;display:block;margin-top:6px}.note.measure-end::after{content:"";position:absolute;z-index:4;right:-7px;top:54px;width:3px;height:62px;background:#264b43}.note.measure-end.score-end::after{width:7px;background:transparent;border-left:2px solid #264b43;border-right:4px solid #264b43}.staff.view-pages{display:block;min-width:0;padding:18px;background:#f7f1e4!important}.staff.view-pages::before{display:none}.system-row{position:relative;display:flex;gap:12px;align-items:center;min-width:720px;margin:0 0 18px;padding:26px 16px 18px 118px;border:1px solid #d8cdb7;border-radius:12px;background:#fffdf6;break-inside:avoid}.system-row:last-child{margin-bottom:0}@media(max-width:760px){.controls.controls-floating{top:4px;left:4px;right:4px;max-height:46vh;padding:6px;gap:5px}.controls.controls-floating>*{flex:1 1 116px;min-width:0}.controls.controls-floating button{padding:7px 5px;font-size:12px;line-height:1.15}.controls.controls-floating label{font-size:10px;line-height:1.1}.controls.controls-floating select,.controls.controls-floating input{margin-top:2px;padding:5px;font-size:12px}.controls.controls-floating .reader-check{padding:6px!important;font-size:11px!important}.music-open #reader{padding:4px}.staff.view-pages{overflow-x:auto}.system-row{min-width:720px}}@media print{.controls,#controlsSpacer,.tip,#floatingMetronome{display:none!important}.score{overflow:visible;border:0;padding:0}.staff.view-pages{padding:0}.system-row{margin-bottom:10mm;page-break-inside:avoid}}';
     document.head.appendChild(style);
     const label = document.createElement('label');
     label.className = 'score-view-control';
@@ -665,6 +682,7 @@
       beatType = Number.isFinite(denominator) && denominator > 0 ? denominator : 4;
       const meterLabel = $('#meterLabel');
       if (meterLabel) meterLabel.textContent = `${beatsPerMeasure}/${beatType}`;
+      updateTimeSignatures();
       const testButton = $('#testMetronome');
       if (testButton && !testClock) testButton.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
       const informedTempo = Number(documentXml.querySelector('sound[tempo]')?.getAttribute('tempo') || documentXml.querySelector('per-minute')?.textContent);
