@@ -15,6 +15,8 @@
   let arrangeTimer = 0;
   let metronomePlayer = null;
   let metronomeBarPlayer = null;
+  let metronomeBarSource = null;
+  let metronomeBarGain = null;
   const metronomeAudioUrls = new Map();
   const metronomeBarUrls = new Map();
   const semitones = {'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
@@ -181,12 +183,24 @@
 
   function playMetronomeBar(loop = false) {
     metronomeBarPlayer ??= new Audio();
+    const context = audioContext();
+    if (context && !metronomeBarSource) {
+      metronomeBarSource = context.createMediaElementSource(metronomeBarPlayer);
+      metronomeBarGain = context.createGain();
+      metronomeBarSource.connect(metronomeBarGain).connect(context.destination);
+    }
     metronomeBarPlayer.pause();
     metronomeBarPlayer.src = metronomeBarAudioUrl();
     metronomeBarPlayer.currentTime = 0;
     metronomeBarPlayer.loop = loop;
     metronomeBarPlayer.preload = 'auto';
-    metronomeBarPlayer.volume = Math.max(0, Math.min(1, Number($('#metroVolume')?.value ?? 100) / 200));
+    const volume = Math.max(0, Math.min(1, Number($('#metroVolume')?.value ?? 100) / 200));
+    if (metronomeBarGain && context) {
+      metronomeBarPlayer.volume = 1;
+      metronomeBarGain.gain.value = volume;
+    } else {
+      metronomeBarPlayer.volume = volume;
+    }
     const playback = metronomeBarPlayer.play();
     if (playback?.catch) playback.catch(() => {
       webAudioMetronome(true, $('#click')?.value || 'wood', metronomeLevelToGain($('#metroVolume')?.value ?? 100));
@@ -487,7 +501,13 @@
     slider.addEventListener('input', () => {
       output.textContent = `${slider.value}%`;
       const volume = Math.max(0, Math.min(1, Number(slider.value) / 200));
-      if (metronomeBarPlayer) metronomeBarPlayer.volume = volume;
+      const context = audioContext();
+      if (metronomeBarGain && context) {
+        metronomeBarGain.gain.cancelScheduledValues(context.currentTime);
+        metronomeBarGain.gain.value = volume;
+      } else if (metronomeBarPlayer) {
+        metronomeBarPlayer.volume = volume;
+      }
       if (metronomePlayer) metronomePlayer.volume = volume;
     });
     label.append(slider, output);
