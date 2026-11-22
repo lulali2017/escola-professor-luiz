@@ -293,7 +293,7 @@
     return [...document.querySelectorAll('#staff .note')].map(element => ({
       element,
       name: element.querySelector('b')?.textContent.trim() || '',
-      beats: parseFloat(element.querySelector('small')?.textContent) || 1
+      beats: parseFloat(element.querySelector('small')?.dataset.beats || element.querySelector('small')?.textContent) || 1
     }));
   }
 
@@ -627,7 +627,17 @@
     const measureDuration = Math.max(.25, beatsPerMeasure * (4 / beatType));
     let elapsed = 0;
     notes.forEach((note, index) => {
-      const duration = Math.max(.0625, parseFloat(note.querySelector('small')?.textContent) || 1);
+      const label = note.querySelector('small');
+      if (label && !label.dataset.beats) {
+        const original = parseFloat(label.textContent) || 1;
+        label.dataset.beats = String(original);
+        const decimal = String(original).split('.')[1] || '';
+        const display = decimal.length > 2
+          ? `${original.toFixed(2).replace('.', ',')}...`
+          : String(original).replace('.', ',');
+        label.textContent = `${display} tempo(s)`;
+      }
+      const duration = Math.max(.0625, parseFloat(label?.dataset.beats || label?.textContent) || 1);
       elapsed += duration;
       const closesMeasure = elapsed >= measureDuration - .001;
       note.classList.toggle('measure-end', closesMeasure || index === notes.length - 1);
