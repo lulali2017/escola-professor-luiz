@@ -280,7 +280,9 @@
       widget.classList.add('playing');
       widget.style.setProperty('--beat-duration', `${(60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType)}ms`);
     }
-    playMetronomeBar(true);
+    // No modo visual, mantemos apenas o movimento e os pulsos da imagem.
+    // O áudio do clique pertence exclusivamente ao modo "Com som".
+    if (selector.value === 'on') playMetronomeBar(true);
     const beat = () => {
       pulseMetronome(beatCounter % beatsPerMeasure === 0);
       beatCounter += 1;
