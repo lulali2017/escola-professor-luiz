@@ -630,6 +630,23 @@
     return `${String(rounded).replace('.', ',')}...`;
   }
 
+  function formatRhythmFraction(value) {
+    if (Number.isInteger(value)) return String(value);
+    for (let denominator = 2; denominator <= 64; denominator += 1) {
+      const numerator = Math.round(value * denominator);
+      if (Math.abs(value - numerator / denominator) < .00001) {
+        const divisor = (a, b) => b ? divisor(b, a % b) : a;
+        const common = divisor(Math.abs(numerator), denominator);
+        return `${numerator / common}/${denominator / common}`;
+      }
+    }
+    return formatRhythmNumber(value);
+  }
+
+  function formatRhythmValue(value) {
+    return $('#rhythmFractionToggle')?.checked ? formatRhythmFraction(value) : formatRhythmNumber(value);
+  }
+
   function updateRhythmGuide() {
     const guide = $('#rhythmGuide');
     if (!guide) return;
@@ -645,7 +662,7 @@
     guide.querySelector('summary').textContent = `Figuras e tempos · compasso ${beatsPerMeasure}/${beatType}`;
     guide.querySelector('.rhythm-items').innerHTML = figures.map(([symbol, rest, name, quarterUnits]) => {
       const beats = quarterUnits * beatType / 4;
-      return `<span><b class="rhythm-symbol" title="Figura e pausa">${symbol} ${rest}</b><strong>${name}</strong><small>${formatRhythmNumber(beats)} ${beats === 1 ? 'tempo' : 'tempos'} · mesma duração da pausa</small></span>`;
+      return `<span><b class="rhythm-symbol" title="Figura e pausa">${symbol} ${rest}</b><strong>${name}</strong><small>${formatRhythmValue(beats)} ${beats === 1 ? 'tempo' : 'tempos'}</small></span>`;
     }).join('') + '<span class="tuplet-info"><b class="rhythm-symbol">3:2</b><strong>Tercina</strong><small>quiáltera: 3 notas no tempo de 2</small></span>';
   }
 
@@ -655,12 +672,19 @@
     if (!controls) return;
     const style = document.createElement('style');
     style.textContent = '#rhythmGuide{flex:1 1 100%;order:20;border:1px solid #d8c086;border-radius:10px;background:#fff8df;padding:3px 7px;color:#183932}#rhythmGuide summary{cursor:pointer;font-size:13px;font-weight:900;line-height:1.2}#rhythmGuide .rhythm-items{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}#rhythmGuide .rhythm-items>span{display:flex;align-items:center;gap:4px;min-width:0;padding:2px 6px;border-radius:7px;background:#fff;white-space:nowrap}.rhythm-symbol{font:20px/1 "Noto Music","Segoe UI Symbol",serif}.rhythm-items strong{font-size:10px}.rhythm-items small{font-size:9px}.tuplet-info{background:#e9f4ee!important}.music-open .controls.controls-floating{padding:6px 8px;gap:5px;max-height:42vh}.music-open .controls.controls-floating button{min-height:32px!important;padding:5px 9px!important;border-radius:8px;font-size:13px;line-height:1.05}.music-open .controls.controls-floating label{font-size:10px;line-height:1}.music-open .controls.controls-floating select,.music-open .controls.controls-floating input{margin-top:2px;padding:4px 6px;min-height:32px;font-size:12px}.music-open .controls.controls-floating input[type=range]{min-height:18px;padding:0}.music-open .controls.controls-floating .reader-check{padding:5px 8px!important;font-size:12px!important}.note .figure-name{display:block;margin-top:2px;color:#815b12;font:700 10px/1.2 system-ui,sans-serif}.note.figure-whole i,.note.figure-half i{background:#fffdf6;border:3px solid #143f38}.note.figure-whole i:after{display:none}.note.figure-eighth i:before,.note.figure-sixteenth i:before,.note.figure-thirtysecond i:before,.note.figure-sixtyfourth i:before{content:"";position:absolute;right:-10px;bottom:34px;width:13px;height:12px;border-top:4px solid #143f38;border-radius:0 12px 0 0;transform:rotate(25deg)}.note.figure-sixteenth i:before{box-shadow:2px 7px 0 -1px #143f38}.note.figure-thirtysecond i:before{box-shadow:2px 7px 0 -1px #143f38,4px 14px 0 -1px #143f38}.note.figure-sixtyfourth i:before{box-shadow:2px 6px 0 -1px #143f38,4px 12px 0 -1px #143f38,6px 18px 0 -1px #143f38}.note.figure-triplet .figure-name::after{content:" 3";display:inline-block;margin-left:3px;padding:0 3px;border-top:1px solid currentColor;border-radius:4px}.note.is-rest i{display:none}.note .rest-symbol{position:absolute;z-index:2;left:10px;top:45px;width:40px;color:#143f38;text-align:center;font:42px/1 "Noto Music","Segoe UI Symbol",serif}.note.is-rest b{color:#815b12}@media(max-width:650px){#rhythmGuide .rhythm-items>span{padding:2px 4px}.music-open .controls.controls-floating{max-height:38vh}}';
+    style.textContent += '#rhythmGuide .rhythm-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:3px;font-size:10px}.rhythm-note{font-weight:700;color:#674d16}.rhythm-mode{display:flex!important;align-items:center;gap:5px;white-space:nowrap;font-size:10px!important}.rhythm-switch{position:relative;width:34px;height:18px}.rhythm-switch input{position:absolute;opacity:0;pointer-events:none}.rhythm-switch i{position:absolute;inset:0;border-radius:999px;background:#c7d4cf;cursor:pointer}.rhythm-switch i::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0004;transition:.18s}.rhythm-switch input:checked+i{background:#0e5145}.rhythm-switch input:checked+i::after{transform:translateX(16px)}@media(max-width:650px){#rhythmGuide .rhythm-toolbar{align-items:flex-start;flex-direction:column;gap:2px}}';
     document.head.appendChild(style);
     const guide = document.createElement('details');
     guide.id = 'rhythmGuide';
     guide.open = true;
-    guide.innerHTML = '<summary></summary><div class="rhythm-items"></div>';
+    guide.innerHTML = '<summary></summary><div class="rhythm-toolbar"><span class="rhythm-note">Observação: a nota e sua pausa correspondente têm a mesma duração.</span><label class="rhythm-mode">Dízima <span class="rhythm-switch"><input id="rhythmFractionToggle" type="checkbox"><i></i></span> Fração</label></div><div class="rhythm-items"></div>';
     controls.appendChild(guide);
+    const toggle = $('#rhythmFractionToggle');
+    try { toggle.checked = localStorage.getItem('escolaLuizRhythmFractions') === '1'; } catch (error) {}
+    toggle.addEventListener('change', () => {
+      try { localStorage.setItem('escolaLuizRhythmFractions', toggle.checked ? '1' : '0'); } catch (error) {}
+      updateRhythmGuide();
+    });
     updateRhythmGuide();
   }
 
@@ -969,13 +993,22 @@
     ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     ensureRhythmGuide();
+    const floatingIndexButton = document.createElement('button');
+    floatingIndexButton.id = 'floatingBackToIndex';
+    floatingIndexButton.type = 'button';
+    floatingIndexButton.className = 'index-return-button';
+    floatingIndexButton.textContent = '← Índice de músicas';
+    floatingIndexButton.title = 'Voltar ao índice para escolher outra música';
+    $('.controls')?.insertAdjacentElement('afterbegin', floatingIndexButton);
     ensureFloatingControls();
     requestAnimationFrame(placeDefaultMetronome);
     addEventListener('resize', placeDefaultMetronome);
     $('#backToIndex')?.addEventListener('click', () => {
+      stop();
       document.body.classList.remove('music-open');
       scrollTo({top:0, left:0, behavior:'auto'});
     });
+    floatingIndexButton.addEventListener('click', () => $('#backToIndex')?.click());
     let previous = $('#previousNote');
     let next = $('#nextNote');
     if (!previous) {
