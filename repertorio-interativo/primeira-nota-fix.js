@@ -24,7 +24,7 @@
 
   async function ensureAudioReady() {
     const context = audioContext();
-    if (context?.state === 'suspended') {
+    if (context && context.state !== 'running') {
       try { await context.resume(); } catch (error) {}
     }
     return context;
@@ -39,6 +39,12 @@
   function levelToGain(value) {
     const level = Math.max(0, Math.min(200, Number(value) || 0));
     return .001 + Math.pow(level / 200, 1.6) * .31;
+  }
+
+  function metronomeLevelToGain(value) {
+    const level = Math.max(0, Math.min(200, Number(value) || 0));
+    if (!level) return 0;
+    return .04 + Math.pow(level / 200, 1.25) * .91;
   }
 
   function sound(note, duration = .35) {
@@ -86,17 +92,23 @@
     if ($('#metro')?.value !== 'on') return;
     const context = audioContext();
     if (!context) return;
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
     const kind = $('#click')?.value || 'wood';
-    const volume = levelToGain($('#metroVolume')?.value ?? 100);
-    oscillator.type = kind === 'classic' ? 'square' : kind === 'soft' ? 'sine' : 'triangle';
-    oscillator.frequency.value = accent ? 950 : 650;
-    gain.gain.setValueAtTime(volume, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + .11);
-    oscillator.connect(gain).connect(context.destination);
-    oscillator.start();
-    oscillator.stop(context.currentTime + .13);
+    const volume = metronomeLevelToGain($('#metroVolume')?.value ?? 100);
+    if (!volume) return;
+    const frequencies = accent ? [1760, 330] : [1320, 245];
+    frequencies.forEach((frequency, index) => {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = kind === 'classic' ? 'square' : kind === 'soft' ? 'sine' : index ? 'triangle' : 'square';
+      oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+      if (kind === 'wood') oscillator.frequency.exponentialRampToValueAtTime(Math.max(90, frequency * .58), context.currentTime + .055);
+      const layerVolume = volume * (index ? .34 : .78);
+      gain.gain.setValueAtTime(layerVolume, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.001, context.currentTime + (kind === 'soft' ? .16 : .085));
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start(context.currentTime);
+      oscillator.stop(context.currentTime + (kind === 'soft' ? .18 : .1));
+    });
   }
 
   function stopMetronome() {
@@ -116,6 +128,7 @@
     }
     if (widget) {
       widget.hidden = false;
+      requestAnimationFrame(placeDefaultMetronome);
       widget.classList.add('playing');
       widget.style.setProperty('--beat-duration', `${(60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType)}ms`);
     }
@@ -242,7 +255,10 @@
     playAt(Math.max(0, target), false);
     if ($('#metro')?.value !== 'off') {
       const widget = $('#floatingMetronome');
-      if (widget) widget.hidden = false;
+      if (widget) {
+        widget.hidden = false;
+        requestAnimationFrame(placeDefaultMetronome);
+      }
       metronome(current % beatsPerMeasure === 0);
     }
   }
@@ -298,8 +314,9 @@
     test.textContent = '🔊 Testar metrônomo';
     test.style.marginTop = '5px';
     test.style.padding = '7px 9px';
-    test.addEventListener('click', async () => {
-      await ensureAudioReady();
+    test.addEventListener('click', () => {
+      const context = audioContext();
+      if (context && context.state !== 'running') context.resume().catch(() => {});
       const widget = $('#floatingMetronome');
       if (widget) widget.hidden = false;
       metronome(true);
@@ -464,7 +481,7 @@
   function ensureFloatingMetronome() {
     if ($('#floatingMetronome')) return;
     const style = document.createElement('style');
-    style.textContent = '#floatingMetronome{position:fixed;right:22px;bottom:90px;z-index:9998;width:112px;padding:10px 8px 8px;border:3px solid #f5bd45;border-radius:18px;background:#fffdf6;color:#183932;text-align:center;box-shadow:0 12px 30px #07182755;font-weight:900;cursor:grab;user-select:none;touch-action:none}#floatingMetronome.dragging{cursor:grabbing;opacity:.92}#floatingMetronome .case{position:relative;width:52px;height:70px;margin:auto;background:linear-gradient(145deg,#173d36,#0e5145);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);border-radius:8px}#floatingMetronome .arm{position:absolute;left:25px;bottom:10px;width:3px;height:48px;background:#f5bd45;transform-origin:50% 100%;transform:rotate(-24deg)}#floatingMetronome .weight{position:absolute;left:-6px;top:10px;width:15px;height:15px;border-radius:50%;background:#fff}#floatingMetronome.playing .arm{animation:metronomeSwing var(--beat-duration,750ms) ease-in-out infinite alternate}#floatingMetronome.beat{box-shadow:0 0 0 6px #f5bd4540,0 12px 30px #07182755}#floatingMetronome.accent .case{background:linear-gradient(145deg,#8f283f,#bd3e39)}#floatingMetronome small{display:block;margin-top:5px}@keyframes metronomeSwing{from{transform:rotate(-27deg)}to{transform:rotate(27deg)}}@media(max-width:650px){#floatingMetronome{right:10px;bottom:76px;width:88px;transform:scale(.88);transform-origin:bottom right}}';
+    style.textContent = '#floatingMetronome{position:fixed;right:8px;top:118px;bottom:auto;z-index:9998;width:112px;padding:10px 8px 8px;border:3px solid #f5bd45;border-radius:18px;background:#fffdf6;color:#183932;text-align:center;box-shadow:0 12px 30px #07182755;font-weight:900;cursor:grab;user-select:none;touch-action:none}#floatingMetronome.dragging{cursor:grabbing;opacity:.92}#floatingMetronome .case{position:relative;width:52px;height:70px;margin:auto;background:linear-gradient(145deg,#173d36,#0e5145);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);border-radius:8px}#floatingMetronome .arm{position:absolute;left:25px;bottom:10px;width:3px;height:48px;background:#f5bd45;transform-origin:50% 100%;transform:rotate(-24deg)}#floatingMetronome .weight{position:absolute;left:-6px;top:10px;width:15px;height:15px;border-radius:50%;background:#fff}#floatingMetronome.playing .arm{animation:metronomeSwing var(--beat-duration,750ms) ease-in-out infinite alternate}#floatingMetronome.beat{box-shadow:0 0 0 6px #f5bd4540,0 12px 30px #07182755}#floatingMetronome.accent .case{background:linear-gradient(145deg,#8f283f,#bd3e39)}#floatingMetronome small{display:block;margin-top:5px}@keyframes metronomeSwing{from{transform:rotate(-27deg)}to{transform:rotate(27deg)}}@media(max-width:650px){#floatingMetronome{right:4px;top:96px;width:88px;transform:scale(.88);transform-origin:top right}}';
     document.head.appendChild(style);
     const widget = document.createElement('div');
     widget.id = 'floatingMetronome';
@@ -475,10 +492,26 @@
     enableMetronomeDragging(widget);
   }
 
+  function placeDefaultMetronome() {
+    const widget = $('#floatingMetronome');
+    const controls = $('.controls');
+    if (!widget || !controls || widget.dataset.customPosition === '1') return;
+    const controlsRectangle = controls.getBoundingClientRect();
+    const widgetRectangle = widget.getBoundingClientRect();
+    if (controlsRectangle.height < 40 || widgetRectangle.height < 40) return;
+    const left = Math.max(4, innerWidth - widgetRectangle.width - 8);
+    const top = Math.max(4, controlsRectangle.top + (controlsRectangle.height - widgetRectangle.height) / 2);
+    widget.style.left = `${left}px`;
+    widget.style.top = `${top}px`;
+    widget.style.right = 'auto';
+    widget.style.bottom = 'auto';
+  }
+
   function enableMetronomeDragging(widget) {
     try {
       const saved = JSON.parse(localStorage.getItem('escolaLuizMetronomePosition') || 'null');
       if (saved && Number.isFinite(saved.left) && Number.isFinite(saved.top)) {
+        widget.dataset.customPosition = '1';
         widget.style.left = `${Math.max(0, Math.min(saved.left, innerWidth - widget.offsetWidth))}px`;
         widget.style.top = `${Math.max(0, Math.min(saved.top, innerHeight - widget.offsetHeight))}px`;
         widget.style.right = 'auto';
@@ -510,6 +543,7 @@
     const finish = event => {
       if (!dragging) return;
       dragging = false;
+      widget.dataset.customPosition = '1';
       widget.classList.remove('dragging');
       widget.releasePointerCapture?.(event.pointerId);
       const rectangle = widget.getBoundingClientRect();
@@ -569,6 +603,8 @@
     ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     ensureFloatingControls();
+    requestAnimationFrame(placeDefaultMetronome);
+    addEventListener('resize', placeDefaultMetronome);
     $('#backToIndex')?.addEventListener('click', () => {
       document.body.classList.remove('music-open');
       scrollTo({top:0, left:0, behavior:'auto'});
