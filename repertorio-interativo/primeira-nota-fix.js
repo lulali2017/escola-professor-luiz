@@ -12,6 +12,8 @@
   let beatType = 4;
   let arrangingScore = false;
   let arrangeTimer = 0;
+  const activeMetronomeAudio = new Set();
+  const metronomeAudioUrls = new Map();
   const semitones = {'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
 
   function audioContext() {
@@ -87,14 +89,47 @@
     widget.classList.add('beat');
   }
 
-  function metronome(accent) {
-    pulseMetronome(accent);
-    if ($('#metro')?.value !== 'on') return;
+  function metronomeAudioUrl(accent, kind) {
+    const key = `${kind}-${accent ? 'accent' : 'beat'}`;
+    if (metronomeAudioUrls.has(key)) return metronomeAudioUrls.get(key);
+    const sampleRate = 44100;
+    const seconds = kind === 'soft' ? .16 : .11;
+    const samples = Math.floor(sampleRate * seconds);
+    const buffer = new ArrayBuffer(44 + samples * 2);
+    const view = new DataView(buffer);
+    const writeText = (offset, text) => [...text].forEach((character, index) => view.setUint8(offset + index, character.charCodeAt(0)));
+    writeText(0, 'RIFF');
+    view.setUint32(4, 36 + samples * 2, true);
+    writeText(8, 'WAVE');
+    writeText(12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    writeText(36, 'data');
+    view.setUint32(40, samples * 2, true);
+    const high = accent ? 1760 : 1320;
+    const low = accent ? 330 : 245;
+    for (let index = 0; index < samples; index += 1) {
+      const time = index / sampleRate;
+      const envelope = Math.pow(1 - index / samples, kind === 'soft' ? 2.2 : 4.5);
+      const bright = Math.sin(2 * Math.PI * high * time) * (kind === 'soft' ? .55 : .78);
+      const body = Math.sin(2 * Math.PI * low * time) * .34;
+      const attack = kind === 'wood' && index < 180 ? (Math.random() * 2 - 1) * (1 - index / 180) * .3 : 0;
+      const sample = Math.max(-1, Math.min(1, (bright + body + attack) * envelope));
+      view.setInt16(44 + index * 2, sample * 32767, true);
+    }
+    const url = URL.createObjectURL(new Blob([buffer], {type:'audio/wav'}));
+    metronomeAudioUrls.set(key, url);
+    return url;
+  }
+
+  function webAudioMetronome(accent, kind, volume) {
     const context = audioContext();
     if (!context) return;
-    const kind = $('#click')?.value || 'wood';
-    const volume = metronomeLevelToGain($('#metroVolume')?.value ?? 100);
-    if (!volume) return;
     const frequencies = accent ? [1760, 330] : [1320, 245];
     frequencies.forEach((frequency, index) => {
       const oscillator = context.createOscillator();
@@ -108,6 +143,26 @@
       oscillator.connect(gain).connect(context.destination);
       oscillator.start(context.currentTime);
       oscillator.stop(context.currentTime + (kind === 'soft' ? .18 : .1));
+    });
+  }
+
+  function metronome(accent) {
+    pulseMetronome(accent);
+    if ($('#metro')?.value !== 'on') return;
+    const kind = $('#click')?.value || 'wood';
+    const volume = metronomeLevelToGain($('#metroVolume')?.value ?? 100);
+    if (!volume) return;
+    const click = new Audio(metronomeAudioUrl(accent, kind));
+    click.preload = 'auto';
+    click.volume = Math.max(.01, Math.min(1, Number($('#metroVolume')?.value || 100) / 200));
+    activeMetronomeAudio.add(click);
+    const release = () => activeMetronomeAudio.delete(click);
+    click.addEventListener('ended', release, {once:true});
+    click.addEventListener('error', release, {once:true});
+    const playback = click.play();
+    if (playback?.catch) playback.catch(() => {
+      release();
+      webAudioMetronome(accent, kind, volume);
     });
   }
 
