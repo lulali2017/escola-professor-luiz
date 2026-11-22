@@ -991,6 +991,7 @@
     ensureInstrumentControl(stopButton);
     ensureNoteVolumeControl();
     ensureMetronomeVolumeControl();
+    $('#testMetronome')?.remove();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
     ensureRhythmGuide();
     const floatingIndexButton = document.createElement('button');
