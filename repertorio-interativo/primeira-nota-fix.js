@@ -623,7 +623,9 @@
 
   function formatRhythmNumber(value) {
     if (Number.isInteger(value)) return String(value);
-    return String(Math.round(value * 100) / 100).replace('.', ',');
+    const rounded = Math.round(value * 100) / 100;
+    const repeating = Math.abs(value - rounded) > .0001;
+    return `${String(rounded).replace('.', ',')}${repeating ? '...' : ''}`;
   }
 
   function updateRhythmGuide() {
@@ -634,7 +636,9 @@
       ['𝅗𝅥', 'Mínima', 2],
       ['♩', 'Semínima', 1],
       ['♪', 'Colcheia', .5],
-      ['𝅘𝅥𝅯', 'Semicolcheia', .25]
+      ['𝅘𝅥𝅯', 'Semicolcheia', .25],
+      ['♪³', 'Tercina de colcheia', 1 / 3],
+      ['♩³', 'Tercina de semínima', 2 / 3]
     ];
     guide.querySelector('summary').textContent = `Figuras e tempos · compasso ${beatsPerMeasure}/${beatType}`;
     guide.querySelector('.rhythm-items').innerHTML = figures.map(([symbol, name, quarterUnits]) => {
@@ -648,7 +652,7 @@
     const controls = $('.controls');
     if (!controls) return;
     const style = document.createElement('style');
-    style.textContent = '#rhythmGuide{flex:1 1 100%;order:20;border:1px solid #d8c086;border-radius:12px;background:#fff8df;padding:7px 10px;color:#183932}#rhythmGuide summary{cursor:pointer;font-weight:900}#rhythmGuide .rhythm-items{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}#rhythmGuide .rhythm-items>span{display:grid;grid-template-columns:28px auto;grid-template-rows:auto auto;align-items:center;column-gap:6px;min-width:145px;padding:5px 8px;border-radius:9px;background:#fff}.rhythm-symbol{grid-row:1/3;font:30px/1 "Noto Music","Segoe UI Symbol",serif}.rhythm-items strong{font-size:12px}.rhythm-items small{font-size:11px}.note .figure-name{display:block;margin-top:2px;color:#815b12;font:700 10px/1.2 system-ui,sans-serif}.note.figure-whole i,.note.figure-half i{background:#fffdf6;border:3px solid #143f38}.note.figure-whole i:after{display:none}.note.figure-eighth i:before,.note.figure-sixteenth i:before,.note.figure-thirtysecond i:before{content:"";position:absolute;right:-10px;bottom:34px;width:13px;height:12px;border-top:4px solid #143f38;border-radius:0 12px 0 0;transform:rotate(25deg)}.note.figure-sixteenth i:before{box-shadow:2px 7px 0 -1px #143f38}.note.figure-thirtysecond i:before{box-shadow:2px 7px 0 -1px #143f38,4px 14px 0 -1px #143f38}.note.figure-triplet .figure-name::after{content:" 3";display:inline-block;margin-left:3px;padding:0 3px;border-top:1px solid currentColor;border-radius:4px}@media(max-width:650px){#rhythmGuide .rhythm-items>span{min-width:126px}}';
+    style.textContent = '#rhythmGuide{flex:1 1 100%;order:20;border:1px solid #d8c086;border-radius:10px;background:#fff8df;padding:3px 7px;color:#183932}#rhythmGuide summary{cursor:pointer;font-size:13px;font-weight:900;line-height:1.2}#rhythmGuide .rhythm-items{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}#rhythmGuide .rhythm-items>span{display:flex;align-items:center;gap:4px;min-width:0;padding:2px 6px;border-radius:7px;background:#fff;white-space:nowrap}.rhythm-symbol{font:22px/1 "Noto Music","Segoe UI Symbol",serif}.rhythm-items strong{font-size:10px}.rhythm-items small{font-size:10px}.music-open .controls.controls-floating{padding:6px 8px;gap:5px;max-height:42vh}.music-open .controls.controls-floating button{min-height:32px!important;padding:5px 9px!important;border-radius:8px;font-size:13px;line-height:1.05}.music-open .controls.controls-floating label{font-size:10px;line-height:1}.music-open .controls.controls-floating select,.music-open .controls.controls-floating input{margin-top:2px;padding:4px 6px;min-height:32px;font-size:12px}.music-open .controls.controls-floating input[type=range]{min-height:18px;padding:0}.music-open .controls.controls-floating .reader-check{padding:5px 8px!important;font-size:12px!important}.note .figure-name{display:block;margin-top:2px;color:#815b12;font:700 10px/1.2 system-ui,sans-serif}.note.figure-whole i,.note.figure-half i{background:#fffdf6;border:3px solid #143f38}.note.figure-whole i:after{display:none}.note.figure-eighth i:before,.note.figure-sixteenth i:before,.note.figure-thirtysecond i:before{content:"";position:absolute;right:-10px;bottom:34px;width:13px;height:12px;border-top:4px solid #143f38;border-radius:0 12px 0 0;transform:rotate(25deg)}.note.figure-sixteenth i:before{box-shadow:2px 7px 0 -1px #143f38}.note.figure-thirtysecond i:before{box-shadow:2px 7px 0 -1px #143f38,4px 14px 0 -1px #143f38}.note.figure-triplet .figure-name::after{content:" 3";display:inline-block;margin-left:3px;padding:0 3px;border-top:1px solid currentColor;border-radius:4px}@media(max-width:650px){#rhythmGuide .rhythm-items>span{padding:2px 4px}.music-open .controls.controls-floating{max-height:38vh}}';
     document.head.appendChild(style);
     const guide = document.createElement('details');
     guide.id = 'rhythmGuide';
