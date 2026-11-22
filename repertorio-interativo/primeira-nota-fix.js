@@ -7,12 +7,13 @@
   let animation = 0;
   let nextAt = 0;
   let clock = 0;
+  let testClock = 0;
   let beatCounter = 0;
   let beatsPerMeasure = 4;
   let beatType = 4;
   let arrangingScore = false;
   let arrangeTimer = 0;
-  const activeMetronomeAudio = new Set();
+  let metronomePlayer = null;
   const metronomeAudioUrls = new Map();
   const semitones = {'Dó':0,'Dó♯':1,'Ré':2,'Ré♯':3,'Mi':4,'Fá':5,'Fá♯':6,'Sol':7,'Sol♯':8,'Lá':9,'Lá♯':10,'Si':11};
 
@@ -152,23 +153,24 @@
     const kind = $('#click')?.value || 'wood';
     const volume = metronomeLevelToGain($('#metroVolume')?.value ?? 100);
     if (!volume) return;
-    const click = new Audio(metronomeAudioUrl(accent, kind));
+    metronomePlayer ??= new Audio();
+    const click = metronomePlayer;
     click.preload = 'auto';
+    click.pause();
+    click.src = metronomeAudioUrl(accent, kind);
+    click.currentTime = 0;
     click.volume = Math.max(.01, Math.min(1, Number($('#metroVolume')?.value || 100) / 200));
-    activeMetronomeAudio.add(click);
-    const release = () => activeMetronomeAudio.delete(click);
-    click.addEventListener('ended', release, {once:true});
-    click.addEventListener('error', release, {once:true});
     const playback = click.play();
     if (playback?.catch) playback.catch(() => {
-      release();
       webAudioMetronome(accent, kind, volume);
     });
   }
 
   function stopMetronome() {
     clearInterval(clock);
+    clearInterval(testClock);
     clock = 0;
+    testClock = 0;
     beatCounter = 0;
     $('#floatingMetronome')?.classList.remove('playing', 'beat', 'accent');
   }
@@ -406,14 +408,38 @@
     slider.addEventListener('input', () => { output.textContent = `${slider.value}%`; });
     label.append(slider, output);
     anchor.insertAdjacentElement('afterend', label);
-    const test = $('#testMetronome');
-    if (test) {
+    const oldTest = $('#testMetronome');
+    if (oldTest) {
+      const test = oldTest.cloneNode(true);
+      oldTest.replaceWith(test);
       test.className = 'metronome-test-button';
+      test.textContent = 'ðŸ”Š Testar 1 compasso';
       test.style.marginTop = '0';
       test.style.alignSelf = 'flex-end';
       test.style.minHeight = '42px';
       test.style.background = '#0e5145';
       test.style.color = '#fff';
+      test.addEventListener('click', async event => {
+        event.preventDefault();
+        event.stopPropagation();
+        clearInterval(testClock);
+        await ensureAudioReady();
+        const widget = $('#floatingMetronome');
+        if (widget) widget.hidden = false;
+        let count = 0;
+        const beat = () => {
+          metronome(count === 0);
+          count += 1;
+          if (count >= beatsPerMeasure) {
+            clearInterval(testClock);
+            testClock = 0;
+            setTimeout(() => { test.textContent = 'ðŸ”Š Testar 1 compasso'; }, 500);
+          }
+        };
+        test.textContent = `ðŸŽµ Tocando ${beatsPerMeasure} batidas`;
+        beat();
+        if (count < beatsPerMeasure) testClock = setInterval(beat, (60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType));
+      });
       label.insertAdjacentElement('afterend', test);
     }
   }
