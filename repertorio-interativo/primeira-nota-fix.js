@@ -186,7 +186,7 @@
     metronomeBarPlayer.currentTime = 0;
     metronomeBarPlayer.loop = loop;
     metronomeBarPlayer.preload = 'auto';
-    metronomeBarPlayer.volume = Math.max(.01, Math.min(1, Number($('#metroVolume')?.value || 100) / 200));
+    metronomeBarPlayer.volume = Math.max(0, Math.min(1, Number($('#metroVolume')?.value ?? 100) / 200));
     const playback = metronomeBarPlayer.play();
     if (playback?.catch) playback.catch(() => {
       webAudioMetronome(true, $('#click')?.value || 'wood', metronomeLevelToGain($('#metroVolume')?.value ?? 100));
@@ -443,8 +443,6 @@
     output.style.fontSize = '12px';
     slider.addEventListener('input', () => {
       output.textContent = `${slider.value}%`;
-      if (metronomeBarPlayer) metronomeBarPlayer.volume = Math.max(0, Math.min(1, Number(slider.value) / 200));
-      if (metronomePlayer) metronomePlayer.volume = Math.max(0, Math.min(1, Number(slider.value) / 200));
     });
     const test = document.createElement('button');
     test.type = 'button';
@@ -486,7 +484,12 @@
     output.style.display = 'block';
     output.style.textAlign = 'center';
     output.style.fontSize = '12px';
-    slider.addEventListener('input', () => { output.textContent = `${slider.value}%`; });
+    slider.addEventListener('input', () => {
+      output.textContent = `${slider.value}%`;
+      const volume = Math.max(0, Math.min(1, Number(slider.value) / 200));
+      if (metronomeBarPlayer) metronomeBarPlayer.volume = volume;
+      if (metronomePlayer) metronomePlayer.volume = volume;
+    });
     label.append(slider, output);
     anchor.insertAdjacentElement('afterend', label);
     const oldTest = $('#testMetronome');
@@ -506,7 +509,13 @@
         clearInterval(testClock);
         await ensureAudioReady();
         const widget = $('#floatingMetronome');
-        if (widget) widget.hidden = false;
+        const beatMilliseconds = (60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType);
+        if (widget) {
+          widget.hidden = false;
+          widget.classList.add('playing');
+          widget.style.setProperty('--beat-duration', `${beatMilliseconds}ms`);
+          requestAnimationFrame(placeDefaultMetronome);
+        }
         playMetronomeBar(false);
         let count = 0;
         const beat = () => {
@@ -515,12 +524,15 @@
           if (count >= beatsPerMeasure) {
             clearInterval(testClock);
             testClock = 0;
-            setTimeout(() => { test.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`; }, 500);
+            setTimeout(() => {
+              test.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
+              widget?.classList.remove('playing', 'beat', 'accent');
+            }, Math.min(500, beatMilliseconds * .65));
           }
         };
         test.textContent = `Tocando ${beatsPerMeasure} batidas`;
         beat();
-        if (count < beatsPerMeasure) testClock = setInterval(beat, (60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType));
+        if (count < beatsPerMeasure) testClock = setInterval(beat, beatMilliseconds);
       });
       label.insertAdjacentElement('afterend', test);
     }
