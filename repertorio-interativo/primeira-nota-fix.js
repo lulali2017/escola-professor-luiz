@@ -157,9 +157,14 @@
     const click = metronomePlayer;
     click.preload = 'auto';
     click.pause();
-    click.src = metronomeAudioUrl(accent, kind);
+    if (click.dataset.soundKind !== kind) {
+      click.src = metronomeAudioUrl(false, kind);
+      click.dataset.soundKind = kind;
+      click.load();
+    }
     click.currentTime = 0;
-    click.volume = Math.max(.01, Math.min(1, Number($('#metroVolume')?.value || 100) / 200));
+    const baseVolume = Math.max(.01, Math.min(1, Number($('#metroVolume')?.value || 100) / 200));
+    click.volume = Math.max(.01, Math.min(1, baseVolume * (accent ? 1 : .78)));
     const playback = click.play();
     if (playback?.catch) playback.catch(() => {
       webAudioMetronome(accent, kind, volume);
@@ -413,7 +418,7 @@
       const test = oldTest.cloneNode(true);
       oldTest.replaceWith(test);
       test.className = 'metronome-test-button';
-      test.textContent = 'ðŸ”Š Testar 1 compasso';
+      test.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
       test.style.marginTop = '0';
       test.style.alignSelf = 'flex-end';
       test.style.minHeight = '42px';
@@ -433,10 +438,10 @@
           if (count >= beatsPerMeasure) {
             clearInterval(testClock);
             testClock = 0;
-            setTimeout(() => { test.textContent = 'ðŸ”Š Testar 1 compasso'; }, 500);
+            setTimeout(() => { test.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`; }, 500);
           }
         };
-        test.textContent = `ðŸŽµ Tocando ${beatsPerMeasure} batidas`;
+        test.textContent = `Tocando ${beatsPerMeasure} batidas`;
         beat();
         if (count < beatsPerMeasure) testClock = setInterval(beat, (60000 / Math.max(40, Number($('#bpm')?.value) || 80)) * (4 / beatType));
       });
@@ -543,6 +548,8 @@
       beatType = Number.isFinite(denominator) && denominator > 0 ? denominator : 4;
       const meterLabel = $('#meterLabel');
       if (meterLabel) meterLabel.textContent = `${beatsPerMeasure}/${beatType}`;
+      const testButton = $('#testMetronome');
+      if (testButton && !testClock) testButton.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
       const informedTempo = Number(documentXml.querySelector('sound[tempo]')?.getAttribute('tempo') || documentXml.querySelector('per-minute')?.textContent);
       if (Number.isFinite(informedTempo) && informedTempo >= 40 && informedTempo <= 180) {
         const bpm = $('#bpm');
