@@ -617,6 +617,21 @@
     });
   }
 
+  function applyCalculatedBarlines() {
+    const notes = [...document.querySelectorAll('#staff .note')];
+    if (!notes.length) return;
+    const measureDuration = Math.max(.25, beatsPerMeasure * (4 / beatType));
+    let elapsed = 0;
+    notes.forEach((note, index) => {
+      const duration = Math.max(.0625, parseFloat(note.querySelector('small')?.textContent) || 1);
+      elapsed += duration;
+      const closesMeasure = elapsed >= measureDuration - .001;
+      note.classList.toggle('measure-end', closesMeasure || index === notes.length - 1);
+      note.classList.toggle('score-end', index === notes.length - 1);
+      if (closesMeasure) elapsed %= measureDuration;
+    });
+  }
+
   function applyScoreView() {
     if (arrangingScore) return;
     const staff = $('#staff');
@@ -644,6 +659,7 @@
       staff.classList.add('view-pages');
     }
     updateTimeSignatures();
+    applyCalculatedBarlines();
     setTimeout(() => { arrangingScore = false; }, 0);
   }
 
@@ -693,21 +709,18 @@
         if (bpmOutput) bpmOutput.textContent = `${Math.round(informedTempo)} BPM`;
       }
       const measureStarts = [];
-      const measureEnds = [];
       let renderedNoteCount = 0;
       const part = documentXml.querySelector('part');
       part?.querySelectorAll(':scope > measure').forEach(measure => {
         const measureNotes = [...measure.querySelectorAll(':scope > note')].filter(note => !note.querySelector('chord'));
         if (measureNotes.length) measureStarts.push(renderedNoteCount);
         renderedNoteCount += measureNotes.length;
-        if (measureNotes.length) measureEnds.push(renderedNoteCount - 1);
       });
       const renderedNotes = [...document.querySelectorAll('#staff .note')];
       renderedNotes.forEach((note, index) => {
         note.classList.toggle('measure-start', measureStarts.includes(index));
-        note.classList.toggle('measure-end', measureEnds.includes(index));
-        note.classList.toggle('score-end', index === renderedNoteCount - 1);
       });
+      applyCalculatedBarlines();
     } catch (error) {
       beatsPerMeasure = 4;
       beatType = 4;
