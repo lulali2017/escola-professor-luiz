@@ -621,6 +621,70 @@
     });
   }
 
+  function formatRhythmNumber(value) {
+    if (Number.isInteger(value)) return String(value);
+    return String(Math.round(value * 100) / 100).replace('.', ',');
+  }
+
+  function updateRhythmGuide() {
+    const guide = $('#rhythmGuide');
+    if (!guide) return;
+    const figures = [
+      ['𝅝', 'Semibreve', 4],
+      ['𝅗𝅥', 'Mínima', 2],
+      ['♩', 'Semínima', 1],
+      ['♪', 'Colcheia', .5],
+      ['𝅘𝅥𝅯', 'Semicolcheia', .25]
+    ];
+    guide.querySelector('summary').textContent = `Figuras e tempos · compasso ${beatsPerMeasure}/${beatType}`;
+    guide.querySelector('.rhythm-items').innerHTML = figures.map(([symbol, name, quarterUnits]) => {
+      const beats = quarterUnits * beatType / 4;
+      return `<span><b class="rhythm-symbol">${symbol}</b><strong>${name}</strong><small>${formatRhythmNumber(beats)} ${beats === 1 ? 'tempo' : 'tempos'}</small></span>`;
+    }).join('');
+  }
+
+  function ensureRhythmGuide() {
+    if ($('#rhythmGuide')) return;
+    const controls = $('.controls');
+    if (!controls) return;
+    const style = document.createElement('style');
+    style.textContent = '#rhythmGuide{flex:1 1 100%;order:20;border:1px solid #d8c086;border-radius:12px;background:#fff8df;padding:7px 10px;color:#183932}#rhythmGuide summary{cursor:pointer;font-weight:900}#rhythmGuide .rhythm-items{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}#rhythmGuide .rhythm-items>span{display:grid;grid-template-columns:28px auto;grid-template-rows:auto auto;align-items:center;column-gap:6px;min-width:145px;padding:5px 8px;border-radius:9px;background:#fff}.rhythm-symbol{grid-row:1/3;font:30px/1 "Noto Music","Segoe UI Symbol",serif}.rhythm-items strong{font-size:12px}.rhythm-items small{font-size:11px}.note .figure-name{display:block;margin-top:2px;color:#815b12;font:700 10px/1.2 system-ui,sans-serif}.note.figure-whole i,.note.figure-half i{background:#fffdf6;border:3px solid #143f38}.note.figure-whole i:after{display:none}.note.figure-eighth i:before,.note.figure-sixteenth i:before,.note.figure-thirtysecond i:before{content:"";position:absolute;right:-10px;bottom:34px;width:13px;height:12px;border-top:4px solid #143f38;border-radius:0 12px 0 0;transform:rotate(25deg)}.note.figure-sixteenth i:before{box-shadow:2px 7px 0 -1px #143f38}.note.figure-thirtysecond i:before{box-shadow:2px 7px 0 -1px #143f38,4px 14px 0 -1px #143f38}.note.figure-triplet .figure-name::after{content:" 3";display:inline-block;margin-left:3px;padding:0 3px;border-top:1px solid currentColor;border-radius:4px}@media(max-width:650px){#rhythmGuide .rhythm-items>span{min-width:126px}}';
+    document.head.appendChild(style);
+    const guide = document.createElement('details');
+    guide.id = 'rhythmGuide';
+    guide.open = true;
+    guide.innerHTML = '<summary></summary><div class="rhythm-items"></div>';
+    controls.appendChild(guide);
+    updateRhythmGuide();
+  }
+
+  function classifyRhythmicFigure(note, duration) {
+    const classes = ['figure-whole','figure-half','figure-quarter','figure-eighth','figure-sixteenth','figure-thirtysecond','figure-triplet'];
+    note.classList.remove(...classes);
+    let cssClass = 'figure-quarter';
+    let name = 'Semínima';
+    if (duration >= 3.75) { cssClass = 'figure-whole'; name = 'Semibreve'; }
+    else if (duration >= 1.75) { cssClass = 'figure-half'; name = 'Mínima'; }
+    else if (duration >= .875) { cssClass = 'figure-quarter'; name = 'Semínima'; }
+    else if (duration >= .4375) { cssClass = 'figure-eighth'; name = 'Colcheia'; }
+    else if (duration >= .21875) { cssClass = 'figure-sixteenth'; name = 'Semicolcheia'; }
+    else { cssClass = 'figure-thirtysecond'; name = 'Fusa'; }
+    const eighthTriplet = Math.abs(duration - 1 / 3) < .02;
+    const quarterTriplet = Math.abs(duration - 2 / 3) < .02;
+    const triplet = eighthTriplet || quarterTriplet;
+    if (eighthTriplet) { cssClass = 'figure-eighth'; name = 'Colcheia'; }
+    if (quarterTriplet) { cssClass = 'figure-quarter'; name = 'Semínima'; }
+    note.classList.add(cssClass);
+    if (triplet) note.classList.add('figure-triplet');
+    let label = note.querySelector('.figure-name');
+    if (!label) {
+      label = document.createElement('em');
+      label.className = 'figure-name';
+      note.appendChild(label);
+    }
+    label.textContent = triplet ? `${name} (tercina)` : name;
+  }
+
   function applyCalculatedBarlines() {
     const notes = [...document.querySelectorAll('#staff .note')];
     if (!notes.length) return;
@@ -638,6 +702,7 @@
         label.textContent = `${display} tempo(s)`;
       }
       const duration = Math.max(.0625, parseFloat(label?.dataset.beats || label?.textContent) || 1);
+      classifyRhythmicFigure(note, duration);
       elapsed += duration;
       const closesMeasure = elapsed >= measureDuration - .001;
       note.classList.toggle('measure-end', closesMeasure || index === notes.length - 1);
@@ -731,6 +796,7 @@
       const meterLabel = $('#meterLabel');
       if (meterLabel) meterLabel.textContent = `${beatsPerMeasure}/${beatType}`;
       updateTimeSignatures();
+      updateRhythmGuide();
       const testButton = $('#testMetronome');
       if (testButton && !testClock) testButton.textContent = `Testar metronomo - ${beatsPerMeasure} batidas`;
       const informedTempo = Number(documentXml.querySelector('sound[tempo]')?.getAttribute('tempo') || documentXml.querySelector('per-minute')?.textContent);
@@ -883,6 +949,7 @@
     ensureNoteVolumeControl();
     ensureMetronomeVolumeControl();
     ensureScoreViewControl($('#instrument')?.closest('label') || stopButton);
+    ensureRhythmGuide();
     ensureFloatingControls();
     requestAnimationFrame(placeDefaultMetronome);
     addEventListener('resize', placeDefaultMetronome);
