@@ -351,6 +351,16 @@
     slider.addEventListener('input', () => { output.textContent = `${slider.value}%`; });
     label.append(slider, output);
     anchor.insertAdjacentElement('afterend', label);
+    const test = $('#testMetronome');
+    if (test) {
+      test.className = 'metronome-test-button';
+      test.style.marginTop = '0';
+      test.style.alignSelf = 'flex-end';
+      test.style.minHeight = '42px';
+      test.style.background = '#0e5145';
+      test.style.color = '#fff';
+      label.insertAdjacentElement('afterend', test);
+    }
   }
 
   function ensureFloatingControls() {
