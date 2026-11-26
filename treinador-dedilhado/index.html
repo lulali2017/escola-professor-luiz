@@ -85,7 +85,7 @@
         grid-template-columns: repeat(4, minmax(150px, 1fr));
         gap: 10px;
       }
-      .panel.control-panel{position:sticky;top:0;z-index:40;transition:.25s}
+      .panel.control-panel{position:sticky;top:var(--trainer-header-height,60px);z-index:40;transition:.25s}
       .panel-toggle{margin-left:auto;background:#173c36!important}
       .panel.control-panel.compact{padding:7px 10px;border-radius:0 0 14px 14px}
       .panel.control-panel.compact .controls{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr));gap:6px}
@@ -700,6 +700,12 @@
           new IntersectionObserver(([entry]) => {
             if (!entry.isIntersecting) setCompact(true);
           }, { threshold: 0 }).observe(marker);
+        })();
+        (() => {
+          const trainerHeader = document.querySelector("body > header");
+          const updateHeaderHeight = () => document.documentElement.style.setProperty("--trainer-header-height", trainerHeader.offsetHeight + "px");
+          new ResizeObserver(updateHeaderHeight).observe(trainerHeader);
+          updateHeaderHeight();
         })();
         (() => {
           let zoom = Number(localStorage.getItem("trainerZoom") || 1);
