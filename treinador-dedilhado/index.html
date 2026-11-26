@@ -208,7 +208,7 @@
         border-left: 5px solid #246b5a;
       }
       .floating-metronome{position:fixed;right:22px;bottom:22px;z-index:50;width:132px;padding:14px 10px;border:3px solid #efb632;border-radius:24px;background:#fffaf0;color:#173c36;text-align:center;box-shadow:0 12px 30px #173c3640;cursor:grab;user-select:none;touch-action:none}
-      .floating-metronome[hidden]{display:none}.floating-metronome strong,.floating-metronome span{display:block}.floating-metronome span{font-size:12px}.metro-arm{width:8px;height:54px;margin:0 auto 5px;border-radius:8px;background:#efb632;transform-origin:50% 100%}.floating-metronome.beat .metro-arm{animation:metroSwing .34s ease-in-out alternate 2}@keyframes metroSwing{from{transform:rotate(-25deg)}to{transform:rotate(25deg)}}
+      .floating-metronome[hidden]{display:none}.floating-metronome strong,.floating-metronome span{display:block}.floating-metronome span{font-size:12px}.metro-image{display:block;width:108px;height:108px;object-fit:contain;margin:0 auto 5px;transform-origin:50% 85%}.floating-metronome.beat .metro-image{animation:metroSwing .34s ease-in-out alternate 2}@keyframes metroSwing{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
       @media (max-width: 800px) {
         .controls {
           grid-template-columns: repeat(2, 1fr);
@@ -310,7 +310,7 @@
       </section>
     </main>
     <div id="floatingMetronome" class="floating-metronome" aria-label="Metrônomo móvel">
-      <div class="metro-arm"></div><strong>Metrônomo</strong><span id="metroModeLabel">som e imagem</span>
+      <img class="metro-image" src="metronomo-classico.png" alt="Metrônomo clássico"><strong>Metrônomo</strong><span id="metroModeLabel">som e imagem</span>
     </div>
     <script>
       (() => {
