@@ -1,8 +1,9 @@
 :root{--school-page-zoom:1}
 .school-ui-tools{position:fixed;left:14px;bottom:14px;z-index:2147483000;display:flex;align-items:center;gap:5px;padding:6px;border:2px solid #efb632;border-radius:15px;background:#103c35f2;box-shadow:0 8px 24px #0006}
 .school-ui-tools button{min-width:38px;height:34px;border:0;border-radius:9px;background:#fff7dc;color:#123d36;font-weight:900;cursor:pointer}.school-ui-tools output{min-width:46px;color:#fff;text-align:center;font:800 12px Arial}
+#s28SearchDock{position:fixed!important;left:18px!important;bottom:76px!important;z-index:2147483001!important}
 #campusV273 .school28-page.active>.school28-home,#campusV273 .school28-page.active>.school28-hall,#campusV273 .school28-page.active>.school28-room{zoom:var(--school-page-zoom)}
 html.school-dark #campusV273 .school28-page{background:#071513!important;color:#edf7f2!important}html.school-dark #campusV273 .school28-room{background-color:#071513!important;background-blend-mode:multiply!important}
 html.school-dark #campusV273 .school28-section,html.school-dark #campusV273 .school28-topic,html.school-dark #campusV273 .school28-song,html.school-dark #campusV273 .school28-lesson,html.school-dark #campusV273 .s28-course-sequence,html.school-dark #campusV273 .s28-trainer-card{background:#102824!important;color:#edf7f2!important;border-color:#45645b!important}
 html.school-dark #campusV273 .school28-section h1,html.school-dark #campusV273 .school28-section h2,html.school-dark #campusV273 .school28-section h3,html.school-dark #campusV273 .school28-topic h3{color:#f2c45c!important}html.school-dark #campusV273 input,html.school-dark #campusV273 select,html.school-dark #campusV273 textarea{background:#071b18!important;color:#fff!important;border-color:#58756d!important}
-@media(max-width:650px){.school-ui-tools{left:7px;bottom:7px;padding:4px}.school-ui-tools button{min-width:34px;height:31px}.school-ui-tools output{min-width:40px}}
+@media(max-width:650px){.school-ui-tools{left:7px;bottom:7px;padding:4px}.school-ui-tools button{min-width:34px;height:31px}.school-ui-tools output{min-width:40px}#s28SearchDock{left:9px!important;bottom:58px!important}}
