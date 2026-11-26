@@ -207,7 +207,7 @@
         background: #eef7f3;
         border-left: 5px solid #246b5a;
       }
-      .floating-metronome{position:fixed;right:22px;bottom:22px;z-index:50;width:132px;padding:14px 10px;border:3px solid #efb632;border-radius:24px;background:#fffaf0;color:#173c36;text-align:center;box-shadow:0 12px 30px #173c3640;cursor:grab;user-select:none;touch-action:none}
+      .floating-metronome{position:fixed;right:16px;top:8px;bottom:auto;z-index:50;width:132px;padding:14px 10px;border:3px solid #efb632;border-radius:24px;background:#fffaf0;color:#173c36;text-align:center;box-shadow:0 12px 30px #173c3640;cursor:grab;user-select:none;touch-action:none}
       .floating-metronome[hidden]{display:none}.floating-metronome strong,.floating-metronome span{display:block}.floating-metronome span{font-size:12px}.metro-visual{position:relative;width:108px;height:108px;margin:0 auto 5px}.metro-image{display:block;width:108px;height:108px;object-fit:contain}.metro-weight{position:absolute;z-index:2;left:calc(25px + var(--weight, .23) * 29px);top:calc(29px + var(--weight, .23) * 55px);width:16px;height:8px;border:2px solid #777;border-radius:2px;background:#d8d8d8;transform:rotate(48deg);box-shadow:0 1px 2px #0006;transition:left .2s,top .2s}.metro-scale{position:absolute;right:1px;top:25px;font:700 7px/1.25 Arial;color:#173c36;text-align:right;background:#ffffffb8;padding:2px;border-radius:3px}.floating-metronome.beat .metro-visual{animation:metroSwing .34s ease-in-out alternate 2}@keyframes metroSwing{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
       @media (max-width: 800px) {
         .controls {
@@ -378,7 +378,8 @@
           timer = 0,
           audio = null,
           playing = false,
-          runId = 0;
+          runId = 0,
+          scheduledNodes = [];
         const $ = (s) => document.querySelector(s);
         N.forEach((n, i) =>
           $("#key").add(new Option(PT[i] + " (" + n + ")", i)),
@@ -583,10 +584,37 @@
           o.start();
           o.stop(audio.currentTime + 0.07);
         }
+        function visualPulse() {
+          const floating = $("#floatingMetronome"), p = $("#pulse");
+          p.classList.add("on");
+          setTimeout(() => p.classList.remove("on"), 100);
+          floating.classList.remove("beat");
+          void floating.offsetWidth;
+          floating.classList.add("beat");
+        }
+        function scheduleTone(midi, when, duration) {
+          const o = audio.createOscillator(), g = audio.createGain();
+          o.type = "triangle";
+          o.frequency.setValueAtTime(440 * Math.pow(2, (midi - 69) / 12), when);
+          const level = Math.max(0.0001, 0.12 * Number($("#noteVolume").value) / 100);
+          g.gain.setValueAtTime(level, when);
+          g.gain.exponentialRampToValueAtTime(0.001, when + duration);
+          o.connect(g).connect(audio.destination); o.start(when); o.stop(when + duration + 0.02); scheduledNodes.push(o);
+        }
+        function scheduleClick(accent, when) {
+          const o = audio.createOscillator(), g = audio.createGain(), type = $("#click").value;
+          o.type = type === "classic" ? "square" : type === "soft" ? "sine" : "triangle";
+          o.frequency.setValueAtTime(accent ? 950 : 650, when);
+          const level = Math.max(0.0001, 0.075 * Number($("#metroVolume").value) / 100);
+          g.gain.setValueAtTime(level, when); g.gain.exponentialRampToValueAtTime(0.001, when + 0.07);
+          o.connect(g).connect(audio.destination); o.start(when); o.stop(when + 0.08); scheduledNodes.push(o);
+        }
         function stop() {
           playing = false;
           runId++;
           clearTimeout(timer);
+          scheduledNodes.forEach((node) => { try { node.stop(); } catch {} });
+          scheduledNodes = [];
           document
             .querySelectorAll(".event,.numeric span")
             .forEach((x) => x.classList.remove("active"));
@@ -598,12 +626,17 @@
           const ev = events();
           audio ??= new (window.AudioContext || window.webkitAudioContext)();
           try { if (audio.state === "suspended") await audio.resume(); } catch {}
+          const seconds = 60 / +$("#bpm").value, startAt = audio.currentTime + 0.08;
+          ev.forEach((event, i) => {
+            const when = startAt + i * seconds;
+            if (sound) scheduleTone(event.midi, when, Math.min(0.48, seconds * 0.78));
+            if ($("#metro").value === "sound") scheduleClick(i % 4 === 0, when);
+          });
           for (let i = 0; i < ev.length && playing && id === runId; i++) {
             document.querySelectorAll(".event,.numeric span").forEach((x) =>
               x.classList.toggle("active", +x.dataset.e === i),
             );
-            try { if ($("#metro").value !== "off") tick(i % 4 === 0); } catch (error) { console.warn("Metrônomo:", error); }
-            try { if (sound) tone(ev[i].midi); } catch (error) { console.warn("Nota:", error); }
+            if ($("#metro").value !== "off") visualPulse();
             const ms = 60000 / +$("#bpm").value;
             await new Promise((resolve) => { timer = window.setTimeout(resolve, ms); });
           }
