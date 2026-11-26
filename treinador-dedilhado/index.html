@@ -208,7 +208,7 @@
         border-left: 5px solid #246b5a;
       }
       .floating-metronome{position:fixed;right:22px;bottom:22px;z-index:50;width:132px;padding:14px 10px;border:3px solid #efb632;border-radius:24px;background:#fffaf0;color:#173c36;text-align:center;box-shadow:0 12px 30px #173c3640;cursor:grab;user-select:none;touch-action:none}
-      .floating-metronome[hidden]{display:none}.floating-metronome strong,.floating-metronome span{display:block}.floating-metronome span{font-size:12px}.metro-image{display:block;width:108px;height:108px;object-fit:contain;margin:0 auto 5px;transform-origin:50% 85%}.floating-metronome.beat .metro-image{animation:metroSwing .34s ease-in-out alternate 2}@keyframes metroSwing{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+      .floating-metronome[hidden]{display:none}.floating-metronome strong,.floating-metronome span{display:block}.floating-metronome span{font-size:12px}.metro-visual{position:relative;width:108px;height:108px;margin:0 auto 5px}.metro-image{display:block;width:108px;height:108px;object-fit:contain}.metro-weight{position:absolute;z-index:2;left:calc(25px + var(--weight, .23) * 29px);top:calc(29px + var(--weight, .23) * 55px);width:16px;height:8px;border:2px solid #777;border-radius:2px;background:#d8d8d8;transform:rotate(48deg);box-shadow:0 1px 2px #0006;transition:left .2s,top .2s}.metro-scale{position:absolute;right:1px;top:25px;font:700 7px/1.25 Arial;color:#173c36;text-align:right;background:#ffffffb8;padding:2px;border-radius:3px}.floating-metronome.beat .metro-visual{animation:metroSwing .34s ease-in-out alternate 2}@keyframes metroSwing{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
       @media (max-width: 800px) {
         .controls {
           grid-template-columns: repeat(2, 1fr);
@@ -310,7 +310,7 @@
       </section>
     </main>
     <div id="floatingMetronome" class="floating-metronome" aria-label="Metrônomo móvel">
-      <img class="metro-image" src="metronomo-classico.png" alt="Metrônomo clássico"><strong>Metrônomo</strong><span id="metroModeLabel">som e imagem</span>
+      <div class="metro-visual"><img class="metro-image" src="metronomo-classico.png" alt="Metrônomo clássico"><i class="metro-weight" aria-hidden="true"></i><span class="metro-scale">40<br>60<br>80<br>100<br>120<br>160</span></div><strong>Metrônomo</strong><span id="metroModeLabel">som e imagem</span><span id="metroBpmLabel">70 BPM</span>
     </div>
     <script>
       (() => {
@@ -620,8 +620,14 @@
         ["showStaff", "showTab", "showNumeric"].forEach(
           (id) => ($("#" + id).onchange = render),
         );
-      $("#bpm").oninput = () =>
-        ($("#bpmOut").textContent = $("#bpm").value + " BPM");
+      function updateMetroTempo() {
+        const bpm = Number($("#bpm").value), ratio = Math.max(0, Math.min(1, (bpm - 35) / 145));
+        $("#bpmOut").textContent = bpm + " BPM";
+        $("#metroBpmLabel").textContent = bpm + " BPM";
+        $("#floatingMetronome").style.setProperty("--weight", ratio.toFixed(3));
+      }
+      $("#bpm").oninput = updateMetroTempo;
+      updateMetroTempo();
       ["noteVolume", "metroVolume"].forEach((id) => {
         $("#" + id).oninput = () =>
           ($("#" + id + "Out").textContent = $("#" + id).value + "%");
