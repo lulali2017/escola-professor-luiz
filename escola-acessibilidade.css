@@ -1,12 +1,9 @@
 :root{--s46-zoom:1}
-.s46-tools{position:fixed;right:12px;bottom:12px;z-index:2147483000;display:flex;gap:6px;padding:7px;border:2px solid #f5bd45;border-radius:14px;background:#103c35ee;box-shadow:0 8px 24px #0007}
+.s46-tools{position:fixed;left:12px;bottom:12px;z-index:2147483000;display:flex;gap:6px;padding:7px;border:2px solid #f5bd45;border-radius:14px;background:#103c35ee;box-shadow:0 8px 24px #0007}
 .s46-tools button{border:0;border-radius:9px;min-width:38px;height:36px;padding:0 9px;background:#fff7dc;color:#123d36;font-weight:900;cursor:pointer}
 .s46-tools output{display:grid;place-items:center;min-width:50px;color:#fff;font-weight:900;font-size:12px}
-.s46-dark body{background:#06110f!important;color:#edf6f1}.s46-dark .school28-page{background:#06110f!important}
 .s46-dark .school28-room,.s46-dark .school28-content,.s46-dark .school28-section,.s46-dark .s28-course-sequence,.s46-dark .s34-common-tools{background:#071a17!important;color:#edf6f1!important}
-.s46-dark .school28-hall{background-color:#06110f!important;background-blend-mode:multiply}
-.s46-dark .school28-topic,.s46-dark .school28-lesson,.s46-dark .school28-song,.s46-dark .s28-world-chapter{background:#102923!important;color:#edf6f1!important}
-.s46-dark .school28-content article,.s46-dark .school28-content section:not(.s46-keep){border-color:#4a675d}.s46-dark .s46-tools button[data-a="theme"]{background:#f5bd45;color:#071827}
+.s46-dark .school28-content article,.s46-dark .school28-content section:not(.s46-keep){border-color:#4a675d}
 .school28-page.active>.school28-room,.school28-page.active>.school28-home,.school28-page.active>.school28-hall{zoom:var(--s46-zoom)}
 .s46-finger-shell{height:calc(100vh - 82px);min-height:720px;background:#07140f}.s46-finger-shell iframe{display:block;width:100%;height:100%;border:0}.s46-back-added{margin-left:auto}
-@media(max-width:650px){.s46-tools{right:6px;bottom:6px;gap:3px;padding:4px}.s46-tools button{min-width:34px;height:32px;padding:0 6px}.s46-tools output{min-width:42px}}
+@media(max-width:650px){.s46-tools{left:6px;bottom:6px;gap:3px;padding:4px}.s46-tools button{min-width:34px;height:32px;padding:0 6px}.s46-tools output{min-width:42px}}
