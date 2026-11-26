@@ -51,6 +51,9 @@
         background: #0c302d;
         color: #fff;
         border-bottom: 4px solid #e7b443;
+        display:flex;
+        align-items:center;
+        gap:10px;
       }
       header b {
         font-size: clamp(18px, 3vw, 27px);
@@ -82,6 +85,13 @@
         grid-template-columns: repeat(4, minmax(150px, 1fr));
         gap: 10px;
       }
+      .panel.control-panel{position:sticky;top:0;z-index:40;transition:.25s}
+      .panel-toggle{margin-left:auto;background:#173c36!important}
+      .panel.control-panel.compact{padding:7px 10px;border-radius:0 0 14px 14px}
+      .panel.control-panel.compact .controls,.panel.control-panel.compact .checks,.panel.control-panel.compact .summary,.panel.control-panel.compact .exercise-list{display:none}
+      .panel.control-panel.compact .actions{align-items:center}
+      .view-tools{display:flex;align-items:center;gap:5px;margin-left:auto}.view-tools button{border:0;border-radius:8px;padding:6px 9px;background:#fff7dc;color:#173c36;font-weight:900}.view-tools output{min-width:42px;text-align:center;font-size:12px}
+      html.trainer-dark body{background:#071512;color:#edf7f2}html.trainer-dark .panel{background:#102824;color:#edf7f2;border-color:#49675e}html.trainer-dark .controls select{background:#071b18;color:#fff}html.trainer-dark .exercise-list button{background:#27443d;color:#fff}html.trainer-dark .summary{background:#30280f;color:#fff}
       .controls label {
         font-weight: 800;
       }
@@ -221,7 +231,7 @@
     </style>
   </head>
   <body>
-    <header><b>🎸 Treinador de Dedilhado e Polegar</b></header>
+    <header><b>🎸 Treinador de Dedilhado e Polegar</b><span class="view-tools"><button id="themeToggle" title="Modo claro ou escuro">☾</button><button id="zoomMinus">A−</button><output id="zoomOut">100%</output><button id="zoomPlus">A+</button><button id="zoomReset">100</button></span></header>
     <main>
       <section class="hero">
         <h1>Partitura, TAB e números trabalhando juntos</h1>
@@ -230,7 +240,7 @@
           devagar e aumente somente quando todas as notas estiverem limpas.
         </p>
       </section>
-      <section class="panel">
+      <section id="controlPanel" class="panel control-panel">
         <div class="controls">
           <label
             >Grupo<select id="group">
@@ -284,6 +294,7 @@
           <button id="play">▶ Demonstrar</button
           ><button id="practice">🥁 Só metrônomo</button
           ><button id="stop" class="stop">■ Parar</button>
+          <button id="panelToggle" class="panel-toggle">Recolher controles ▲</button>
           <div id="pulse" class="pulse" title="Pulso visual"></div>
         </div>
         <div id="summary" class="summary"></div>
@@ -608,6 +619,7 @@
         }
         function stop() {
           playing = false;
+          setCompact(false);
           $("#floatingMetronome").classList.remove("running");
           runId++;
           clearTimeout(timer);
@@ -621,6 +633,7 @@
           stop();
           const id = runId;
           playing = true;
+          setCompact(true);
           const ev = events();
           audio ??= new (window.AudioContext || window.webkitAudioContext)();
           try { if (audio.state === "suspended") await audio.resume(); } catch {}
@@ -671,6 +684,27 @@
         $("#metroModeLabel").textContent = mode === "sound" ? "som e imagem" : "somente imagem";
         $("#floatingMetronome").classList.toggle("running", playing && mode !== "off");
       };
+        function setCompact(compact) {
+          $("#controlPanel").classList.toggle("compact", compact);
+          $("#panelToggle").textContent = compact ? "Mostrar controles ▼" : "Recolher controles ▲";
+        }
+        $("#panelToggle").onclick = () => setCompact(!$("#controlPanel").classList.contains("compact"));
+        (() => {
+          let zoom = Number(localStorage.getItem("trainerZoom") || 1);
+          const applyView = () => {
+            document.querySelector("main").style.zoom = zoom.toFixed(2);
+            $("#zoomOut").value = Math.round(zoom * 100) + "%";
+          };
+          $("#zoomMinus").onclick = () => { zoom = Math.max(.7, zoom - .1); localStorage.setItem("trainerZoom", zoom.toFixed(2)); applyView(); };
+          $("#zoomPlus").onclick = () => { zoom = Math.min(1.5, zoom + .1); localStorage.setItem("trainerZoom", zoom.toFixed(2)); applyView(); };
+          $("#zoomReset").onclick = () => { zoom = 1; localStorage.setItem("trainerZoom", "1"); applyView(); };
+          $("#themeToggle").onclick = () => {
+            document.documentElement.classList.toggle("trainer-dark");
+            localStorage.setItem("trainerDark", document.documentElement.classList.contains("trainer-dark") ? "1" : "0");
+          };
+          if (localStorage.getItem("trainerDark") === "1") document.documentElement.classList.add("trainer-dark");
+          applyView();
+        })();
         $("#play").onclick = () => run(true);
         $("#practice").onclick = () => run(false);
         $("#stop").onclick = stop;
