@@ -625,10 +625,12 @@
           audio ??= new (window.AudioContext || window.webkitAudioContext)();
           try { if (audio.state === "suspended") await audio.resume(); } catch {}
           if ($("#metro").value !== "off") $("#floatingMetronome").classList.add("running");
-          const seconds = 60 / +$("#bpm").value, startAt = audio.currentTime + 0.08;
+          const seconds = 60 / +$("#bpm").value,
+            noteDuration = seconds * 0.92,
+            startAt = audio.currentTime + 0.08;
           ev.forEach((event, i) => {
             const when = startAt + i * seconds;
-            if (sound) scheduleTone(event.midi, when, Math.min(0.48, seconds * 0.78));
+            if (sound) scheduleTone(event.midi, when, noteDuration);
             if ($("#metro").value === "sound") scheduleClick(i % 4 === 0, when);
           });
           for (let i = 0; i < ev.length && playing && id === runId; i++) {
@@ -636,7 +638,8 @@
               x.classList.toggle("active", +x.dataset.e === i),
             );
             if ($("#metro").value !== "off") visualPulse();
-            const ms = 60000 / +$("#bpm").value;
+            const isLast = i === ev.length - 1;
+            const ms = isLast && sound ? noteDuration * 1000 : seconds * 1000;
             await new Promise((resolve) => { timer = window.setTimeout(resolve, ms); });
           }
           if (id === runId) stop();
