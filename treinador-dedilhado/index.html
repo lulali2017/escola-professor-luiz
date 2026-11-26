@@ -88,8 +88,11 @@
       .panel.control-panel{position:sticky;top:0;z-index:40;transition:.25s}
       .panel-toggle{margin-left:auto;background:#173c36!important}
       .panel.control-panel.compact{padding:7px 10px;border-radius:0 0 14px 14px}
-      .panel.control-panel.compact .controls,.panel.control-panel.compact .checks,.panel.control-panel.compact .summary,.panel.control-panel.compact .exercise-list{display:none}
-      .panel.control-panel.compact .actions{align-items:center}
+      .panel.control-panel.compact .controls{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr));gap:6px}
+      .panel.control-panel.compact .controls>label{display:none}
+      .panel.control-panel.compact .controls>label:nth-child(4),.panel.control-panel.compact .controls>label:nth-child(7),.panel.control-panel.compact .controls>label:nth-child(8){display:block}
+      .panel.control-panel.compact .checks,.panel.control-panel.compact .summary,.panel.control-panel.compact .exercise-list{display:none}
+      .panel.control-panel.compact .actions{align-items:center;margin-top:5px}.panel.control-panel.compact .actions>#pulse{display:none}
       .view-tools{display:flex;align-items:center;gap:5px;margin-left:auto}.view-tools button{border:0;border-radius:8px;padding:6px 9px;background:#fff7dc;color:#173c36;font-weight:900}.view-tools output{min-width:42px;text-align:center;font-size:12px}
       html.trainer-dark body{background:#071512;color:#edf7f2}html.trainer-dark .panel{background:#102824;color:#edf7f2;border-color:#49675e}html.trainer-dark .controls select{background:#071b18;color:#fff}html.trainer-dark .exercise-list button{background:#27443d;color:#fff}html.trainer-dark .summary{background:#30280f;color:#fff}
       .controls label {
@@ -227,6 +230,8 @@
           grid-template-columns: repeat(4, 1fr);
         }
         .floating-metronome{width:104px;right:10px;bottom:10px;padding:9px}
+        .panel.control-panel.compact .controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+        .panel.control-panel.compact .actions button{padding:7px 8px;font-size:12px}
       }
     </style>
   </head>
@@ -619,7 +624,6 @@
         }
         function stop() {
           playing = false;
-          setCompact(false);
           $("#floatingMetronome").classList.remove("running");
           runId++;
           clearTimeout(timer);
@@ -689,6 +693,14 @@
           $("#panelToggle").textContent = compact ? "Mostrar controles ▼" : "Recolher controles ▲";
         }
         $("#panelToggle").onclick = () => setCompact(!$("#controlPanel").classList.contains("compact"));
+        (() => {
+          const panel = $("#controlPanel"), marker = document.createElement("i");
+          marker.style.cssText = "display:block;height:1px";
+          panel.before(marker);
+          new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) setCompact(true);
+          }, { threshold: 0 }).observe(marker);
+        })();
         (() => {
           let zoom = Number(localStorage.getItem("trainerZoom") || 1);
           const applyView = () => {
