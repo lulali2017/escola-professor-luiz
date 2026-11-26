@@ -209,6 +209,8 @@
       }
       .floating-metronome{position:fixed;right:22px;bottom:22px;z-index:50;width:132px;padding:14px 10px;border:3px solid #efb632;border-radius:24px;background:#fffaf0;color:#173c36;text-align:center;box-shadow:0 12px 30px #173c3640;cursor:grab;user-select:none;touch-action:none}
       .floating-metronome[hidden]{display:none}.floating-metronome strong,.floating-metronome span{display:block}.floating-metronome span{font-size:12px}.metro-arm{width:8px;height:54px;margin:0 auto 5px;border-radius:8px;background:#efb632;transform-origin:50% 100%}.floating-metronome.beat .metro-arm{animation:metroSwing .34s ease-in-out alternate 2}@keyframes metroSwing{from{transform:rotate(-25deg)}to{transform:rotate(25deg)}}
+      .hero + .panel{position:sticky;top:0;z-index:40;padding:12px 16px}.hero + .panel .controls{gap:8px}.hero + .panel .controls label{font-size:12px}.hero + .panel select{padding:7px}.hero + .panel .checks,.hero + .panel .actions{margin-top:8px}.hero + .panel button{padding:8px 12px}.floating-metronome{right:16px;top:16px;bottom:auto;z-index:80}.pulse{display:none}
+      html.s46-dark body{background:#071714;color:#ecf7f2}html.s46-dark header,html.s46-dark .panel{background:#102923;color:#ecf7f2}html.s46-dark .hero{background:linear-gradient(130deg,#071a17,#17463d)}html.s46-dark .score-block,html.s46-dark .summary,html.s46-dark .tip{background:#18362f;color:#ecf7f2}html.s46-dark select{background:#0b211d;color:#fff;border-color:#587b70}
       @media (max-width: 800px) {
         .controls {
           grid-template-columns: repeat(2, 1fr);
@@ -377,7 +379,8 @@
         let current = 0,
           timer = 0,
           audio = null,
-          playing = false;
+          playing = false,
+          runId = 0;
         const $ = (s) => document.querySelector(s);
         N.forEach((n, i) =>
           $("#key").add(new Option(PT[i] + " (" + n + ")", i)),
@@ -584,33 +587,29 @@
         }
         function stop() {
           playing = false;
+          runId++;
           clearTimeout(timer);
           document
             .querySelectorAll(".event,.numeric span")
             .forEach((x) => x.classList.remove("active"));
         }
-      function run(sound) {
+        async function run(sound) {
           stop();
+          const id = runId;
           playing = true;
-          const ev = events(),
-            ms = 60000 / +$("#bpm").value;
-          let i = 0;
-        function next() {
-            if (!playing || i >= ev.length) {
-              stop();
-              return;
-            }
-            document
-              .querySelectorAll(".event,.numeric span")
-              .forEach((x) => x.classList.toggle("active", +x.dataset.e === i));
-            if ($("#metro").value !== "off") tick(i % 4 === 0);
-            if (sound) tone(ev[i].midi);
-            i++;
-          timer = window.setTimeout(next, ms);
-        }
-        audio ??= new (window.AudioContext || window.webkitAudioContext)();
-        const begin = audio.state === "suspended" ? audio.resume() : Promise.resolve();
-        begin.then(next);
+          const ev = events();
+          audio ??= new (window.AudioContext || window.webkitAudioContext)();
+          try { if (audio.state === "suspended") await audio.resume(); } catch {}
+          for (let i = 0; i < ev.length && playing && id === runId; i++) {
+            document.querySelectorAll(".event,.numeric span").forEach((x) =>
+              x.classList.toggle("active", +x.dataset.e === i),
+            );
+            try { if ($("#metro").value !== "off") tick(i % 4 === 0); } catch (error) { console.warn("Metrônomo:", error); }
+            try { if (sound) tone(ev[i].midi); } catch (error) { console.warn("Nota:", error); }
+            const ms = 60000 / +$("#bpm").value;
+            await new Promise((resolve) => { timer = window.setTimeout(resolve, ms); });
+          }
+          if (id === runId) stop();
         }
         $("#group").onchange = () => {
           current = 0;
