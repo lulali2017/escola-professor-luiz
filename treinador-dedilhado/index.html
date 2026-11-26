@@ -377,7 +377,8 @@
         let current = 0,
           timer = 0,
           audio = null,
-          playing = false;
+          playing = false,
+          runId = 0;
         const $ = (s) => document.querySelector(s);
         N.forEach((n, i) =>
           $("#key").add(new Option(PT[i] + " (" + n + ")", i)),
@@ -584,33 +585,29 @@
         }
         function stop() {
           playing = false;
+          runId++;
           clearTimeout(timer);
           document
             .querySelectorAll(".event,.numeric span")
             .forEach((x) => x.classList.remove("active"));
         }
-      function run(sound) {
+        async function run(sound) {
           stop();
+          const id = runId;
           playing = true;
-          const ev = events(),
-            ms = 60000 / +$("#bpm").value;
-          let i = 0;
-        function next() {
-            if (!playing || i >= ev.length) {
-              stop();
-              return;
-            }
-            document
-              .querySelectorAll(".event,.numeric span")
-              .forEach((x) => x.classList.toggle("active", +x.dataset.e === i));
-            if ($("#metro").value !== "off") tick(i % 4 === 0);
-            if (sound) tone(ev[i].midi);
-            i++;
-          timer = window.setTimeout(next, ms);
-        }
-        audio ??= new (window.AudioContext || window.webkitAudioContext)();
-        const begin = audio.state === "suspended" ? audio.resume() : Promise.resolve();
-        begin.then(next);
+          const ev = events();
+          audio ??= new (window.AudioContext || window.webkitAudioContext)();
+          try { if (audio.state === "suspended") await audio.resume(); } catch {}
+          for (let i = 0; i < ev.length && playing && id === runId; i++) {
+            document.querySelectorAll(".event,.numeric span").forEach((x) =>
+              x.classList.toggle("active", +x.dataset.e === i),
+            );
+            try { if ($("#metro").value !== "off") tick(i % 4 === 0); } catch (error) { console.warn("Metrônomo:", error); }
+            try { if (sound) tone(ev[i].midi); } catch (error) { console.warn("Nota:", error); }
+            const ms = 60000 / +$("#bpm").value;
+            await new Promise((resolve) => { timer = window.setTimeout(resolve, ms); });
+          }
+          if (id === runId) stop();
         }
         $("#group").onchange = () => {
           current = 0;
