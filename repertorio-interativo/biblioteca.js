@@ -1,42 +1,20 @@
 (()=>{
-let system=[];
+let system=[],personal=[],objectUrls=[];
 const $=s=>document.querySelector(s);
 const norm=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-function filtered(){
-  const q=norm($('#libSearch').value),field=$('#libSort').value,category=$('#libCategory').value;
-  return system.filter(x=>(!category||x.category===category)&&(!q||norm(x.title).includes(q)||norm(x.author).includes(q))).sort((a,b)=>(field==='author'?a.author:a.title).localeCompare(field==='author'?b.author:b.title,'pt-BR'));
-}
-function categoryName(value){return ({classica:'Clássica',popular:'Popular',estudo:'Estudo',exercicio:'Exercício'})[value]||'Sem categoria'}
-function render(){
-  const items=filtered(),query=$('#libSearch').value.trim(),host=$('#libList');
-  $('#libResult').textContent=items.length?`${items.length} partitura(s) ${query?'encontrada(s) para “'+query+'”':'disponível(is) no índice'}. Escolha Ver PDF, Tocar ou Pesquisar áudio/vídeo.`:`Nenhuma partitura encontrada${query?' para “'+query+'”':''}.`;
-  host.innerHTML=items.length?items.map(x=>{
-    const format=(x.format||'mxl').toUpperCase();
-    const searchTerms=`${x.title} ${x.author&&x.author!=='Autor desconhecido'?x.author:''} áudio vídeo música`.trim();
-    const searchUrl=`https://www.google.com/search?q=${encodeURIComponent(searchTerms)}`;
-    return `<article class="lib-item system"><div class="lib-title-button"><span class="lib-music-icon">🎼</span><span><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.author||'Autor desconhecido')} · ${escapeHtml(categoryName(x.category))} · PDF + ${format}</small></span><span class="lib-actions"><a href="${escapeHtml(x.pdfUrl)}" target="_blank" rel="noopener">Ver PDF</a><button data-open="${escapeHtml(x.id)}">▶ Tocar</button><a class="web-search" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer" title="Pesquisar áudio ou vídeo desta música na internet">🔎 Áudio/vídeo</a></span></div></article>`;
-  }).join(''):'<div class="lib-empty">O índice está vazio neste filtro.</div>';
-  host.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openItem(system.find(x=>x.id===b.dataset.open)));
-}
-async function dataOf(x){
-  const r=await fetch(x.playUrl||x.url);if(!r.ok)throw Error('Não foi possível abrir esta partitura.');
-  return (x.format||'').toLowerCase()==='mxl'?r.arrayBuffer():r.text();
-}
-async function openItem(x){
-  if(!x)return;
-  try{
-    const data=await dataOf(x),dt=new DataTransfer(),ext=(x.format||'musicxml').toLowerCase();
-    dt.items.add(new File([data],`${x.title} - ${x.author||'Autor desconhecido'}.${ext}`,{type:ext==='mxl'?'application/vnd.recordare.musicxml':'application/vnd.recordare.musicxml+xml'}));
-    $('#files').files=dt.files;$('#files').dispatchEvent(new Event('change',{bubbles:true}));$('#reader').scrollIntoView({behavior:'smooth',block:'start'});
-  }catch(error){alert(error.message)}
-}
-async function init(){
-  try{const r=await fetch('../repertorio-publico/index.json',{cache:'no-store'}),j=await r.json();system=j.items||[]}catch(error){system=[]}
-  render();
-  const show=()=>{render();$('#libResult').scrollIntoView({behavior:'smooth',block:'center'})};
-  $('#libSearch').onkeydown=e=>{if(e.key==='Enter')show()};$('#libSearchButton').onclick=show;$('#libListAll').onclick=()=>{$('#libSearch').value='';show()};$('#libSort').onchange=render;$('#libCategory').onchange=render;$('#backToIndex').onclick=()=>document.querySelector('.lib').scrollIntoView({behavior:'smooth',block:'start'});
-}
+const categoryName=value=>({classica:'Clássica',popular:'Popular',estudo:'Estudo',exercicio:'Exercício',particular:'Meu acervo'})[value]||'Sem categoria';
+function db(){return new Promise((resolve,reject)=>{const r=indexedDB.open('escolaProfessorLuizBiblioteca',1);r.onupgradeneeded=()=>r.result.createObjectStore('scores',{keyPath:'id'});r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function loadPersonal(){const d=await db();personal=await new Promise((resolve,reject)=>{const r=d.transaction('scores').objectStore('scores').getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)});d.close()}
+async function savePersonal(item){const d=await db();await new Promise((resolve,reject)=>{const r=d.transaction('scores','readwrite').objectStore('scores').put(item);r.onsuccess=resolve;r.onerror=()=>reject(r.error)});d.close()}
+async function removePersonal(id){const d=await db();await new Promise((resolve,reject)=>{const r=d.transaction('scores','readwrite').objectStore('scores').delete(id);r.onsuccess=resolve;r.onerror=()=>reject(r.error)});d.close();await loadPersonal();render()}
+function all(){const own=new Map(personal.map(x=>[norm(x.title+'|'+x.author),x]));return [...personal,...system.filter(x=>!own.has(norm(x.title+'|'+x.author)))]}
+function filtered(){const q=norm($('#libSearch').value),field=$('#libSort').value,category=$('#libCategory').value;return all().filter(x=>(!category||x.category===category)&&(!q||norm(x.title).includes(q)||norm(x.author).includes(q))).sort((a,b)=>(field==='author'?a.author:a.title).localeCompare(field==='author'?b.author:b.title,'pt-BR'))}
+function fileUrl(x){if(!x.blob)return x.pdfUrl||'';const u=URL.createObjectURL(x.blob);objectUrls.push(u);return u}
+function render(){objectUrls.forEach(URL.revokeObjectURL);objectUrls=[];const items=filtered(),q=$('#libSearch').value.trim(),host=$('#libList');$('#libResult').textContent=items.length?`${items.length} partitura(s) ${q?'encontrada(s) para “'+q+'”':'disponível(is) no índice'}.`:`Nenhuma partitura encontrada${q?' para “'+q+'”':''}.`;host.innerHTML=items.length?items.map(x=>{const format=(x.format||'mxl').toUpperCase(),playable=['MUSICXML','XML','MXL'].includes(format),view=fileUrl(x),search=`https://www.google.com/search?q=${encodeURIComponent(`${x.title} ${x.author||''} áudio vídeo música`)}`;return `<article class="lib-item ${x.private?'personal':'system'}"><div class="lib-title-button"><span class="lib-music-icon">🎼</span><span><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.author||'Autor desconhecido')} · ${escapeHtml(categoryName(x.category))} · ${format}</small></span><span class="lib-actions">${view?`<a href="${escapeHtml(view)}" target="_blank" rel="noopener">Consultar</a>`:''}${playable?`<button data-open="${escapeHtml(x.id)}">▶ Tocar</button>`:''}<a class="web-search" href="${escapeHtml(search)}" target="_blank" rel="noopener noreferrer">🔎 Áudio/vídeo</a>${x.private?`<button data-delete="${escapeHtml(x.id)}" title="Apagar somente do meu acervo">🗑</button>`:''}</span></div></article>`}).join(''):'<div class="lib-empty">O índice está vazio neste filtro.</div>';host.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openItem(all().find(x=>x.id===b.dataset.open)));host.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>confirm('Apagar esta partitura somente do seu acervo?')&&removePersonal(b.dataset.delete))}
+async function dataOf(x){if(x.blob)return (x.format||'').toLowerCase()==='mxl'?x.blob.arrayBuffer():x.blob.text();const r=await fetch(x.playUrl||x.url);if(!r.ok)throw Error('Não foi possível abrir esta partitura.');return (x.format||'').toLowerCase()==='mxl'?r.arrayBuffer():r.text()}
+async function openItem(x){if(!x)return;try{const data=await dataOf(x),dt=new DataTransfer(),ext=(x.format||'musicxml').toLowerCase();dt.items.add(new File([data],`${x.title} - ${x.author||'Autor desconhecido'}.${ext}`,{type:ext==='mxl'?'application/vnd.recordare.musicxml':'application/vnd.recordare.musicxml+xml'}));$('#files').files=dt.files;$('#files').dispatchEvent(new Event('change',{bubbles:true}));$('#reader').scrollIntoView({behavior:'smooth',block:'start'})}catch(error){alert(error.message)}}
+async function addPrivate(files){for(const file of files){const ext=(file.name.split('.').pop()||'').toLowerCase(),base=file.name.replace(/\.[^.]+$/,'').replace(/[ _]+/g,' ').trim(),parts=base.split(/\s+-\s+/),title=(prompt('Título da música:',parts[0]||base)||'').trim();if(!title)continue;const author=(prompt('Autor:',parts[1]||'Autor desconhecido')||'Autor desconhecido').trim();await savePersonal({id:'private-'+Date.now()+'-'+Math.random().toString(36).slice(2),title,author,category:'particular',format:ext,blob:file,private:true,createdAt:Date.now()})}await loadPersonal();render()}
+async function init(){try{const r=await fetch('../repertorio-publico/index.json',{cache:'no-store'}),j=await r.json();system=j.items||[]}catch{system=[]}try{await loadPersonal()}catch{personal=[]}render();const show=()=>{render();$('#libResult').scrollIntoView({behavior:'smooth',block:'center'})};$('#libSearch').onkeydown=e=>{if(e.key==='Enter')show()};$('#libSearchButton').onclick=show;$('#libListAll').onclick=()=>{$('#libSearch').value='';show()};$('#libSort').onchange=render;$('#libCategory').onchange=render;$('#backToIndex').onclick=()=>document.querySelector('.lib').scrollIntoView({behavior:'smooth',block:'start'});$('#addPrivateScore').onclick=()=>$('#files').click();$('#files').addEventListener('change',e=>{if(e.isTrusted&&e.target.files.length)addPrivate([...e.target.files])},{capture:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
