@@ -175,7 +175,8 @@
   }
 
   function pageCompletionWidget() {
-    const page = document.querySelector('#campusV273 .school28-page.active');
+    const activePages = [...document.querySelectorAll('#campusV273 .school28-page.active')];
+    const page = activePages.filter(item => getComputedStyle(item).display !== 'none').at(-1) || activePages.at(-1);
     const excluded = !page || ['school28-home','school28-hall'].includes(page.id);
     let widget = document.getElementById('s52PageCompletion');
     if (excluded) {
