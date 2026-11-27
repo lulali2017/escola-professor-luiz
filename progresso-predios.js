@@ -178,7 +178,9 @@
 
   function pageCompletionWidget() {
     const activePages = [...document.querySelectorAll('#campusV273 .school28-page.active')];
-    const page = activePages.filter(item => getComputedStyle(item).display !== 'none').at(-1) || activePages.at(-1);
+    const routeId = decodeURIComponent(location.hash.slice(1));
+    const routedPage = document.getElementById(routeId);
+    const page = routedPage?.classList.contains('school28-page') ? routedPage : activePages.filter(item => getComputedStyle(item).display !== 'none').at(-1) || activePages.at(-1);
     const corridorPages = ['school28-home','school28-hall','school28-trilhas','school28-partitura-predio','school28-partitura-curso','school28-partitura-aulas','school28-partitura-recursos','school28-outros'];
     const excluded = !page || corridorPages.includes(page.id);
     let widget = document.getElementById('s52PageCompletion');

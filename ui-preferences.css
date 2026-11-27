@@ -4,7 +4,7 @@
 body.trainer-page-active .school-ui-tools{display:none}
 body.trainer-page-active .school28-coach>img{pointer-events:none!important}
 #s28SearchDock{position:fixed!important;left:18px!important;bottom:76px!important;z-index:2147483001!important}
-#campusV273 .school28-page.active>.school28-home,#campusV273 .school28-page.active>.school28-hall,#campusV273 .school28-page.active>.school28-room{zoom:var(--school-page-zoom)}
+#campusV273 .school28-page.active>.school28-home,#campusV273 .school28-page.active>.school28-hall,#campusV273 .school28-page.active>.school28-room,#campusV273 .school28-page.active>.s49-building,#campusV273 .school28-page.active>.s49-lessons-shell{zoom:var(--school-page-zoom)}
 html.school-dark #campusV273 .school28-page{background:#071513!important;color:#edf7f2!important}html.school-dark #campusV273 .school28-room{background-color:#071513!important;background-blend-mode:multiply!important}
 html.school-dark #campusV273 .school28-section,html.school-dark #campusV273 .school28-topic,html.school-dark #campusV273 .school28-song,html.school-dark #campusV273 .school28-lesson,html.school-dark #campusV273 .s28-course-sequence,html.school-dark #campusV273 .s28-trainer-card{background:#102824!important;color:#edf7f2!important;border-color:#45645b!important}
 html.school-dark #campusV273 .school28-section h1,html.school-dark #campusV273 .school28-section h2,html.school-dark #campusV273 .school28-section h3,html.school-dark #campusV273 .school28-topic h3{color:#f2c45c!important}html.school-dark #campusV273 input,html.school-dark #campusV273 select,html.school-dark #campusV273 textarea{background:#071b18!important;color:#fff!important;border-color:#58756d!important}
