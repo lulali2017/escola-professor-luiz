@@ -68,6 +68,14 @@
     window.s50ActiveModule = selected;
     const host = document.getElementById('cmModules');
     if (host) host.dataset.s50SelectedModule = String(selected);
+    /* Regra visual direta: evita que qualquer reconstrução da lista revele os outros módulos. */
+    let rule = document.getElementById('s50SingleModuleRule');
+    if (!rule) {
+      rule = document.createElement('style');
+      rule.id = 's50SingleModuleRule';
+      document.head.appendChild(rule);
+    }
+    rule.textContent = '#cmModules[data-s50-selected-module] > details.cm-module{display:none!important}#cmModules[data-s50-selected-module="' + selected + '"] > details.cm-module:nth-of-type(' + (selected + 1) + '){display:block!important}';
     window.school28Show?.(pageId);
     setTimeout(() => {
       wrapRenderer();
