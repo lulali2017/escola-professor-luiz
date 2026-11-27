@@ -47,8 +47,17 @@
     if (!hall) return false;
     const cards = [...hall.querySelectorAll(':scope > .school28-door')];
     const keys = ['partitura', 'popular', 'tablatura', 'outros'];
+    const symbols = ['🎼', '🎶', '🔢', '🧰'];
     cards.slice(0, 4).forEach((card, index) => {
       card.dataset.s51Building = keys[index];
+      let symbol = card.querySelector('.s51-building-symbol');
+      if (!symbol) {
+        symbol = document.createElement('span');
+        symbol.className = 's51-building-symbol';
+        symbol.setAttribute('aria-hidden', 'true');
+        card.appendChild(symbol);
+      }
+      symbol.textContent = symbols[index];
       let trigger = card.querySelector('.s51-guide-trigger');
       if (!trigger) {
         trigger = document.createElement('span');

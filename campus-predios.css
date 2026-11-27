@@ -17,3 +17,15 @@ body.s51-map-open{overflow:hidden!important}
 #school28-hall .s28-final-hall{row-gap:92px!important}
 #school28-hall .s28-final-hall>.school28-door:before{z-index:6;white-space:nowrap;font-size:12px}
 @media(max-width:720px){#school28-hall .s28-final-hall{row-gap:78px!important}#school28-hall .s28-final-hall>.school28-door:before{font-size:10px;letter-spacing:.5px}}
+
+/* Identidade visual própria de cada prédio: cor, textura e símbolo. */
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="partitura"]{background-color:#c18b58!important;background-image:linear-gradient(90deg,transparent 7%,#f3d9ae 7% 25%,transparent 25% 39%,#f3d9ae 39% 57%,transparent 57% 71%,#f3d9ae 71% 89%,transparent 89%),repeating-linear-gradient(0deg,#73452c 0 5px,#b97849 5px 46px)!important}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="popular"]{background-color:#ba7153!important;background-image:linear-gradient(90deg,transparent 7%,#f2c4a9 7% 25%,transparent 25% 39%,#f2c4a9 39% 57%,transparent 57% 71%,#f2c4a9 71% 89%,transparent 89%),repeating-linear-gradient(135deg,#7c3f32 0 8px,#ad614b 8px 28px)!important}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="tablatura"]{background-color:#668f8a!important;background-image:linear-gradient(90deg,transparent 7%,#c4dfd7 7% 25%,transparent 25% 39%,#c4dfd7 39% 57%,transparent 57% 71%,#c4dfd7 71% 89%,transparent 89%),repeating-linear-gradient(0deg,#315e5c 0 3px,#5d8882 3px 34px)!important}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="outros"]{background-color:#7c7197!important;background-image:linear-gradient(90deg,transparent 7%,#d8cdea 7% 25%,transparent 25% 39%,#d8cdea 39% 57%,transparent 57% 71%,#d8cdea 71% 89%,transparent 89%),repeating-linear-gradient(45deg,#4e4569 0 9px,#75698e 9px 27px)!important}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="partitura"]:before{background:#173e38}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="popular"]:before{background:#733c2f}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="tablatura"]:before{background:#285a59}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="outros"]:before{background:#4b4264}
+.s51-building-symbol{position:absolute;z-index:4;left:22px;top:42px;display:grid;place-items:center;width:76px;height:76px;border:3px solid #f6d071;border-radius:50%;background:#fffdeedb;font-size:42px;box-shadow:0 8px 18px #0006;pointer-events:none}
+@media(max-width:720px){.s51-building-symbol{top:38px;width:60px;height:60px;font-size:32px}}
