@@ -15,6 +15,23 @@
       const complete = isComplete(cardTitle(card));
       card.classList.toggle('s52-card-done', complete);
       card.dataset.s52Done = complete ? '1' : '0';
+      let control = card.querySelector('.s52-door-check');
+      if (!control) {
+        control = document.createElement('label');
+        control.className = 's52-door-check';
+        control.innerHTML = '<input type="checkbox"><span></span>';
+        control.addEventListener('click', event => event.stopPropagation());
+        control.querySelector('input').addEventListener('change', event => {
+          event.stopPropagation();
+          const title = cardTitle(card);
+          if (event.target.checked) localStorage.setItem(lessonKey(title), '1');
+          else localStorage.removeItem(lessonKey(title));
+          update();
+        });
+        card.appendChild(control);
+      }
+      control.querySelector('input').checked = complete;
+      control.querySelector('span').textContent = complete ? 'Completa' : 'Ainda não';
     });
   }
 
@@ -151,7 +168,30 @@
       }
       board.classList.toggle('done', stats.complete);
       board.innerHTML = `<span>QUADRO DE AVISOS</span><strong>${percent}%</strong><small>${stats.complete ? '✓ COMPLETO' : `${stats.count}/${stats.total || '—'} concluídas`}</small>`;
+      const celebrationKey = `s52_celebrated_${key}`;
+      if (stats.complete && localStorage.getItem(celebrationKey) !== '1') {
+        localStorage.setItem(celebrationKey, '1');
+        showCelebration(key);
+      }
+      if (!stats.complete) localStorage.removeItem(celebrationKey);
     });
+  }
+
+  function showCelebration(key) {
+    const names = {
+      partitura: 'Partitura e Violão Clássico',
+      popular: 'Cifras e Violão Popular',
+      tablatura: 'Tablatura',
+      outros: 'Ferramentas e Salas'
+    };
+    let celebration = document.getElementById('s52Celebration');
+    if (!celebration) {
+      celebration = document.createElement('div');
+      celebration.id = 's52Celebration';
+      document.body.appendChild(celebration);
+    }
+    celebration.innerHTML = `<div class="s52-balloons" aria-hidden="true">${['🎈','🎈','🎈','🎈','🎈','🎈','🎈','🎈'].map((balloon, index) => `<i style="--i:${index}">${balloon}</i>`).join('')}</div><section><div class="s52-party-icons">🎉🏆🎊</div><h2>Parabéns!</h2><h3>Você completou 100% do prédio<br>${names[key] || 'da Escola Professor Luiz'}!</h3><p>Seu esforço, sua dedicação e sua constância produziram resultado. Continue praticando e fazendo a música florescer.</p><strong>Que Deus continue abençoando seus estudos!</strong><button type="button" onclick="document.getElementById('s52Celebration').classList.remove('open')">Continuar na escola</button></section>`;
+    celebration.classList.add('open');
   }
 
   function update() {
@@ -175,7 +215,10 @@
   }
 
   window.s52FinishLesson = complete => {
-    if (complete && currentLesson) localStorage.setItem(lessonKey(currentLesson.title), '1');
+    if (currentLesson) {
+      if (complete) localStorage.setItem(lessonKey(currentLesson.title), '1');
+      else localStorage.removeItem(lessonKey(currentLesson.title));
+    }
     document.getElementById('s52CompletePrompt')?.classList.remove('open');
     currentLesson = null;
     closingLesson = true;
