@@ -311,6 +311,19 @@
     window.s51ShowGuide = wrapped;
   }
 
+  function wrapPageNavigation() {
+    if (typeof window.school28Show !== 'function' || window.school28Show.s52Progress) return;
+    const original = window.school28Show;
+    const wrapped = function () {
+      const result = original.apply(this, arguments);
+      setTimeout(update, 0);
+      setTimeout(update, 120);
+      return result;
+    };
+    wrapped.s52Progress = true;
+    window.school28Show = wrapped;
+  }
+
   function backupData() {
     const data = { application: 'Escola Professor Luiz', version: 1, savedAt: new Date().toISOString(), localStorage: {} };
     for (let i = 0; i < localStorage.length; i++) {
@@ -364,13 +377,14 @@
   function start() {
     wrapLessons();
     wrapGuide();
+    wrapPageNavigation();
     update();
     document.addEventListener('change', event => {
       if (event.target.matches('.cm-check,input[data-k],input[data-path]')) setTimeout(update, 80);
     });
     window.addEventListener('pageshow', update);
     window.addEventListener('hashchange', () => setTimeout(update, 50));
-    setInterval(() => { wrapLessons(); wrapGuide(); update(); }, 1500);
+    setInterval(() => { wrapLessons(); wrapGuide(); wrapPageNavigation(); update(); }, 1000);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
