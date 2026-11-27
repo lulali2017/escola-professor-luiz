@@ -178,7 +178,7 @@
 
   function pageCompletionWidget() {
     const page = document.querySelector('#campusV273 .school28-page.active');
-    const corridorPages = ['school28-home','school28-hall','school28-trilhas','school28-partitura-predio','school28-partitura-curso','school28-partitura-aulas','school28-partitura-recursos','school28-outros'];
+    const corridorPages = ['school28-home','school28-hall','school28-trilhas','school28-aulas','school28-partitura-predio','school28-partitura-curso','school28-partitura-aulas','school28-partitura-recursos','school28-outros'];
     const excluded = !page || corridorPages.includes(page.id);
     let widget = document.getElementById('s52PageCompletion');
     if (excluded) {
