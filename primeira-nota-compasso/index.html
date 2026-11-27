@@ -1,14 +1,63 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f7772" />
-    <title>Primeira Nota - Escola Professor Luiz</title>
-    <script type="module" crossorigin src="./assets/standalone-compasso-direto.js?v=20261127-3"></script>
-    <link rel="stylesheet" crossorigin href="./assets/standalone-CGAek4Zd.css">
-  </head>
-  <body>
-    <div id="primeira-nota-root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d564e">
+  <title>Complete o compasso</title>
+  <link rel="stylesheet" href="compasso.css?v=20261127-1">
+</head>
+<body>
+  <main class="app" aria-live="polite">
+    <header>
+      <p class="eyebrow">SALA 10 · PRÁTICA INTERATIVA</p>
+      <h1>Complete o compasso</h1>
+      <p>Você toca as primeiras notas. O aplicativo completa as que faltam, sempre no pulso do compasso.</p>
+    </header>
+
+    <section class="controls" aria-label="Controles do exercício">
+      <label>Você toca
+        <select id="studentNotes">
+          <option value="1">1 nota</option>
+          <option value="2">2 notas</option>
+          <option value="3">3 notas</option>
+          <option value="4">todas as 4 notas</option>
+        </select>
+      </label>
+      <label>Andamento <output id="bpmValue">72 BPM</output>
+        <input id="bpm" type="range" min="48" max="120" value="72">
+      </label>
+      <label>Som
+        <select id="instrument"><option value="guitar">Violão</option><option value="piano">Piano</option><option value="flute">Flauta</option></select>
+      </label>
+      <label class="check"><input id="metro" type="checkbox" checked> Metrônomo</label>
+    </section>
+
+    <section class="actions">
+      <button id="demo" class="secondary">▶ Ouvir demonstração</button>
+      <button id="start" class="primary">▶ Começar compasso</button>
+      <button id="stop" class="stop" disabled>■ Parar</button>
+    </section>
+
+    <section class="instruction" id="instruction"><b>Como praticar:</b> toque a primeira nota ao ouvir o pulso. O aplicativo tocará as demais e você poderá aumentar para 2, 3 ou 4 notas.</section>
+
+    <section class="sheet" aria-label="Partitura em compasso quatro por quatro">
+      <div class="measure-label">COMPASSO 1 · 4/4</div>
+      <svg viewBox="0 0 920 285" role="img" aria-label="Partitura de quatro notas: Sol, Lá, Si e Dó">
+        <text x="48" y="158" class="clef">𝄞</text>
+        <text x="104" y="116" class="meter">4</text><text x="104" y="151" class="meter">4</text>
+        <g class="staff"><line x1="145" y1="85" x2="875" y2="85"/><line x1="145" y1="105" x2="875" y2="105"/><line x1="145" y1="125" x2="875" y2="125"/><line x1="145" y1="145" x2="875" y2="145"/><line x1="145" y1="165" x2="875" y2="165"/></g>
+        <line class="bar" x1="145" y1="85" x2="145" y2="165"/><line class="bar" x1="875" y1="85" x2="875" y2="165"/>
+        <g data-note="0" transform="translate(255 145)"><ellipse class="head" rx="13" ry="9"/><line class="stem" x1="12" y1="0" x2="12" y2="-62"/><text x="0" y="75">Sol</text><text class="tab" x="0" y="104">3ª · casa 0</text></g>
+        <g data-note="1" transform="translate(430 135)"><ellipse class="head" rx="13" ry="9"/><line class="stem" x1="12" y1="0" x2="12" y2="-62"/><text x="0" y="75">Lá</text><text class="tab" x="0" y="104">3ª · casa 2</text></g>
+        <g data-note="2" transform="translate(605 125)"><ellipse class="head" rx="13" ry="9"/><line class="stem" x1="12" y1="0" x2="12" y2="-62"/><text x="0" y="75">Si</text><text class="tab" x="0" y="104">2ª · casa 0</text></g>
+        <g data-note="3" transform="translate(780 115)"><ellipse class="head" rx="13" ry="9"/><line class="stem" x1="12" y1="0" x2="12" y2="-62"/><text x="0" y="75">Dó</text><text class="tab" x="0" y="104">2ª · casa 1</text></g>
+      </svg>
+      <div class="beat-row"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+    </section>
+
+    <p id="status" class="status">Pronto. Clique em “Começar compasso”.</p>
+  </main>
+  <script src="compasso.js?v=20261127-1"></script>
+</body>
 </html>
