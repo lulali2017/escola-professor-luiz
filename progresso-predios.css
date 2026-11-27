@@ -10,3 +10,13 @@
 @media(max-width:760px){.s52-progress-floors{grid-template-columns:1fr 1fr}.s52-progress-head b{width:58px;height:58px}.s52-prompt-actions button,.s52-backup button{width:100%}}
 @media(max-width:760px){#s52PageCompletion{bottom:76px!important;width:calc(100vw - 22px);padding:8px 9px}#s52PageCompletion.open{grid-template-columns:1fr auto}#s52PageCompletion strong{font-size:11px}#s52PageCompletion label{padding:8px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.s52-balloons i,.s52-party-icons,#s52Celebration section{animation:none!important}}
+
+/* Painel único de conclusão: móvel e recolhível em qualquer sala. */
+#s52PageCompletion{padding-right:42px!important}
+#s52PageCompletion .s52-widget-copy{min-width:0;cursor:grab;touch-action:none;user-select:none}
+#s52PageCompletion.dragging .s52-widget-copy{cursor:grabbing}
+#s52PageCompletion .s52-widget-toggle{position:absolute;right:7px;top:50%;width:28px;height:28px;border:0;border-radius:50%;background:#fff;color:#17443c;font:900 20px/1 Arial;transform:translateY(-50%);cursor:pointer}
+#s52PageCompletion.collapsed{width:58px!important;height:50px!important;padding:0!important;border-radius:50%!important;grid-template-columns:1fr!important}
+#s52PageCompletion.collapsed .s52-widget-copy,#s52PageCompletion.collapsed label{display:none!important}
+#s52PageCompletion.collapsed .s52-widget-toggle{left:50%;right:auto;transform:translate(-50%,-50%)}
+#school28-partitura-recursos .s52-door-check,#school28-partitura-recursos .feito,#school28-solo-content .feito,#school28-solo-content .s52-door-check,#school28-solo-content [data-page-complete]{display:none!important}

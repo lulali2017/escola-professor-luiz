@@ -1,6 +1,7 @@
 (() => {
   let currentLesson = null;
   let closingLesson = false;
+  let completionDragReady = false;
 
   const lessonKey = title => 's52_lesson_' + String(title || 'aula')
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -188,7 +189,7 @@
     if (!widget) {
       widget = document.createElement('aside');
       widget.id = 's52PageCompletion';
-      widget.innerHTML = '<small>PROGRESSO DESTA SALA</small><strong></strong><label><input type="checkbox"><span>Ainda não concluída</span></label>';
+      widget.innerHTML = '<button class="s52-widget-toggle" type="button" title="Recolher ou mostrar">−</button><div class="s52-widget-copy"><small>PROGRESSO DESTA SALA</small><strong></strong></div><label><input type="checkbox"><span>Ainda não concluída</span></label>';
       document.body.appendChild(widget);
       widget.querySelector('input').addEventListener('change', event => {
         const id = widget.dataset.pageId;
@@ -197,6 +198,18 @@
         else localStorage.removeItem(pageKey(id));
         update();
       });
+      widget.querySelector('.s52-widget-toggle').addEventListener('click', event => {
+        event.stopPropagation();
+        widget.classList.toggle('collapsed');
+        const collapsed = widget.classList.contains('collapsed');
+        event.currentTarget.textContent = collapsed ? '+' : '−';
+        localStorage.setItem('s52_widget_collapsed', collapsed ? '1' : '0');
+      });
+      if (localStorage.getItem('s52_widget_collapsed') === '1') {
+        widget.classList.add('collapsed');
+        widget.querySelector('.s52-widget-toggle').textContent = '+';
+      }
+      makeCompletionDraggable(widget);
     }
     const title = page.querySelector('.school28-roomhead h1,.s49-building h1,.school28-brand small,h1')?.textContent?.trim() || 'Sala atual';
     const complete = localStorage.getItem(pageKey(page.id)) === '1';
@@ -206,6 +219,42 @@
     widget.querySelector('span').textContent = complete ? '✓ Concluída' : 'Ainda não concluída';
     widget.classList.toggle('done', complete);
     widget.classList.add('open');
+  }
+
+  function makeCompletionDraggable(widget) {
+    if (completionDragReady) return;
+    completionDragReady = true;
+    const handle = widget.querySelector('.s52-widget-copy');
+    let drag = null;
+    try {
+      const saved = JSON.parse(localStorage.getItem('s52_widget_position') || 'null');
+      if (saved && Number.isFinite(saved.left) && Number.isFinite(saved.top)) {
+        widget.style.setProperty('left', `${saved.left}px`, 'important'); widget.style.setProperty('top', `${saved.top}px`, 'important');
+        widget.style.setProperty('bottom', 'auto', 'important'); widget.style.setProperty('transform', 'none', 'important');
+      }
+    } catch (_) {}
+    handle.addEventListener('pointerdown', event => {
+      if (event.button !== undefined && event.button !== 0) return;
+      const rect = widget.getBoundingClientRect();
+      drag = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      handle.setPointerCapture?.(event.pointerId);
+      widget.classList.add('dragging'); event.preventDefault();
+    });
+    handle.addEventListener('pointermove', event => {
+      if (!drag) return;
+      const left = Math.min(Math.max(6, innerWidth - widget.offsetWidth - 6), Math.max(6, event.clientX - drag.x));
+      const top = Math.min(Math.max(6, innerHeight - widget.offsetHeight - 6), Math.max(6, event.clientY - drag.y));
+      widget.style.setProperty('left', `${left}px`, 'important'); widget.style.setProperty('top', `${top}px`, 'important');
+      widget.style.setProperty('bottom', 'auto', 'important'); widget.style.setProperty('transform', 'none', 'important');
+    });
+    const finish = () => {
+      if (!drag) return;
+      drag = null; widget.classList.remove('dragging');
+      const rect = widget.getBoundingClientRect();
+      localStorage.setItem('s52_widget_position', JSON.stringify({ left: Math.round(rect.left), top: Math.round(rect.top) }));
+    };
+    handle.addEventListener('pointerup', finish);
+    handle.addEventListener('pointercancel', finish);
   }
 
   function paintBuildingBoards() {
