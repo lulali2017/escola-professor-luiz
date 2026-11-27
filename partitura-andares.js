@@ -30,3 +30,87 @@
  function start(){install();let n=0,t=setInterval(()=>{install();if(++n>100)clearInterval(t)},250)}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
+
+/* A porta do segundo andar sempre abre somente o módulo escolhido. */
+(() => {
+  let selected = null;
+  const pageId = 'school28-aulas';
+
+  function applyFilter() {
+    const host = document.getElementById('cmModules');
+    const chosen = Number(selected ?? host?.dataset.s50SelectedModule);
+    if (!host || !Number.isInteger(chosen) || chosen < 0) return;
+    selected = chosen;
+    host.dataset.s50SelectedModule = String(chosen);
+    const modules = [...host.querySelectorAll('details.cm-module')];
+    modules.forEach((module, index) => {
+      const keep = index === chosen;
+      module.hidden = !keep;
+      module.style.setProperty('display', keep ? 'block' : 'none', 'important');
+      if (keep) module.open = true;
+    });
+  }
+
+  function wrapRenderer() {
+    const render = window.cmRender;
+    if (typeof render !== 'function' || render.__singleModuleDoor) return;
+    function singleModuleRender() {
+      const result = render.apply(this, arguments);
+      requestAnimationFrame(applyFilter);
+      return result;
+    }
+    singleModuleRender.__singleModuleDoor = true;
+    window.cmRender = singleModuleRender;
+  }
+
+  function openOnlyModule(index) {
+    selected = Number(index);
+    window.s50ActiveModule = selected;
+    const host = document.getElementById('cmModules');
+    if (host) host.dataset.s50SelectedModule = String(selected);
+    window.school28Show?.(pageId);
+    setTimeout(() => {
+      wrapRenderer();
+      const search = document.getElementById('cmSearch');
+      const filter = document.getElementById('cmFilter');
+      if (search) search.value = '';
+      if (filter) filter.value = 'all';
+      window.cmRender?.();
+      applyFilter();
+      const shown = document.querySelector('#cmModules details.cm-module:not([hidden])');
+      shown?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+
+  const previous = window.s50OpenModule;
+  window.s50OpenModule = index => openOnlyModule(index);
+
+  function install() {
+    wrapRenderer();
+    document.querySelectorAll('#school28-partitura-curso .s50-module-door').forEach((door, index) => {
+      door.onclick = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        openOnlyModule(index);
+      };
+      door.setAttribute('aria-label', `Abrir somente o módulo ${index + 1}`);
+    });
+    const back = document.getElementById('s50BackModules');
+    if (back && !back.dataset.singleModuleReset) {
+      back.dataset.singleModuleReset = '1';
+      back.addEventListener('click', () => {
+        selected = null;
+        const host = document.getElementById('cmModules');
+        if (host) delete host.dataset.s50SelectedModule;
+      }, true);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install);
+  else install();
+  let tries = 0;
+  const timer = setInterval(() => {
+    install();
+    if (++tries > 100) clearInterval(timer);
+  }, 250);
+})();
