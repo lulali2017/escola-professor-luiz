@@ -6,6 +6,13 @@
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
   const isComplete = title => localStorage.getItem(lessonKey(title)) === '1';
+  const pageKey = id => `s52_page_${id}`;
+  const buildingPages = {
+    partitura: ['school28-orientacao','school28-mundo','school28-acordes','school28-repertorio-interativo','school28-finger-trainer'],
+    popular: ['school28-popular','school28-cifradas'],
+    tablatura: ['school28-tablatura-curso'],
+    outros: ['school28-outros','school28-labs','school28-fingerstyle','school28-accessories','school28-biblioteca','school28-biblioteca-musical']
+  };
   const lessonCards = () => [...document.querySelectorAll('.s28-afternoon-card,.s28-popular-card,.s28-deep-card')]
     .filter(card => card.getAttribute('onclick')?.includes('s28OpenLesson'));
   const cardTitle = card => card?.querySelector('b')?.textContent.trim() || '';
@@ -61,11 +68,14 @@
   function floorData() {
     const guided = curriculumStats();
     const interactive = interactiveStats();
+    const fundamentalsComplete = localStorage.getItem(pageKey('school28-orientacao')) === '1';
+    const resourcePages = ['school28-mundo','school28-acordes','school28-repertorio-interativo','school28-finger-trainer'].filter(id => document.getElementById(id));
+    const resourcesComplete = resourcePages.length > 0 && resourcePages.every(id => localStorage.getItem(pageKey(id)) === '1');
     return [
-      { name: '1º Fundamentos', detail: 'Preparação do instrumento', complete: false },
+      { name: '1º Fundamentos', detail: fundamentalsComplete ? 'Orientações concluídas' : 'Orientações pendentes', complete: fundamentalsComplete },
       { name: '2º Curso guiado', detail: `${guided.count}/${guided.total} aulas`, complete: guided.complete },
       { name: '3º Aulas interativas', detail: `${interactive.count}/${interactive.total} aulas`, complete: interactive.complete },
-      { name: '4º Biblioteca', detail: 'Consulta e prática permanente', complete: false }
+      { name: '4º Biblioteca', detail: resourcesComplete ? 'Recursos consultados' : 'Consulta e prática permanente', complete: resourcesComplete }
     ];
   }
 
@@ -107,10 +117,9 @@
       note?.insertAdjacentElement('afterend', map) || building.prepend(map);
     }
     const floors = floorData();
-    const guided = curriculumStats();
-    const interactive = interactiveStats();
-    const count = guided.count + interactive.count;
-    const total = guided.total + interactive.total;
+    const progress = buildingStats('partitura');
+    const count = progress.count;
+    const total = progress.total;
     const percent = total ? Math.round(count / total * 100) : 0;
     const signature = JSON.stringify({ floors, percent });
     if (map.dataset.signature === signature) return;
@@ -139,12 +148,19 @@
     return { count, total: inputs.length, complete: inputs.length > 0 && count === inputs.length };
   }
 
+  function pageStats(key) {
+    const pages = (buildingPages[key] || []).filter(id => document.getElementById(id));
+    const count = pages.filter(id => localStorage.getItem(pageKey(id)) === '1').length;
+    return { count, total: pages.length };
+  }
+
   function buildingStats(key) {
+    const pages = pageStats(key);
     if (key === 'partitura') {
       const guided = curriculumStats();
       const interactive = interactiveStats();
-      const count = guided.count + interactive.count;
-      const total = guided.total + interactive.total;
+      const count = guided.count + interactive.count + pages.count;
+      const total = guided.total + interactive.total + pages.total;
       return { count, total, complete: total > 0 && count === total };
     }
     const selectors = {
@@ -152,7 +168,41 @@
       tablatura: '#school28-tablatura-curso input[type="checkbox"],#school28-labs input[type="checkbox"]',
       outros: '#school28-outros input[type="checkbox"],#school28-fingerstyle input[type="checkbox"]'
     };
-    return checkedStats(selectors[key] || 'input.s52-never');
+    const checks = checkedStats(selectors[key] || 'input.s52-never');
+    const count = checks.count + pages.count;
+    const total = checks.total + pages.total;
+    return { count, total, complete: total > 0 && count === total };
+  }
+
+  function pageCompletionWidget() {
+    const page = document.querySelector('#campusV273 .school28-page.active');
+    const excluded = !page || ['school28-home','school28-hall'].includes(page.id);
+    let widget = document.getElementById('s52PageCompletion');
+    if (excluded) {
+      widget?.classList.remove('open');
+      return;
+    }
+    if (!widget) {
+      widget = document.createElement('aside');
+      widget.id = 's52PageCompletion';
+      widget.innerHTML = '<small>PROGRESSO DESTA SALA</small><strong></strong><label><input type="checkbox"><span>Ainda não concluída</span></label>';
+      document.body.appendChild(widget);
+      widget.querySelector('input').addEventListener('change', event => {
+        const id = widget.dataset.pageId;
+        if (!id) return;
+        if (event.target.checked) localStorage.setItem(pageKey(id), '1');
+        else localStorage.removeItem(pageKey(id));
+        update();
+      });
+    }
+    const title = page.querySelector('.school28-roomhead h1,.s49-building h1,.school28-brand small,h1')?.textContent?.trim() || 'Sala atual';
+    const complete = localStorage.getItem(pageKey(page.id)) === '1';
+    widget.dataset.pageId = page.id;
+    widget.querySelector('strong').textContent = title;
+    widget.querySelector('input').checked = complete;
+    widget.querySelector('span').textContent = complete ? '✓ Concluída' : 'Ainda não concluída';
+    widget.classList.toggle('done', complete);
+    widget.classList.add('open');
   }
 
   function paintBuildingBoards() {
@@ -200,6 +250,7 @@
     progressMap();
     paintGuide();
     paintBuildingBoards();
+    pageCompletionWidget();
   }
 
   function completionPrompt() {
