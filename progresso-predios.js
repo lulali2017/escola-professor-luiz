@@ -114,11 +114,52 @@
     });
   }
 
+  window.s52PaintGuide = paintGuide;
+
+  function checkedStats(selectors) {
+    const inputs = [...document.querySelectorAll(selectors)].filter(input => !input.disabled);
+    const count = inputs.filter(input => input.checked).length;
+    return { count, total: inputs.length, complete: inputs.length > 0 && count === inputs.length };
+  }
+
+  function buildingStats(key) {
+    if (key === 'partitura') {
+      const guided = curriculumStats();
+      const interactive = interactiveStats();
+      const count = guided.count + interactive.count;
+      const total = guided.total + interactive.total;
+      return { count, total, complete: total > 0 && count === total };
+    }
+    const selectors = {
+      popular: '#school28-popular input[type="checkbox"],#school28-cifradas input[type="checkbox"]',
+      tablatura: '#school28-tablatura-curso input[type="checkbox"],#school28-labs input[type="checkbox"]',
+      outros: '#school28-outros input[type="checkbox"],#school28-fingerstyle input[type="checkbox"]'
+    };
+    return checkedStats(selectors[key] || 'input.s52-never');
+  }
+
+  function paintBuildingBoards() {
+    document.querySelectorAll('#school28-hall .s28-final-hall > .school28-door[data-s51-building]').forEach(card => {
+      const key = card.dataset.s51Building;
+      const stats = buildingStats(key);
+      const percent = stats.total ? Math.round(stats.count / stats.total * 100) : 0;
+      let board = card.querySelector('.s52-building-board');
+      if (!board) {
+        board = document.createElement('div');
+        board.className = 's52-building-board';
+        card.appendChild(board);
+      }
+      board.classList.toggle('done', stats.complete);
+      board.innerHTML = `<span>QUADRO DE AVISOS</span><strong>${percent}%</strong><small>${stats.complete ? '✓ COMPLETO' : `${stats.count}/${stats.total || '—'} concluídas`}</small>`;
+    });
+  }
+
   function update() {
     paintLessonCards();
     paintModuleDoors();
     progressMap();
     paintGuide();
+    paintBuildingBoards();
   }
 
   function completionPrompt() {
