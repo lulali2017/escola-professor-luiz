@@ -8,7 +8,7 @@
   const isComplete = title => localStorage.getItem(lessonKey(title)) === '1';
   const pageKey = id => `s52_page_${id}`;
   const buildingPages = {
-    partitura: ['school28-orientacao','school28-mundo','school28-acordes','school28-repertorio-interativo','school28-finger-trainer'],
+    partitura: ['school28-orientacao','school28-accessories','school28-mundo','school28-acordes','school28-repertorio-interativo','school28-finger-trainer'],
     popular: ['school28-popular','school28-cifradas'],
     tablatura: ['school28-tablatura-curso'],
     outros: ['school28-outros','school28-labs','school28-fingerstyle','school28-accessories','school28-biblioteca','school28-biblioteca-musical']
@@ -68,11 +68,13 @@
   function floorData() {
     const guided = curriculumStats();
     const interactive = interactiveStats();
-    const fundamentalsComplete = localStorage.getItem(pageKey('school28-orientacao')) === '1';
+    const fundamentalPages = ['school28-orientacao','school28-accessories','school28-mundo'];
+    const fundamentalCount = fundamentalPages.filter(id => localStorage.getItem(pageKey(id)) === '1').length;
+    const fundamentalsComplete = fundamentalCount === fundamentalPages.length;
     const resourcePages = ['school28-mundo','school28-acordes','school28-repertorio-interativo','school28-finger-trainer'].filter(id => document.getElementById(id));
     const resourcesComplete = resourcePages.length > 0 && resourcePages.every(id => localStorage.getItem(pageKey(id)) === '1');
     return [
-      { name: '1º Fundamentos', detail: fundamentalsComplete ? 'Orientações concluídas' : 'Orientações pendentes', complete: fundamentalsComplete },
+      { name: '1º Fundamentos', detail: `${fundamentalCount}/${fundamentalPages.length} salas concluídas`, complete: fundamentalsComplete },
       { name: '2º Curso guiado', detail: `${guided.count}/${guided.total} aulas`, complete: guided.complete },
       { name: '3º Aulas interativas', detail: `${interactive.count}/${interactive.total} aulas`, complete: interactive.complete },
       { name: '4º Biblioteca', detail: resourcesComplete ? 'Recursos consultados' : 'Consulta e prática permanente', complete: resourcesComplete }
@@ -177,7 +179,8 @@
   function pageCompletionWidget() {
     const activePages = [...document.querySelectorAll('#campusV273 .school28-page.active')];
     const page = activePages.filter(item => getComputedStyle(item).display !== 'none').at(-1) || activePages.at(-1);
-    const excluded = !page || ['school28-home','school28-hall'].includes(page.id);
+    const corridorPages = ['school28-home','school28-hall','school28-trilhas','school28-partitura-predio','school28-partitura-curso','school28-partitura-aulas','school28-partitura-recursos','school28-outros'];
+    const excluded = !page || corridorPages.includes(page.id);
     let widget = document.getElementById('s52PageCompletion');
     if (excluded) {
       widget?.classList.remove('open');
@@ -331,6 +334,10 @@
     });
   }
 
+  function removeOldPathBanner() {
+    document.querySelectorAll('.s28-path-banner').forEach(banner => banner.remove());
+  }
+
   function backupData() {
     const data = { application: 'Escola Professor Luiz', version: 1, savedAt: new Date().toISOString(), localStorage: {} };
     for (let i = 0; i < localStorage.length; i++) {
@@ -386,13 +393,14 @@
     wrapGuide();
     wrapPageNavigation();
     removeSecondCorridorNavigation();
+    removeOldPathBanner();
     update();
     document.addEventListener('change', event => {
       if (event.target.matches('.cm-check,input[data-k],input[data-path]')) setTimeout(update, 80);
     });
     window.addEventListener('pageshow', update);
     window.addEventListener('hashchange', () => setTimeout(update, 50));
-    setInterval(() => { wrapLessons(); wrapGuide(); wrapPageNavigation(); removeSecondCorridorNavigation(); update(); }, 1000);
+    setInterval(() => { wrapLessons(); wrapGuide(); wrapPageNavigation(); removeSecondCorridorNavigation(); removeOldPathBanner(); update(); }, 1000);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
