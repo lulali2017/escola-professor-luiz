@@ -177,10 +177,7 @@
   }
 
   function pageCompletionWidget() {
-    const activePages = [...document.querySelectorAll('#campusV273 .school28-page.active')];
-    const routeId = decodeURIComponent(location.hash.slice(1));
-    const routedPage = document.getElementById(routeId);
-    const page = routedPage?.classList.contains('school28-page') ? routedPage : activePages.filter(item => getComputedStyle(item).display !== 'none').at(-1) || activePages.at(-1);
+    const page = document.querySelector('#campusV273 .school28-page.active');
     const corridorPages = ['school28-home','school28-hall','school28-trilhas','school28-partitura-predio','school28-partitura-curso','school28-partitura-aulas','school28-partitura-recursos','school28-outros'];
     const excluded = !page || corridorPages.includes(page.id);
     let widget = document.getElementById('s52PageCompletion');
@@ -251,12 +248,12 @@
   }
 
   function update() {
+    pageCompletionWidget();
     paintLessonCards();
     paintModuleDoors();
     progressMap();
     paintGuide();
     paintBuildingBoards();
-    pageCompletionWidget();
   }
 
   function completionPrompt() {
@@ -321,6 +318,7 @@
     if (typeof window.school28Show !== 'function' || window.school28Show.s52Progress) return;
     const original = window.school28Show;
     const wrapped = function () {
+      document.getElementById('s52PageCompletion')?.classList.remove('open');
       const result = original.apply(this, arguments);
       setTimeout(update, 0);
       setTimeout(update, 120);
@@ -402,6 +400,11 @@
     });
     window.addEventListener('pageshow', update);
     window.addEventListener('hashchange', () => setTimeout(update, 50));
+    window.addEventListener('popstate', () => {
+      document.getElementById('s52PageCompletion')?.classList.remove('open');
+      setTimeout(update, 0);
+      setTimeout(update, 150);
+    });
     setInterval(() => { wrapLessons(); wrapGuide(); wrapPageNavigation(); removeSecondCorridorNavigation(); removeOldPathBanner(); update(); }, 1000);
   }
 
