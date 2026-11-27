@@ -104,6 +104,19 @@
         if (host) delete host.dataset.s50SelectedModule;
       }, true);
     }
+    if (!document.body.dataset.s50DoorCapture) {
+      document.body.dataset.s50DoorCapture = '1';
+      document.addEventListener('click', event => {
+        const door = event.target.closest('#school28-partitura-curso .s50-module-door');
+        if (!door) return;
+        const doors = [...document.querySelectorAll('#school28-partitura-curso .s50-module-door')];
+        const index = doors.indexOf(door);
+        if (index < 0) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        openOnlyModule(index);
+      }, true);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install);

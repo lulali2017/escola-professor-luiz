@@ -460,3 +460,61 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 })();
+
+/* Usa a mesma pergunta de conclusÃ£o ao sair de qualquer sala de estudo. */
+(() => {
+  let nextNavigation = null;
+  let allowNavigation = false;
+  const corridors = new Set(['school28-home','school28-hall','school28-trilhas','school28-aulas','school28-partitura-predio','school28-partitura-curso','school28-partitura-aulas','school28-partitura-recursos','school28-outros']);
+  const pageKey = id => `s52_page_${id}`;
+  const activeRoom = () => {
+    const page = document.querySelector('#campusV273 .school28-page.active');
+    return page && !corridors.has(page.id) ? page : null;
+  };
+  function prompt() {
+    let box = document.getElementById('s52RoomExitPrompt');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 's52RoomExitPrompt';
+      box.innerHTML = '<section class="s52-prompt"><img src="assets/aulas_classicas/assistente_positivo.png" alt="Assistente da escola"><h2>Sala encerrada</h2><p></p><div class="s52-prompt-actions"><button class="s52-yes" type="button">✓ Marcar como completa</button><button class="s52-no" type="button">Ainda não</button></div></section>';
+      document.body.appendChild(box);
+      box.querySelector('.s52-yes').addEventListener('click', () => finish(true));
+      box.querySelector('.s52-no').addEventListener('click', () => finish(false));
+    }
+    const title = nextNavigation?.room?.querySelector('.school28-roomhead h1,.s49-building-head h1,h1')?.textContent?.trim() || 'esta sala';
+    box.querySelector('p').textContent = `Você concluiu “${title}” e conseguiu realizar a prática?`;
+    box.classList.add('open');
+  }
+  function finish(completed) {
+    const item = nextNavigation;
+    document.getElementById('s52RoomExitPrompt')?.classList.remove('open');
+    if (!item) return;
+    if (completed) localStorage.setItem(pageKey(item.room.id), '1');
+    else localStorage.removeItem(pageKey(item.room.id));
+    nextNavigation = null;
+    allowNavigation = true;
+    window.school28Show?.apply(window, item.args);
+    allowNavigation = false;
+  }
+  function install() {
+    const original = window.school28Show;
+    if (typeof original !== 'function' || original.s52RoomExit) return;
+    function guardedShow() {
+      const target = arguments[0];
+      const room = activeRoom();
+      if (!allowNavigation && room && room.id !== target) {
+        nextNavigation = { room, args: [...arguments] };
+        prompt();
+        return;
+      }
+      return original.apply(this, arguments);
+    }
+    guardedShow.s52RoomExit = true;
+    guardedShow.s52Progress = Boolean(original.s52Progress);
+    window.school28Show = guardedShow;
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install);
+  else install();
+  let attempts = 0;
+  const timer = setInterval(() => { install(); if (++attempts > 100) clearInterval(timer); }, 250);
+})();
