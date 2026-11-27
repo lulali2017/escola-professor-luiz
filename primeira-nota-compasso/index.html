@@ -30,7 +30,12 @@
       <label>Som
         <select id="instrument"><option value="guitar">Violão</option><option value="piano">Piano</option><option value="flute">Flauta</option></select>
       </label>
-      <label class="check"><input id="metro" type="checkbox" checked> Metrônomo</label>
+      <label>Metrônomo
+        <select id="metroMode"><option value="sound">Som e imagem</option><option value="visual">Somente imagem</option><option value="off">Desligado</option></select>
+      </label>
+      <label>Volume do metrônomo <output id="metroVolumeValue">70%</output>
+        <input id="metroVolume" type="range" min="0" max="100" value="70">
+      </label>
     </section>
 
     <section class="actions">
@@ -58,6 +63,10 @@
 
     <p id="status" class="status">Pronto. Clique em “Começar compasso”.</p>
   </main>
-  <script src="compasso.js?v=20261127-1"></script>
+  <aside id="metronomeCard" class="metronome-card" aria-label="Metrônomo visual">
+    <div class="metro-visual"><img src="../treinador-dedilhado/metronomo-classico-sem-haste.png" alt="Metrônomo clássico"><i class="pendulum"><b></b></i><span>40<br>60<br>80<br>100<br>120<br>160</span></div>
+    <strong>Metrônomo</strong><small id="metroLabel">som e imagem · 72 BPM</small>
+  </aside>
+  <script src="compasso.js?v=20261127-2"></script>
 </body>
 </html>
