@@ -6,3 +6,7 @@
 #s51BuildingGuide{position:fixed!important;inset:0!important;z-index:2147483645!important;background:#071513ed!important;pointer-events:auto!important}
 #s51BuildingGuide.open{display:flex!important}
 body.s51-map-open{overflow:hidden!important}
+
+/* Nome de cada prédio visível antes do nome da escola. */
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="partitura"]:before{content:'PRÉDIO DE PARTITURAS · ESCOLA PROFESSOR LUIZ'}
+#school28-hall .s28-final-hall>.school28-door[data-s51-building="popular"]:before{content:'PRÉDIO DE CIFRAS · ESCOLA PROFESSOR LUIZ'}
