@@ -80,17 +80,13 @@
       if(!groups.length){await updateSpace();return}
       if(!window.showDirectoryPicker){showSchoolNotice('Escolha de pasta indisponível','Neste navegador, use “Preparar e baixar cópia”. O arquivo será salvo em Downloads para você mover ao local desejado.','ℹ️');return}
       const button=modal.querySelector('.school-copy-folder');button.disabled=true;button.textContent='Abrindo escolha de pasta…';
-      try{const root=await window.showDirectoryPicker({mode:'readwrite'});modal.classList.add('school-copy-busy');waiting.querySelector('.school-copy-waiting-text').textContent='Salvando a cópia na pasta escolhida…';const saved=await writeCopy(root,groups,data=>{const percent=data.total?Math.round(data.done/data.total*100):0;waiting.querySelector('progress').value=percent;waiting.querySelector('.school-copy-waiting-percent').textContent=percent+'% · '+data.done+' de '+data.total+' arquivos'});if(!saved)throw new Error('save');modal.remove();showSchoolNotice('Cópia preparada','A cópia foi guardada na pasta escolhida e os itens marcados foram preparados para estudo offline.','🎉')}catch(error){button.disabled=false;button.textContent='Escolher pasta';modal.classList.remove('school-copy-busy');if(error?.name!=='AbortError')showSchoolNotice('Não foi possível abrir a pasta','Use “Preparar e baixar cópia” para continuar sem travar.','ℹ️')}};
+      try{const root=await window.showDirectoryPicker({mode:'readwrite'});const saved=await writeCopy(root,[]);if(!saved)throw new Error('save');localStorage.setItem(BACKUP_READY,'1');modal.remove();prepareOffline(groups).catch(()=>{});showSchoolNotice('Cópia salva','Sua cópia pessoal foi guardada na pasta escolhida. Os materiais serão preparados em segundo plano, sem interromper a escola.','🎉')}catch(error){button.disabled=false;button.textContent='Escolher pasta';if(error?.name!=='AbortError')showSchoolNotice('Não foi possível abrir a pasta','Use “Preparar e baixar cópia” para continuar sem travar.','ℹ️')}};
     modal.querySelector('.school-copy-yes').onclick=async()=>{
       const groups=[...choices.querySelectorAll('input:checked')].map(input=>input.value);
       if(!groups.length){await updateSpace();return}
-      const yes=modal.querySelector('.school-copy-yes');yes.disabled=true;yes.textContent='Preparando estudo offline...';modal.classList.add('school-copy-busy');waiting.querySelector('.school-copy-waiting-text').textContent='Preparando os itens escolhidos para abrirem mais rápido, inclusive sem internet.';status.textContent='Aguarde: iniciando a cópia offline…';modal.querySelector('.school-copy-progress').hidden=false;
-      try{
-        const cached=await prepareOffline(groups,data=>{const percent=data.total?Math.round(data.done/data.total*100):0;modal.querySelector('.school-copy-progress').value=percent;status.textContent='Preparando: '+percent+'% ('+data.done+' de '+data.total+' arquivos)…';waiting.querySelector('progress').value=percent;waiting.querySelector('.school-copy-waiting-percent').textContent=percent+'% · '+data.done+' de '+data.total+' arquivos'});
-        if(!cached)throw new Error('offline');
-        localStorage.setItem(BACKUP_READY,'1');downloadCopy();modal.remove();
-        showSchoolNotice('Estudo offline preparado','Os itens marcados ficam guardados neste navegador para abrir mais rápido. Sua cópia pessoal também foi baixada na pasta Downloads do aparelho.','🎉');
-      }catch(error){modal.remove();showSchoolNotice('Não foi possível preparar a cópia','Verifique a conexão e o espaço disponível. Você poderá tentar novamente ao abrir a escola.','ℹ️')}
+      localStorage.setItem(BACKUP_READY,'1');downloadCopy();modal.remove();
+      prepareOffline(groups).catch(()=>{});
+      showSchoolNotice('Cópia iniciada','Sua cópia pessoal foi baixada em Downloads. Os materiais selecionados serão preparados em segundo plano, sem interromper a escola.','💾');
     };
   }
   function mount(){
