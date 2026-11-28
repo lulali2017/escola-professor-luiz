@@ -1,7 +1,9 @@
 /* Laranjinha: assistente local, sem custo e sem envio de dados a servidores. */
 (()=>{
   if(window.__laranjinhaLoaded)return; window.__laranjinhaLoaded=true;
-  const KEY='escola_laranjinha_memoria_v1'; let memoria=[];
+  const KEY='escola_laranjinha_memoria_v1';
+  const POSITION_KEY='escola_laranjinha_posicao_v1';
+  let memoria=[];
   /* Índice local dos ambientes da própria escola: não envia perguntas nem
      dados do aluno para fora do aplicativo. */
   const scriptUrl=document.currentScript?.src||location.href;
@@ -40,6 +42,45 @@
     const panel=document.createElement('aside'); panel.id='laranjinhaPanel'; panel.className='laranjinha-panel'; panel.setAttribute('aria-label','Laranjinha, assistente de música');
     panel.innerHTML='<div class="laranjinha-head"><div class="laranjinha-cat">🐈</div><div><b>Laranjinha</b><small>Assistente de música de toda a escola</small></div><button class="laranjinha-close" title="Fazer Laranjinha sair">Sair ×</button></div><div class="laranjinha-log" aria-live="polite"></div><div class="laranjinha-actions"><button data-l="course">🔎 Procurar na escola</button><button data-l="web" class="secondary">🌐 Ampliar na internet</button><button data-l="folder" class="secondary">💾 Salvar no aparelho</button><button data-l="import" class="secondary">📂 Restaurar cópia</button></div><p class="laranjinha-tip">Escreva ou fale. Primeiro procuro em toda a Escola Professor Luiz; depois você pode ampliar na internet.</p><div class="laranjinha-compose"><input maxlength="360" placeholder="Pergunte sobre música..." aria-label="Pergunta ao Laranjinha"><button class="laranjinha-mic" title="Falar com Laranjinha" aria-label="Falar com Laranjinha">🎙</button><button class="laranjinha-send">Enviar</button></div>';
     document.body.append(launch,panel);
+    /* O botão pode ser arrastado para qualquer canto e a posição fica salva neste aparelho. */
+    try{
+      const saved=JSON.parse(localStorage.getItem(POSITION_KEY)||'null');
+      if(Number.isFinite(saved?.x)&&Number.isFinite(saved?.y)){
+        launch.style.left=saved.x+'px'; launch.style.top=saved.y+'px';
+        launch.style.right='auto'; launch.style.bottom='auto';
+      }
+    }catch(_){}
+    let dragging=null,justDragged=false;
+    launch.addEventListener('pointerdown',event=>{
+      if(event.button!==undefined&&event.button!==0)return;
+      const box=launch.getBoundingClientRect();
+      dragging={dx:event.clientX-box.left,dy:event.clientY-box.top,moved:false};
+      launch.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+    });
+    launch.addEventListener('pointermove',event=>{
+      if(!dragging)return;
+      const x=Math.max(4,Math.min(window.innerWidth-launch.offsetWidth-4,event.clientX-dragging.dx));
+      const y=Math.max(4,Math.min(window.innerHeight-launch.offsetHeight-4,event.clientY-dragging.dy));
+      const old=launch.getBoundingClientRect();
+      if(Math.abs(x-old.left)>3||Math.abs(y-old.top)>3)dragging.moved=true;
+      launch.style.left=x+'px'; launch.style.top=y+'px';
+      launch.style.right='auto'; launch.style.bottom='auto';
+    });
+    const finishDrag=event=>{
+      if(!dragging)return;
+      justDragged=dragging.moved;
+      const box=launch.getBoundingClientRect();
+      localStorage.setItem(POSITION_KEY,JSON.stringify({x:Math.round(box.left),y:Math.round(box.top)}));
+      dragging=null;
+      launch.releasePointerCapture?.(event.pointerId);
+    };
+    launch.addEventListener('pointerup',finishDrag);
+    launch.addEventListener('pointercancel',finishDrag);
+    launch.addEventListener('click',event=>{
+      if(!justDragged)return;
+      justDragged=false; event.preventDefault(); event.stopImmediatePropagation();
+    },true);
     const log=panel.querySelector('.laranjinha-log'), input=panel.querySelector('input');
     function say(text,who='bot',voice=false){const bubble=document.createElement('div');bubble.className='laranjinha-msg '+who;bubble.textContent=text;log.appendChild(bubble);log.scrollTop=log.scrollHeight;if(voice&&'speechSynthesis'in window){speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang='pt-BR';utterance.rate=1.05;utterance.pitch=1.15;speechSynthesis.speak(utterance)}}
     function answer(value){const question=clean(value);if(!question)return;say(question,'user');const hit=findInSchool(question);const reply=hit?'Encontrei esta informação na Escola Professor Luiz:\n\n'+hit+'\n\nPosso explicar com palavras mais simples ou você pode ampliar na internet.':'Ainda não encontrei uma resposta clara no material da escola. Use “Ampliar na internet” para pesquisar outras fontes ou guarde esta dúvida para estudar depois.';memoria.push({pergunta:question,resposta:reply,data:new Date().toISOString(),pagina:document.title});save();say(reply,'bot',true)}

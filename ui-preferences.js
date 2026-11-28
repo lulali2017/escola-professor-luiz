@@ -1,5 +1,5 @@
 /* Carrega o assistente local em todas as salas do aplicativo principal. */
-(()=>{const css=document.createElement('link');css.rel='stylesheet';css.href='laranjinha.css?v=3';document.head.appendChild(css);const script=document.createElement('script');script.src='laranjinha.js?v=3';document.head.appendChild(script)})();
+(()=>{const css=document.createElement('link');css.rel='stylesheet';css.href='laranjinha.css?v=4';document.head.appendChild(css);const script=document.createElement('script');script.src='laranjinha.js?v=4';document.head.appendChild(script)})();
 (()=>{
  const active=()=>{
   const routeId=decodeURIComponent(location.hash.slice(1));
