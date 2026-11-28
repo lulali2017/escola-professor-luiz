@@ -36,12 +36,41 @@
     }
     return best;
   }
+  /* Cópia local do aluno: reúne o progresso e preferências deste navegador. */
+  const BACKUP_READY='escola_professor_luiz_copia_local_v1';
+  const BACKUP_DISMISSED='escola_professor_luiz_copia_local_nao_perguntar_v1';
+  const DB_NAME='escola-professor-luiz-dados-locais';
+  function db(mode,value){return new Promise(resolve=>{try{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>req.result.createObjectStore('config');req.onsuccess=()=>{const tx=req.result.transaction('config',mode==='put'?'readwrite':'readonly'),store=tx.objectStore('config');if(mode==='put'){store.put(value,'pasta');tx.oncomplete=()=>resolve(true)}else{const get=store.get('pasta');get.onsuccess=()=>resolve(get.result||null);get.onerror=()=>resolve(null)}};req.onerror=()=>resolve(null)}catch(_){resolve(null)}})}
+  function studentData(){const data={escola:'Escola Professor Luiz',atualizadoEm:new Date().toISOString(),dados:{}};for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key)data.dados[key]=localStorage.getItem(key)}return JSON.stringify(data,null,2)}
+  function downloadCopy(){const link=document.createElement('a');link.href=URL.createObjectURL(new Blob([studentData()],{type:'application/json'}));link.download='Escola Professor Luiz - dados do aluno.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),3000)}
+  async function writeCopy(root){try{const folder=await root.getDirectoryHandle('Escola Professor Luiz - dados do aluno',{create:true});const file=await folder.getFileHandle('meu-progresso-e-historico.json',{create:true});const writer=await file.createWritable();await writer.write(studentData());await writer.close();localStorage.setItem(BACKUP_READY,'1');return true}catch(_){return false}}
+  async function automaticCopy(){const root=await db('get');if(!root||!root.queryPermission)return false;try{if(await root.queryPermission({mode:'readwrite'})!=='granted')return false;return await writeCopy(root)}catch(_){return false}}
+  /* Atualiza a cópia ao trocar de página e periodicamente enquanto a escola está aberta. */
+  window.addEventListener('pagehide',()=>{automaticCopy()});
+  setInterval(()=>{automaticCopy()},120000);
+  function offerLocalCopy(){
+    if(localStorage.getItem(BACKUP_READY)||localStorage.getItem(BACKUP_DISMISSED)||document.getElementById('schoolLocalCopyOffer')){automaticCopy();return}
+    const modal=document.createElement('div');modal.id='schoolLocalCopyOffer';modal.className='school-local-copy-offer';
+    modal.innerHTML='<section role="dialog" aria-modal="true" aria-label="Cópia local do aluno"><span>💾</span><h2>Proteja seu progresso</h2><p>Esta escola guarda aulas concluídas, ajustes e conversas no aparelho. Uma cópia local evita perder sua história se o navegador for limpo ou trocado.</p><p>Deseja criar agora uma pasta pessoal para salvar sua cópia?</p><div><button class="school-copy-yes">Criar minha pasta</button><button class="school-copy-later">Agora não</button></div><label><input type="checkbox" class="school-copy-never"> Não perguntar novamente</label><small>Cada aluno cria a própria pasta. Nenhum dado é enviado para outros alunos.</small></section>';
+    document.body.appendChild(modal);
+    modal.querySelector('.school-copy-later').onclick=()=>{if(modal.querySelector('.school-copy-never').checked)localStorage.setItem(BACKUP_DISMISSED,'1');modal.remove()};
+    modal.querySelector('.school-copy-yes').onclick=async()=>{
+      const yes=modal.querySelector('.school-copy-yes');yes.disabled=true;yes.textContent='Preparando pasta...';
+      try{
+        if(!window.showDirectoryPicker)throw new Error('sem pasta');
+        const root=await window.showDirectoryPicker({mode:'readwrite'});
+        if(!await writeCopy(root))throw new Error('falhou');
+        await db('put',root);modal.remove();
+      }catch(_){downloadCopy();modal.remove();alert('O navegador baixou a cópia. Salve-a em Documentos ou Arquivos, em uma pasta chamada Escola Professor Luiz - dados do aluno.');}
+    };
+  }
   function mount(){
     if(document.getElementById('laranjinhaLauncher'))return;
     const launch=document.createElement('button'); launch.id='laranjinhaLauncher'; launch.className='laranjinha-launcher'; launch.title='Abrir Laranjinha, assistente de música'; launch.setAttribute('aria-label','Abrir Laranjinha'); launch.innerHTML='🐈';
     const panel=document.createElement('aside'); panel.id='laranjinhaPanel'; panel.className='laranjinha-panel'; panel.setAttribute('aria-label','Laranjinha, assistente de música');
     panel.innerHTML='<div class="laranjinha-head"><div class="laranjinha-cat">🐈</div><div><b>Laranjinha</b><small>Assistente de música de toda a escola</small></div><button class="laranjinha-close" title="Fazer Laranjinha sair">Sair ×</button></div><div class="laranjinha-log" aria-live="polite"></div><div class="laranjinha-actions"><button data-l="course">🔎 Procurar na escola</button><button data-l="web" class="secondary">🌐 Ampliar na internet</button><button data-l="folder" class="secondary">💾 Salvar no aparelho</button><button data-l="import" class="secondary">📂 Restaurar cópia</button></div><p class="laranjinha-tip">Escreva ou fale. Primeiro procuro em toda a Escola Professor Luiz; depois você pode ampliar na internet.</p><div class="laranjinha-compose"><input maxlength="360" placeholder="Pergunte sobre música..." aria-label="Pergunta ao Laranjinha"><button class="laranjinha-mic" title="Falar com Laranjinha" aria-label="Falar com Laranjinha">🎙</button><button class="laranjinha-send">Enviar</button></div>';
     document.body.append(launch,panel);
+    offerLocalCopy();
     /* O botão pode ser arrastado para qualquer canto e a posição fica salva neste aparelho. */
     try{
       const saved=JSON.parse(localStorage.getItem(POSITION_KEY)||'null');
