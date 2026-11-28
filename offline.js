@@ -1,6 +1,6 @@
 /* Cópia offline da Escola Professor Luiz.
    Só baixa conteúdos escolhidos pelo aluno na janela de autorização. */
-const CACHE='escola-professor-luiz-offline-v2';
+const CACHE='escola-professor-luiz-offline-v3';
 const CORE=[
   './','./index.html','./ui-preferences.js','./laranjinha.js','./laranjinha.css',
   './campus-predios.js','./campus-predios.css','./partitura-predio.js','./partitura-predio.css',
